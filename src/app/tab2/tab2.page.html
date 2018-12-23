@@ -1,9 +1,30 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaulthref="">Back</ion-back-button>
+    </ion-buttons>
     <ion-title>
-      Tab Two
+      Home
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-icon name="search"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label floating>Username</ion-label>
+      <ion-input type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Password</ion-label>
+      <ion-input type="password"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <ion-button shape="round" color="primary" fill="outline">Sign In
+    <ion-icon name="person"></ion-icon>
+  </ion-button>
+</ion-content>

@@ -1,6 +1,8 @@
 {
   "name": "StyleCoffee",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular",
   "id": "4771b546"
 }
