@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DetailsPage } from './details.page';
-import { DetailsRoutingModule } from "./details.router.module";
+import { DetailsRoutingModule } from './details-rounting.module';
 
 @NgModule({
   imports: [

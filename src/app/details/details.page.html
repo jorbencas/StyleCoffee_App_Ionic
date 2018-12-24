@@ -1,12 +1,17 @@
 <ion-header>
-        <ion-toolbar>
-          <ion-buttons slot="start">
-            <ion-back-button defaulthref=""></ion-back-button>
-          </ion-buttons>
-          <ion-title>Details Page</ion-title>
-        </ion-toolbar>
-      </ion-header>
-       
-      <ion-content padding>
-       <ion-spinner></ion-spinner>
-      </ion-content>
+  <ion-toolbar>
+      <ion-buttons slot="start" class="light">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title>
+        Details
+      </ion-title>
+      <ion-button slot="end" class="light">
+        <ion-icon name="search"></ion-icon>
+      </ion-button>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-button ion-button block color="danger">Show Checkbox Alert</ion-button>
+</ion-content>
