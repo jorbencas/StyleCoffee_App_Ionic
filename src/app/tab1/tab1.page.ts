@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component,  OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-tab1',
@@ -8,27 +9,29 @@ import { Router } from '@angular/router';
 })
 export class Tab1Page {
 
-  constructor(private router: Router){}
+ infos = [];
+ ref = firebase.database().ref('pictures');
+
+  constructor(private router: Router){
+    this.ref.on('value', resp => {
+      this.infos = [];
+      this.infos = snapshotToArray(resp);
+    });
+  }
   title = 'app';
   color = 'red';
-  name = [{name:'jorge', color:'danger'},{name:'Alex',color:'primary'},{name:'Carlos',color:'waring'}]
+  name = [{id:'1',name:'jorge', color:'danger'},{id:'2',name:'Alex',color:'primary'},{id:'3',name:'Carlos',color:'waring'}]
 
+}
 
-  tittle(i,name){
-    console.log(name);
-    this.name.forEach(function(item){
-      if (item == i ) {
-        item.name = name;
-      }
-    });
-  }
+export const snapshotToArray = snapshot => {
+  let returnArr = [];
 
-  changescolores(name, color){
-    this.name.forEach(function(item){
-      if (item.color == name ) {
-        console.log(item.color);
-        item.color = color; 
-      }
-    });
-  }
+  snapshot.forEach(childSnapshot => {
+      let item = childSnapshot.val();
+      
+      returnArr.push(item);
+  });
+
+  return returnArr;
 }

@@ -13,5 +13,9 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-button ion-button block color="danger">Show Checkbox Alert</ion-button>
+  <ion-item [ngStyle]="{'text-align': center}" *ngFor="let info of infos; let i of index">
+    <img width="320" src="{{info.image}}"  class="app-logo" alt="{{info.displayName}}">
+    <br>
+    <strong>{{info.image}}</strong>
+  </ion-item>
 </ion-content>

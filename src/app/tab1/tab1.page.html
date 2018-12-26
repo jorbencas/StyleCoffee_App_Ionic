@@ -1,18 +1,21 @@
 <ion-header>
   <ion-toolbar>
-    <ion-nav-pop> <ion-title> Tab One </ion-title> </ion-nav-pop>
+    <ion-nav-pop>
+      <ion-title> Tab One </ion-title>
+    </ion-nav-pop>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let names of name; let i of index" routerLinkActive="active"routerLink="[{{names.name}}]" >
-      <h1>Hola</h1> 
-      <p>{{names.name}}</p>
-      <ion-icon float-right ios="ios-arrow-dropright" md="md-arrow-dropright" name="arrow-dropright"></ion-icon>
-    </ion-item>
-  </ion-list>
-
-  <ion-button ion-button *ngFor="let names of name; let i of index" [ngStyle]="{'content':names.color}" (click)="changescolores(names.name, names.color)" clear>{{names.color}}</ion-button> 
-
+  <ion-card *ngFor="let info of infos; let i of index" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+    routerLink="{{info.id}}">
+    <ion-card-content [ngStyle]="{'width': 320, 'height': 510}">
+      <ion-card-header>
+        <ion-label>Usuario</ion-label>
+        <ion-icon float-right ios="ios-arrow-dropright" md="md-arrow-dropright" name="arrow-dropright"></ion-icon>
+      </ion-card-header>
+      <ion-img width="350px" height="350px" src="{{info.image}}" alt="{{info.displayName}}"></ion-img>
+      <br>
+      <ion-card-title>{{info.displayName}}</ion-card-title>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
-
