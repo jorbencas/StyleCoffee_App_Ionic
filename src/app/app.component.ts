@@ -4,6 +4,8 @@ import * as firebase from 'firebase';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+/*import { timer } from 'rxjs';
+import { timeInterval, pluck, take} from 'rxjs/operators';*/
 
   // Initialize Firebase
   var config = {
@@ -15,9 +17,15 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
     messagingSenderId:  environment.messagingSenderId
   };
 
+  /*var sourcef = timer(4000, 3000).pipe(
+    timeInterval()
+  )*/
+
 @Component({
   selector: 'app-root',
-  templateUrl: 'app.component.html'
+  templateUrl: 'app.component.html',
+  styleUrls : ['app.component.scss']
+  
 })
 export class AppComponent {
   constructor(
@@ -28,11 +36,15 @@ export class AppComponent {
     this.initializeApp();
   }
 
+ // showSplash = true; // <-- show animation
+
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
-      this.splashScreen.hide();
+      this.splashScreen.hide();  // <-- hide static image
+      //sourcef.subscribe(() => {this.showSplash = false});
     });
+    
     firebase.initializeApp(config);
   }
 }
