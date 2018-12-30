@@ -68,5 +68,5 @@ export const snapshotToArray = snapshot => {
     returnArr.push(item);
   });
 
-  return returnArr;
+  return returnArr.reverse();
 }
