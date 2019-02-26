@@ -12,7 +12,7 @@ export class Tab2Page implements OnInit {
   /*constructor(
     private AuthService: AuthService){}*/
   user = {};
-
+    userbool = false;
   ngOnInit(): void {
     firebase.auth().onAuthStateChanged(userfirebase => {
       this.user = userfirebase;

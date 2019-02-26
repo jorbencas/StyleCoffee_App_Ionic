@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -18,24 +18,38 @@ export class Tab1Page implements OnInit {
  
   constructor(
     private router: Router,
-    public loadingController: LoadingController) { }
+    public loadingController: LoadingController,
+    private toastCtrl : ToastController) { }
 
   ngOnInit(): void {
     this.loaddata();
   }
 
+  ngAfterContentInit() {
+    this.ref.on('value', resp => {
+      this.infos = snapshotToArray(resp);
+    });
+  }
+
+  
+async sendNotification(message: string) {
+  let toast = await this.toastCtrl.create({
+    message: message,
+    duration: 3000
+  });
+  toast.present();
+}
+
   async loaddata() {
     const loading = await this.loadingController.create({
       spinner: 'bubbles',
-      duration: 10000,
+      duration: 50000,
       message: 'Cargando',
       cssClass: 'custom-class custom-loading'
     });
 
     await loading.present();
-    await this.ref.on('value', resp => {
-        this.infos = snapshotToArray(resp);
-      });
+    
       
     await loading.dismiss();
   }

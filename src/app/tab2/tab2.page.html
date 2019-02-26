@@ -29,7 +29,7 @@
           <ion-icon name="person"></ion-icon>
         </ion-button>
         <ion-button (click)="handleauth()" >Sign in with google</ion-button>
-      <ion-button *ngIf="user" color="danger" (click)="handleLogout()" >Sign out</ion-button>
+      <ion-button *ngIf="userbool" color="danger" (click)="handleLogout()" >Sign out</ion-button>
   </ion-item-group>
   
 </ion-content>
