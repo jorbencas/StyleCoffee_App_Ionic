@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
-import { xatComponent } from './xat.component';
+import { LoginComponent } from './login.component';
 
 @NgModule({
-  declarations: [xatComponent],
+  declarations: [LoginComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -14,9 +14,9 @@ import { xatComponent } from './xat.component';
     RouterModule.forChild([
       {
         path: '',
-        component: xatComponent
+        component: LoginComponent
       }
     ])
-  ]
+  ],
 })
-export class xatPageModule { }
+export class LoginPageModule { }

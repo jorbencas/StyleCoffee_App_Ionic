@@ -1,12 +1,12 @@
 <ion-header>
-  <ion-toolbar>
-      <ion-buttons slot="start" class="light">
+  <ion-toolbar color="danger">
+      <ion-buttons slot="start">
         <ion-back-button></ion-back-button>
       </ion-buttons>
       <ion-title>
         Details
       </ion-title>
-      <ion-button slot="end" class="light">
+      <ion-button slot="end">
         <ion-icon name="search"></ion-icon>
       </ion-button>
     </ion-toolbar>
@@ -17,10 +17,10 @@
     <img width="320" src="{{info.image}}"  class="app-logo" alt="{{info.displayName}}">
     <br>
     <strong>{{info.image}}</strong>
-    <ion-buttons>
-      <ion-button> <i class="fa fa-shopping-cart"></i> Carrito</ion-button>
-      <ion-button>Reservar</ion-button>
-    </ion-buttons>
-    
+    <p>{{info.displayName}}</p>
   </ion-item>
+  <ion-buttons>
+    <ion-button> Carrito</ion-button>
+    <ion-button>Reservar</ion-button>
+  </ion-buttons>
 </ion-content>

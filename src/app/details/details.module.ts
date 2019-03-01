@@ -4,14 +4,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DetailsPage } from './details.page';
-import { DetailsRoutingModule } from './details-rounting.module';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
-    DetailsRoutingModule
+    RouterModule.forChild([{ path: '', component: DetailsPage}])
   ],
   declarations: [DetailsPage]
 })

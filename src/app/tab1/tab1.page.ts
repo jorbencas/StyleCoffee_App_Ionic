@@ -26,32 +26,33 @@ export class Tab1Page implements OnInit {
   }
 
   ngAfterContentInit() {
-    this.ref.on('value', resp => {
-      this.infos = snapshotToArray(resp);
-    });
+    
   }
 
-  
+  /*
 async sendNotification(message: string) {
   let toast = await this.toastCtrl.create({
     message: message,
     duration: 3000
   });
   toast.present();
-}
 
+}
+*/
   async loaddata() {
     const loading = await this.loadingController.create({
       spinner: 'bubbles',
-      duration: 50000,
       message: 'Cargando',
       cssClass: 'custom-class custom-loading'
     });
 
     await loading.present();
     
-      
-    await loading.dismiss();
+    await this.ref.on('value', resp => {
+      this.infos = snapshotToArray(resp);
+      loading.dismiss();
+    });
+   
   }
  
   clickEventHandler(event) {

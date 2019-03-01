@@ -3,15 +3,15 @@ import * as firebase from 'firebase';
 //import AuthService from '../services/Auth.service';
 
 @Component({
-  selector: 'app-tab2',
-  templateUrl: 'tab2.page.html',
-  styleUrls: ['tab2.page.scss']
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
-export class Tab2Page implements OnInit {
+export class LoginComponent implements OnInit {
 
   /*constructor(
     private AuthService: AuthService){}*/
-  user = {};
+    user = {};
     userbool = false;
   ngOnInit(): void {
     firebase.auth().onAuthStateChanged(userfirebase => {

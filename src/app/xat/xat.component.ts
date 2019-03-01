@@ -8,7 +8,15 @@ import { xatService } from '../services/xat.service';
 })
 export class xatComponent implements OnInit {
 
-  constructor(private xat: xatService) { }
+  constructor(private xat: xatService) {
+    for (let i = 1; i < 11; i++) {
+      this.items.push({
+        title: 'Item ' + i,
+        note: 'This is item #' + i,
+        icon: this.icons[Math.floor(Math.random() * this.icons.length)]
+      });
+    }
+   }
 
   ngOnInit() {
   }
@@ -17,6 +25,28 @@ export class xatComponent implements OnInit {
   nickname = '';
   message = '';
 
+  private selectedItem: any;
+  private icons = [
+    'contact',
+    'contact',
+    'contact',
+    'contact',
+    'contact',
+    'contact',
+    'contact',
+    'contact',
+    'contact',
+    'contact',
+    'contact',
+    'contact',
+    'contact',
+    'contact',
+    'contact',
+    'contact',
+    'contact','contact',
+
+  ];
+  public items: Array<{ title: string; note: string; icon: string }> = [];
 
    /* this.nickname = this.service.getNickname();
 

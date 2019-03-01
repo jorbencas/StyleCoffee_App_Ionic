@@ -1,31 +1,37 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
     <ion-nav-pop>
-      <ion-title> Tab One </ion-title>
+      <ion-title> StyleCoffee </ion-title>
     </ion-nav-pop>
+    <ion-avatar slot="end" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/profile">
+      <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
+        alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
+    </ion-avatar>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-card *ngFor="let info of infos; let i of index">
-    <ion-card-header routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/details/{{info.id}}">
-      <ion-label>Usuario</ion-label>
-      <ion-icon float-right ios="ios-arrow-dropright" md="md-arrow-dropright" name="arrow-dropright"></ion-icon>
-    </ion-card-header>
-    <ion-card-content [ngStyle]="{'width': 320, 'height': 510}">
-      <ion-item routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/details/{{info.id}}">
+  <ion-grid>
+    <ion-row *ngFor="let info of infos; let i of index" [ngStyle]="{'width': 320, 'height': 510}"
+      routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/details/{{info.id}}">
+      <ion-col>
         <ion-img width="auto" height="350px" src="{{info.image}}" alt="{{info.displayName}}"></ion-img>
-      </ion-item>
-      <ion-toolbar>
         <ion-buttons slot="start">
           <ion-icon name="heart" [color]="color" (click)="clickEventHandler($event.target)"></ion-icon>
         </ion-buttons>
-
+        <ion-title routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+          routerLink="/details/{{info.id}}">{{info.displayName}}</ion-title>
         <ion-buttons slot="end">
           <ion-icon name="archive" [color]="colorSecundary" (click)="clickEventHandlerSave($event.target)"></ion-icon>
         </ion-buttons>
-
-      </ion-toolbar>
-      <ion-card-title routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/details/{{info.id}}">{{info.displayName}}</ion-card-title>
-    </ion-card-content>
-  </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLinkActive="active" routerLink="/edit">
+    <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

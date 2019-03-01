@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
-import { xatComponent } from './xat.component';
+
+import { ListPage } from './list.page';
 
 @NgModule({
-  declarations: [xatComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -14,9 +14,10 @@ import { xatComponent } from './xat.component';
     RouterModule.forChild([
       {
         path: '',
-        component: xatComponent
+        component: ListPage
       }
     ])
-  ]
+  ],
+  declarations: [ListPage]
 })
-export class xatPageModule { }
+export class ListPageModule {}

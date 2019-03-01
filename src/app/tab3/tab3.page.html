@@ -1,14 +1,16 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-button slot="start" class="light">
-          <ion-back-button></ion-back-button>
-        </ion-button>
+    <ion-toolbar color="danger">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+          </ion-buttons>
         <ion-title>
           Tab 3
         </ion-title>
-        <ion-button slot="end" class="light">
-          <ion-icon name="search"></ion-icon>
-        </ion-button>
+        <ion-searchbar></ion-searchbar>
+        <ion-avatar slot="end" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        routerLink="/profile">
+            <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"  alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
+          </ion-avatar>
       </ion-toolbar>
   </ion-header>
   
