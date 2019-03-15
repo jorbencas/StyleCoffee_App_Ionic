@@ -1,19 +1,37 @@
 <ion-header>
-    <ion-toolbar color="danger">
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-nav-pop>
+      <ion-title> StyleCoffee </ion-title>
+    </ion-nav-pop>
+    <ion-avatar slot="end" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/profile">
+      <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
+        alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
+    </ion-avatar>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row *ngFor="let info of coffees; let i of index" [ngStyle]="{'width': 320, 'height': 510}"
+      routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/details/{{info.id}}">
+      <ion-col>
+        <ion-img width="auto" height="350px" src="{{info.image}}" alt="{{info.image}}"></ion-img>
         <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
-          </ion-buttons>
-        <ion-title>
-          Tab 3
-        </ion-title>
-        <ion-searchbar></ion-searchbar>
-        <ion-avatar slot="end" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-        routerLink="/profile">
-            <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"  alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
-          </ion-avatar>
-      </ion-toolbar>
-  </ion-header>
-  
-  <ion-content padding>
-    <ion-button ion-button block color="danger">Show Checkbox Alert</ion-button>
-  </ion-content>
+          <ion-icon name="heart" [color]="color" (click)="clickEventHandler($event.target)"></ion-icon>
+        </ion-buttons>
+        <ion-title routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+          routerLink="/details/{{info.id}}">{{info.id}}</ion-title>
+        <ion-buttons slot="end">
+          <ion-icon name="archive" [color]="colorSecundary" (click)="clickEventHandlerSave($event.target)"></ion-icon>
+        </ion-buttons>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLinkActive="active" routerLink="/edit">
+    <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

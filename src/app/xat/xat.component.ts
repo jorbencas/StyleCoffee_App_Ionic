@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { xatService } from '../services/xat.service';
+import { XatService } from '../core';
 
 @Component({
   selector: 'app-xat',
@@ -8,7 +8,7 @@ import { xatService } from '../services/xat.service';
 })
 export class xatComponent implements OnInit {
 
-  constructor(private xat: xatService) {
+  constructor(private xat: XatService) {
     for (let i = 1; i < 11; i++) {
       this.items.push({
         title: 'Item ' + i,

@@ -5,5 +5,6 @@ export const environment = {
   databaseURL: "https://clone-instagram-48a2f.firebaseio.com",
   projectId: "clone-instagram-48a2f",
   storageBucket: "clone-instagram-48a2f.appspot.com",
-  messagingSenderId: "524209882541"
+  messagingSenderId: "524209882541",
+  api_php_url:'http://localhost/Server_pruebas/index.php?module='
 };
