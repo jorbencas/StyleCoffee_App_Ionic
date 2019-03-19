@@ -31,9 +31,8 @@ export class ApiService {
   }
 
   post(path: string, body: Object = {}): Observable<any> {
-    return this.http.post(
-      `${environment.api_php_url}${path}`,
-      JSON.stringify(body)
+    let heade : any = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(`http://prueba8.gearhostpreview.com/StyleCoffee_App_Server/index.php?module=coffee&function=getAllcoffee`,{}, heade
     ).pipe(catchError(this.formatErrors));
   }
 

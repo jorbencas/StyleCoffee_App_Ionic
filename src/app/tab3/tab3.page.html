@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-nav-pop>
-      <ion-title> StyleCoffee </ion-title>
+      <ion-title> StyleCoffee Coffee </ion-title>
     </ion-nav-pop>
     <ion-avatar slot="end" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/profile">
       <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
@@ -13,22 +13,23 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-grid>
-    <ion-row *ngFor="let info of coffees; let i of index" [ngStyle]="{'width': 320, 'height': 510}"
-      routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/details/{{info.id}}">
-      <ion-col>
-        <ion-img width="auto" height="350px" src="{{info.image}}" alt="{{info.image}}"></ion-img>
-        <ion-buttons slot="start">
-          <ion-icon name="heart" [color]="color" (click)="clickEventHandler($event.target)"></ion-icon>
-        </ion-buttons>
-        <ion-title routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-          routerLink="/details/{{info.id}}">{{info.id}}</ion-title>
-        <ion-buttons slot="end">
-          <ion-icon name="archive" [color]="colorSecundary" (click)="clickEventHandlerSave($event.target)"></ion-icon>
-        </ion-buttons>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+        <ion-grid *ngFor="let info of coffees; let i of index" [ngStyle]="{'width': 320, 'height': 510}"
+        routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/coffeedetails/{{info.id}}">
+          <ion-row>
+            <ion-col>
+              <ion-img width="auto" height="350px" src="{{info.image}}" alt="{{info.displayName}}"></ion-img>
+              <ion-buttons slot="start">
+                <ion-icon name="heart" [color]="color" (click)="clickEventHandler($event.target)"></ion-icon>
+              </ion-buttons>
+              <ion-title routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                routerLink="/coffeedetails/{{info.id}}">{{info.name}}</ion-title>
+              <ion-buttons slot="end">
+                <ion-icon name="archive" [color]="colorSecundary" (click)="clickEventHandlerSave($event.target)"></ion-icon>
+              </ion-buttons>
+            </ion-col>
+          </ion-row>
+        </ion-grid> 
+
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button routerLinkActive="active" routerLink="/edit">
     <ion-icon name="add"></ion-icon>

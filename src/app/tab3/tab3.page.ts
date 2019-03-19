@@ -11,8 +11,8 @@ export class Tab3Page implements OnInit {
   coffees = [];
   color = 'default';
   colorSecundary = 'default';
+  
   ngOnInit(): void {
-    
     this.CoffeeService.getAllcoffe().subscribe(coffees =>{
       this.coffees.push(coffees);
       console.log(coffees);
@@ -30,10 +30,11 @@ export class Tab3Page implements OnInit {
 
   clickEventHandlerSave(event){
     if(event.colorSecundary === 'dark'){
-      event.colorSecundary = 'default'
+      this.colorSecundary = 'default';
+      event.colorSecundary = this.colorSecundary;
     }else{
       this.colorSecundary = 'dark';
-      event.colorSecundary = this.colorSecundary
+      event.colorSecundary = this.colorSecundary;
     }
 
   }

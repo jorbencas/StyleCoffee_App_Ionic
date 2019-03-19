@@ -20,10 +20,10 @@ export class DetailsPage implements OnInit  {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.id = +params['id'];
-     /*  this.ref.on('value', resp => {
+       this.ref.on('value', resp => {
         this.infos = [];
         this.infos = this.snapshotToArray(resp);
-      }); */
+      }); 
     });
   }
 
@@ -33,7 +33,7 @@ export class DetailsPage implements OnInit  {
     snapshot.forEach(childSnapshot => {
       let item = childSnapshot.val();
       console.log(item);
-      console.log(this.id)
+      console.log(this.id);
       if(item.id === this.id)
       returnArr.push(item);
   });

@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="danger">
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title>
+        Details
+      </ion-title>
+      <ion-button slot="end">
+        <ion-icon name="search"></ion-icon>
+      </ion-button>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item [ngStyle]="{'text-align': center}" *ngFor="let info of coffee; let i of index">
+    <img width="320" src="{{info.image}}"  class="app-logo" alt="{{info.name}}">
+    <br>
+    <strong>{{info.name}}</strong>
+    <p>{{info.kind}}</p>
+  </ion-item>
+  <ion-buttons>
+    <ion-button> Carrito</ion-button>
+    <ion-button>Reservar</ion-button>
+  </ion-buttons>
+</ion-content>

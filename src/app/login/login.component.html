@@ -17,15 +17,15 @@
   <ion-list>
     <ion-item>
       <ion-label floating>Username</ion-label>
-      <ion-input type="text"></ion-input>
+      <ion-input type="text" [(ngModel)]="user"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label floating>Password</ion-label>
-      <ion-input type="password"></ion-input>
+      <ion-input type="password" [(ngModel)]="passwd"></ion-input>
     </ion-item>
   </ion-list>
   <ion-item-group>
-      <ion-button shape="round" color="primary" expand="block" fill="outline" [disabled]="!classroomForm.valid">
+      <ion-button shape="round" color="primary" expand="block" fill="outline">
           <ion-icon name="person"></ion-icon>Submit</ion-button>
     <ion-button (click)="handleauth()">Sign in with google</ion-button>
     <ion-button *ngIf="userbool" color="danger" (click)="handleLogout()">Sign out</ion-button>

@@ -10,7 +10,17 @@ export class CoffeeService {
   ) {}
 
   getAllcoffe(): Observable<[string]>{
-    return this.apiService.get('coffee&function=getAllcoffee')
+    return this.apiService.post('coffee&function=getAllcoffee')
+    .pipe(map(data => data.coffee));
+  }
+
+  getCoffee(id: number): Observable<[string]>{
+    return this.apiService.get('coffee&function=getcoffee&param=' + id)
+    .pipe(map(data => data.coffee));
+  }
+
+  getByKind(kind: string): Observable<[string]>{
+    return this.apiService.get('coffee&function=getbykind&param=' + kind)
     .pipe(map(data => data.coffee));
   }
 /*
