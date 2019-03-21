@@ -20,7 +20,7 @@ export class ProfileComponent implements OnInit {
     },
     {
       title: 'login',
-      url: '/login',
+      url: '/register',
       icon: 'person'
     },
     {

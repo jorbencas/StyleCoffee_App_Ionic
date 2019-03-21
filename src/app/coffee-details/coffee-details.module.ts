@@ -1,16 +1,17 @@
-import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
+import { CoffeeDetailsRoutingModule } from './coffee-details-routing.module';
+import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { CoffeeDetailsComponent } from './coffee-details.component';
+
 @NgModule({
-  declarations: [CoffeeDetailsComponent],
   imports: [
     IonicModule,
     FormsModule,
     CommonModule,
-    RouterModule.forChild([{ path: '', component: CoffeeDetailsComponent}])
-  ]
+    CoffeeDetailsRoutingModule
+  ],
+  declarations: [CoffeeDetailsComponent]
 })
 export class CoffeeDetailsModule { }

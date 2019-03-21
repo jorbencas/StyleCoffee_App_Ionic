@@ -1,5 +1,5 @@
 import { IonicModule } from '@ionic/angular';
-import { RouterModule } from '@angular/router';
+import { DetailsRoutingModule } from './details-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +10,7 @@ import { DetailsPage } from './details.page';
     IonicModule,
     CommonModule,
     FormsModule,
-    RouterModule.forChild([{ path: '', component: DetailsPage}])
+    DetailsRoutingModule
   ],
   declarations: [DetailsPage]
 })
