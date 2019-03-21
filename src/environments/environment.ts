@@ -10,7 +10,7 @@ export const environment = {
   projectId: "clone-instagram-48a2f",
   storageBucket: "clone-instagram-48a2f.appspot.com",
   messagingSenderId: "524209882541",
-   api_php_url:'http://279a8c3f.ngrok.io/StyleCoffee_App_Server/index.php?module='
+   api_php_url: 'http://36cc39cb.ngrok.io/StyleCoffee_App_Server/index.php?module='
 /*  api_php_url:'http://localhost/StyleCoffee_App_Server/index.php?module=' */
 };
 

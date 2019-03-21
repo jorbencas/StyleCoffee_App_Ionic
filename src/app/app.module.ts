@@ -9,10 +9,29 @@ import { CoreModule } from './core/core.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared';
+import { DetailsPageModule } from './details/details.module';
+import { AuthModule } from './auth/auth.module';
+import { CoffeeDetailsModule } from './coffee-details/coffee-details.module';
+import { EditPageModule } from './edit/edit.module';
+import { ListPageModule } from './list/list.module';
+import { ProfileModule } from './profile/profile.module';
+import { xatPageModule } from './xat/xat.module';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule,CoreModule, IonicModule.forRoot(), AppRoutingModule,SharedModule],
+  imports: [BrowserModule,
+    CoreModule,
+     IonicModule.forRoot(),
+      AppRoutingModule,
+      SharedModule,
+      AuthModule,
+      DetailsPageModule,
+      xatPageModule,
+      ProfileModule,
+      ListPageModule,
+      EditPageModule,
+      CoffeeDetailsModule
+],
   providers: [
     StatusBar,
     SplashScreen,

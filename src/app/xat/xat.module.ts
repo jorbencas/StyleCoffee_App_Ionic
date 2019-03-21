@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { RouterModule } from '@angular/router';
+import { XatRoutingModule } from './xat-routing.module';
 import { xatComponent } from './xat.component';
 
 @NgModule({
@@ -11,12 +11,7 @@ import { xatComponent } from './xat.component';
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild([
-      {
-        path: '',
-        component: xatComponent
-      }
-    ])
+    XatRoutingModule
   ]
 })
 export class xatPageModule { }
