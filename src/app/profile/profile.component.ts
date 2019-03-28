@@ -12,43 +12,6 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
   }
 
-  public appPages = [
-    {
-      title: 'Home',
-      url: '/tabs',
-      icon: 'home'
-    },
-    {
-      title: 'login',
-      url: '/login',
-      icon: 'person'
-    },
-    {
-      title: 'Configuración',
-      url: '/list',
-      icon: 'settings'
-    },
-    {
-      title: 'Chat',
-      url: '/xat',
-      icon: 'chatboxes'
-    },
-    {
-      title: 'Administración',
-      url: '/xat',
-      icon: 'chatboxes'
-    },
-    {
-      title: 'Reservas',
-      url: '/xat',
-      icon: 'chatboxes'
-    },
-    {
-      title: 'Favoritos',
-      url: '/xat',
-      icon: 'chatboxes'
-    }
-  ];
-  
+ 
   
 }

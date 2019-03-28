@@ -9,7 +9,6 @@ import { ProfileRoutingModule} from './profile-routing.module';
   imports: [
     CommonModule,
     IonicModule,
-    CommonModule,
     FormsModule,
     ProfileRoutingModule
   ]

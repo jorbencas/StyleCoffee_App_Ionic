@@ -13,11 +13,11 @@ export class CoffeeDetailsComponent implements OnInit {
     private CoffeeService: CoffeeService) { }
 
   coffee = [];
-
+  id = 0;
   ngOnInit() {
     this.route.params.subscribe(params => {
-      let id = params['id'];
-      this.CoffeeService.getCoffee(id).subscribe(coffee => {
+      this.id = params['id'];
+      this.CoffeeService.getCoffee(this.id).subscribe(coffee => {
         this.coffee.push(coffee);
       });
     });

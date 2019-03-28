@@ -19,7 +19,7 @@ export class DetailsPage implements OnInit  {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.id = +params['id'];
+      this.id = params['id'];
        this.ref.on('value', resp => {
         this.infos = [];
         this.infos = this.snapshotToArray(resp);

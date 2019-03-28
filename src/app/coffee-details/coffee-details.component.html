@@ -20,7 +20,8 @@
     <p>{{info.kind}}</p>
   </ion-item>
   <ion-buttons>
-    <ion-button> Carrito</ion-button>
-    <ion-button>Reservar</ion-button>
+    
+    <ion-button routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/card/{{id}}" > Carrito</ion-button>
+    <ion-button>Gardar</ion-button>
   </ion-buttons>
 </ion-content>

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { EditPage } from './edit.page';
+import { CardListComponent } from './card-list.component';
 
 const routes: Routes = [
   {
-    path: 'edit/:id',
-    component: EditPage
+    path: 'card-list',
+    component:CardListComponent
   }
 ];
 
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class EditRoutingModule {}
+export class CardListRoutingModule { }

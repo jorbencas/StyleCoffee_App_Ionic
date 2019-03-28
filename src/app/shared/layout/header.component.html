@@ -1,0 +1,26 @@
+<ion-menu contentId="menu-content">
+        <ion-header>
+            <ion-toolbar color="danger">
+                <ion-item routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/profile">
+                    <ion-avatar color="danger" slot="start">
+                        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
+                            alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
+                    </ion-avatar>
+                    <ion-label>Jorge Beneyto Castelló</ion-label>
+                </ion-item>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content>
+    
+            <ion-list color="medium">
+                <ion-menu-toggle color="danger" auto-hide="false" *ngFor="let p of appPages">
+                    <ion-item-divider [routerDirection]="'root'" [routerLink]="[p.url]">
+                        <ion-icon slot="start" [name]="p.icon"></ion-icon>
+                        <ion-label>
+                            {{p.title}}
+                        </ion-label>
+                    </ion-item-divider>
+                </ion-menu-toggle>
+            </ion-list>
+        </ion-content>
+    </ion-menu>

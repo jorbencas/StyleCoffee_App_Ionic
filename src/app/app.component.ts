@@ -1,11 +1,13 @@
 import { environment } from './../environments/environment.prod';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as firebase from 'firebase';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { timer } from 'rxjs';
 import { timeInterval} from 'rxjs/operators';
+import { User, UserService } from './core';
+import { ActivatedRoute, Router } from '@angular/router';
 
   // Initialize Firebase
   var config = {
@@ -27,58 +29,62 @@ import { timeInterval} from 'rxjs/operators';
   styleUrls : ['app.component.scss']
   
 })
-export class AppComponent {
-  /*public appPages = [
-    {
-      title: 'Home',
-      url: '/tabs',
-      icon: 'home'
-    },
-    {
-      title: 'login',
-      url: '/login',
-      icon: 'person'
-    },
-    {
-      title: 'Configuración',
-      url: '/list',
-      icon: 'settings'
-    },
-    {
-      title: 'Chat',
-      url: '/xat',
-      icon: 'chatboxes'
-    },
-    {
-      title: 'Administración',
-      url: '/xat',
-      icon: 'chatboxes'
-    },
-    {
-      title: 'Reservas',
-      url: '/xat',
-      icon: 'chatboxes'
-    },
-    {
-      title: 'Favoritos',
-      url: '/xat',
-      icon: 'chatboxes'
-    }
-  ];*/
-  
-  
-  
-  
+export class AppComponent implements OnInit {
+ 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.initializeApp();
   }
 
   
  showSplash = true; // <-- show animation
+ currentUser: User;
+ busqueda: '';
+ visible = false;
+
+ public appPages = [
+   {
+     title: 'Home',
+     url: '/tabs',
+     icon: 'home'
+   },
+   {
+     title: 'login',
+     url: '/login',
+     icon: 'person'
+   },
+   {
+     title: 'Configuración',
+     url: '/list',
+     icon: 'settings'
+   },
+   {
+     title: 'Chat',
+     url: '/xat',
+     icon: 'chatboxes'
+   },
+   {
+     title: 'Administración',
+     url: '/xat',
+     icon: 'chatboxes'
+   },
+   {
+     title: 'Reservas',
+     url: '/reserve-list',
+     icon: 'chatboxes'
+   },
+   {
+     title: 'Favoritos',
+     url: '/xat',
+     icon: 'chatboxes'
+   }
+ ];
 
   initializeApp() {
     this.platform.ready().then(() => {
@@ -88,5 +94,19 @@ export class AppComponent {
     });
     
     firebase.initializeApp(config);
+  }
+
+
+
+  ngOnInit() {
+    this.userService.currentUser.subscribe(
+      (userData) => {
+        this.currentUser = userData;
+      }
+    );
+
+    /* if (!localStorage.getItem('theme')) {
+      localStorage.setItem('theme', 'white');
+    } */
   }
 }
