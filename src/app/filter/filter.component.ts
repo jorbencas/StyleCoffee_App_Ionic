@@ -1,7 +1,6 @@
 import { Component, AfterViewInit, ViewEncapsulation  } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-/* import { ConferenceData } from '../../providers/conference-data';
- */
+
 
 @Component({
   selector: 'app-filter',
@@ -19,16 +18,7 @@ export class FilterComponent  implements AfterViewInit {
   // TODO use the ionViewDidEnter event
   ngAfterViewInit() {
     // passed in array of track names that should be excluded (unchecked)
-    const excludedTrackNames = []; // this.navParams.data.excludedTracks;
-
-    /* this.confData.getTracks().subscribe((trackNames: string[]) => {
-      trackNames.forEach(trackName => {
-        this.tracks.push({
-          name: trackName,
-          isChecked: (excludedTrackNames.indexOf(trackName) === -1)
-        });
-      });
-    }); */
+    
   }
 
   resetFilters() {

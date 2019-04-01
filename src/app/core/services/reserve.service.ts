@@ -13,15 +13,20 @@ export class ReserveService {
     return this.apiService.get('reserve&function=getAllreserves')
     .pipe(map(data => data.reserve));
   }
-/*
-  getEpisodes(id: Number): Observable<[string]>{
-    return this.apiService.get('episode&function=getEpisodes&param='+id)
-    .pipe(map(data => data.episodes));
+
+  getOneReserve(id: number): Observable<[string]>{
+    return this.apiService.get('reserve&function=getOnereserve&param=' + id)
+    .pipe(map(data => data.reserve));
+  }
+  
+  addReserve(id: number): Observable<[string]>{
+    return this.apiService.get('reserve&function=addOnereserve&param=' + id)
+    .pipe(map(data => data.reserve));
   }
 
-  getEpisode(id: Number): Observable<[string]>{
-    return this.apiService.get('episode&function=getEpisodeOne&param='+id)
-    .pipe(map(data => data.episode));
+  removeReserve(id: number): Observable<[string]>{
+    return this.apiService.get('reserve&function=removeOnereserve&param=' + id)
+    .pipe(map(data => data.reserve));
   }
-*/
+
 }

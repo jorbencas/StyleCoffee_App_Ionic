@@ -15,5 +15,14 @@
   <p>
     reserve works!
   </p>
+  <ion-item *ngFor="let item of reserve">
+    <p>{{ item.title }}</p>
+    <p>{{item.datestart}}</p>
+    <p>{{item.dateend}}</p>
+    <h2>{{item.price}}€</h2>
+    <ion-buttons>
+      <ion-button routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/reserve/delete/{{item.id}}">Elimianr Reservar</ion-button>
+    </ion-buttons>
+  </ion-item>
 </ion-content>
 

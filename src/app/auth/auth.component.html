@@ -4,57 +4,43 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>
-      Login
+      {{title}}
     </ion-title>
-    <ion-buttons slot="end">
-      <ion-icon name="search"></ion-icon>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-<div class="auth-page">
-  <div class="container page">
-    <div class="row">
-
-      <div class="col-md-6 offset-md-3 col-xs-12">
-        <h1 class="text-xs-center">{{ title }}</h1>
-        <p class="text-xs-center">
-          <a [routerLink]="['/login']" >Have an account?</a>
-          <a [routerLink]="['/register']">Need an account?</a>
-        </p>
+        <ion-item>
+          <a routerLink="/login" >Have an account?</a>
+          <a routerLink="/register">Need an account?</a>
+        </ion-item>
         <app-list-errors [errors]="errors"></app-list-errors>
         <form [formGroup]="authForm" (ngSubmit)="submitForm()">
-          <fieldset [disabled]="isSubmitting">
-            <fieldset class="form-group">
-              <input
+          <ion-list>
+            <ion-item [disabled]="isSubmitting">
+              <ion-input
                 formControlName="username"
                 placeholder="Username"
                 class="form-control form-control-lg"
-                type="text" />
-            </fieldset>
-            <fieldset class="form-group">
-              <input
+                type="text"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-input
                 formControlName="email"
                 placeholder="Email"
                 class="form-control form-control-lg"
-                type="text" />
-            </fieldset>
-            <fieldset class="form-group">
-              <input
+                type="text"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-input
                 formControlName="password"
                 placeholder="Password"
                 class="form-control form-control-lg"
-                type="password" />
-            </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right" [disabled]="!authForm.valid" type="submit">
-              {{ title }}
-            </button>
-          </fieldset>
+                type="password"></ion-input>
+            </ion-item>
+            <ion-button class="btn btn-lg btn-primary pull-xs-right" [disabled]="!authForm.valid" type="submit">
+                <ion-icon name="person"></ion-icon>{{ title }}
+            </ion-button>
+          </ion-list>
         </form>
-      </div>
-
-    </div>
-  </div>
-</div>
 </ion-content>

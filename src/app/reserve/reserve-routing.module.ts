@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'reserve/:id',
+    path: 'reserve/:action/:id',
     component: ReserveComponent
   }
 ];

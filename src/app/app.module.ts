@@ -15,7 +15,6 @@ import { ListPageModule } from './list/list.module';
 import { ProfileModule } from './profile/profile.module';
 import { xatPageModule } from './xat/xat.module';
 import { FilterModule } from './filter/filter.module';
-import { LoginPageModule } from './login/login.module';
 import { ReserveModule } from './reserve/reserve.module';
 import { ReserveListModule } from './reserve-list/reserve-list.module';
 import { CardModule } from './card/card.module';
@@ -25,21 +24,20 @@ import { CardListModule } from './card-list/card-list.module';
   declarations: [AppComponent],
   imports: [BrowserModule,
     CoreModule,
-     IonicModule.forRoot(),
-      AppRoutingModule,
-      SharedModule,
-      AuthModule,
-      DetailsPageModule,
-      xatPageModule,
-      ProfileModule,
-      ListPageModule,
-      CoffeeDetailsModule,
-      FilterModule,
-      LoginPageModule,
-      CardModule,
-      CardListModule,
-      ReserveListModule,
-      ReserveModule
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    SharedModule,
+    AuthModule,
+    DetailsPageModule,
+    xatPageModule,
+    ProfileModule,
+    ListPageModule,
+    CoffeeDetailsModule,
+    FilterModule,
+    CardModule,
+    CardListModule,
+    ReserveListModule,
+    ReserveModule
 ],
   providers: [
     StatusBar,

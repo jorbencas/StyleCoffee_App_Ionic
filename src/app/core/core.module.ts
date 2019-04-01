@@ -11,7 +11,8 @@ import {
   BookService,
   ReserveService,
   CoffeeService,
-  XatService
+  XatService,
+  CardService
 } from './services';
 
 @NgModule({
@@ -28,7 +29,8 @@ import {
     BookService,
     ReserveService,
     CoffeeService,
-    XatService
+    XatService,
+    CardService
   ],
   declarations: []
 })

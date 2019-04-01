@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ReserveService } from '../core';
 
 @Component({
   selector: 'app-reserve-list',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReserveListComponent implements OnInit {
 
-  constructor() { }
+  constructor(private reserveservices: ReserveService) { }
+  list = [];
 
   ngOnInit() {
+    this.reserveservices.getAllReserves().subscribe(reserve => {
+      this.list.push(reserve);
+      console.log(this.list);
+    });
   }
 
 }
