@@ -21,7 +21,7 @@ import { CardModule } from './card/card.module';
 import { CardListModule } from './card-list/card-list.module';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [ AppComponent],
   imports: [BrowserModule,
     CoreModule,
     IonicModule.forRoot(),

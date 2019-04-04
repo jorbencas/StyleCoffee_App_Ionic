@@ -47,44 +47,7 @@ export class AppComponent implements OnInit {
  currentUser: User;
  busqueda: '';
  visible = false;
-
- public appPages = [
-   {
-     title: 'Home',
-     url: '/tabs',
-     icon: 'home'
-   },
-   {
-     title: 'login',
-     url: '/login',
-     icon: 'person'
-   },
-   {
-     title: 'Configuración',
-     url: '/list',
-     icon: 'settings'
-   },
-   {
-     title: 'Chat',
-     url: '/xat',
-     icon: 'chatboxes'
-   },
-   {
-     title: 'Administración',
-     url: '/xat',
-     icon: 'chatboxes'
-   },
-   {
-     title: 'Reservas',
-     url: '/reserve-list',
-     icon: 'chatboxes'
-   },
-   {
-     title: 'Favoritos',
-     url: '/xat',
-     icon: 'chatboxes'
-   }
- ];
+ authenticated = false;
 
   initializeApp() {
     this.platform.ready().then(() => {
@@ -102,11 +65,22 @@ export class AppComponent implements OnInit {
     this.userService.currentUser.subscribe(
       (userData) => {
         this.currentUser = userData;
+        if(this.currentUser.usuario  !== undefined){
+          console.log(this.currentUser.usuario);
+          this.authenticated = true;
+          this.visible = true;
+        }
       }
     );
-
-    /* if (!localStorage.getItem('theme')) {
-      localStorage.setItem('theme', 'white');
-    } */
   }
+
+  logout() {
+    this.userService.purgeAuth();
+    this.router.navigateByUrl('/');
+  }
+  
+  /* if (!localStorage.getItem('theme')) {
+    localStorage.setItem('theme', 'white');
+  } */
+  
 }

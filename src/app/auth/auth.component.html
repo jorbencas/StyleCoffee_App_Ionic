@@ -11,15 +11,15 @@
 
 <ion-content>
         <ion-item>
-          <a routerLink="/login" >Have an account?</a>
-          <a routerLink="/register">Need an account?</a>
+          <ion-button routerLink="/login" >Have an account?</ion-button>
+          <ion-button routerLink="/register">Need an account?</ion-button>
         </ion-item>
         <app-list-errors [errors]="errors"></app-list-errors>
         <form [formGroup]="authForm" (ngSubmit)="submitForm()">
           <ion-list>
-            <ion-item [disabled]="isSubmitting">
+            <ion-item >
               <ion-input
-                formControlName="username"
+                formControlName="usuario"
                 placeholder="Username"
                 class="form-control form-control-lg"
                 type="text"></ion-input>

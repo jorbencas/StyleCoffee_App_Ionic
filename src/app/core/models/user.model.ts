@@ -1,7 +1,10 @@
 export interface User {
-  email: string;
-  token: string;
-  username: string;
-  bio: string;
-  image: string;
+  usuario:string;
+ email: string;
+ password: string;
+ date_birthday:string;
+ tipo: string;
+ avatar: string;
+ token: string;
+ activado: number;
 }
