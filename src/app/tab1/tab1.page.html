@@ -49,6 +49,7 @@
         <ion-buttons slot="start">
           <ion-icon name="heart" [color]="color" (click)="clickEventHandler($event.target)"></ion-icon>
         </ion-buttons>
+
         <ion-title routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
           routerLink="/coffeedetails/{{info.id}}">{{info.name}}</ion-title>
         <ion-buttons slot="end">

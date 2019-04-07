@@ -13,7 +13,6 @@ import { AuthModule } from './auth/auth.module';
 import { CoffeeDetailsModule } from './coffee-details/coffee-details.module';
 import { ListPageModule } from './list/list.module';
 import { ProfileModule } from './profile/profile.module';
-import { xatPageModule } from './xat/xat.module';
 import { FilterModule } from './filter/filter.module';
 import { ReserveModule } from './reserve/reserve.module';
 import { ReserveListModule } from './reserve-list/reserve-list.module';
@@ -29,7 +28,6 @@ import { CardListModule } from './card-list/card-list.module';
     SharedModule,
     AuthModule,
     DetailsPageModule,
-    xatPageModule,
     ProfileModule,
     ListPageModule,
     CoffeeDetailsModule,

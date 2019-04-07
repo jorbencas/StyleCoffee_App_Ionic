@@ -47,6 +47,9 @@ export class Tab1Page implements OnInit {
 
   setab(tab: number) { this.tab_active = tab};
  
+  onToggleFavorite(){
+    
+  }
 /*
   async addFavorite(slidingItem: HTMLIonItemSlidingElement, sessionData: any) {
     if (this.user.hasFavorite(sessionData.name)) {

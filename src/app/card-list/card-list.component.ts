@@ -10,9 +10,9 @@ export class CardListComponent implements OnInit {
   constructor( private cardservices: CardService) { }
   products = [];
   ngOnInit() {
-    this.cardservices.getAllProducts().subscribe(products =>{
+   /*  this.cardservices.getAllProducts().subscribe(products =>{
       this.products.push(products);
-    });
+    }); */
   }
 
 }

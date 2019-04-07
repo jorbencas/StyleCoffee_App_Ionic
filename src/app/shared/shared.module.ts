@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
 import { ListErrorsComponent } from './list-errors.component';
 import { ShowAuthedDirective } from './show-authed.directive';
 
@@ -13,7 +12,7 @@ import { ShowAuthedDirective } from './show-authed.directive';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
   ],
   declarations: [
     ListErrorsComponent,
@@ -26,7 +25,7 @@ import { ShowAuthedDirective } from './show-authed.directive';
     HttpClientModule,
     ListErrorsComponent,
     RouterModule,
-    ShowAuthedDirective
+    ShowAuthedDirective,
   ]
 })
 export class SharedModule {}
