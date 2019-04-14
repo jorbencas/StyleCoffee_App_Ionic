@@ -4,13 +4,16 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { ProfileComponent } from './profile.component';
 import { ProfileRoutingModule} from './profile-routing.module';
+import { SharedModule } from '../shared';
+
 @NgModule({
-  declarations: [ProfileComponent],
   imports: [
+    SharedModule,
     CommonModule,
     IonicModule,
     FormsModule,
     ProfileRoutingModule
-  ]
+  ],
+  declarations: [ProfileComponent]
 })
 export class ProfileModule { }

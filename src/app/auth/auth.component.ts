@@ -15,7 +15,7 @@ export class AuthComponent implements OnInit {
   errors: Errors = {errors: {}};
   isSubmitting = false;
   authForm: FormGroup;
-
+  avaible = true;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -26,7 +26,8 @@ export class AuthComponent implements OnInit {
     this.authForm = this.fb.group({
       'usuario': ['', Validators.required],
       'email': ['', Validators.required],
-      'password': ['', Validators.required]
+      'password': ['', Validators.required],
+      'tipo':['',Validators.required]
     });
   }
 
@@ -38,8 +39,11 @@ export class AuthComponent implements OnInit {
       this.title = (this.authType === 'login') ? 'Login' : 'Registro';
       // add form control for username if this is the register page
       if (this.authType === 'login') {
+        this.avaible = false;
         this.authForm.removeControl('email');
+        this.authForm.removeControl('tipo');
       }
+      console.log(this.avaible);
     });
   }
 
@@ -48,8 +52,7 @@ export class AuthComponent implements OnInit {
     this.errors = {errors: {}};
 
     const credentials = this.authForm.value;
-    this.userService
-    .attemptAuth(this.authType, credentials)
+    this.userService.attemptAuth(this.authType, credentials)
     .subscribe(
       data => this.router.navigateByUrl('/'),
       err => {

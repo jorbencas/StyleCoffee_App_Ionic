@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { EventsComponent } from './events.component';
 import { IonicModule } from '@ionic/angular';
-import { CardRountingModule } from './card-rounting.module';
-import { CardComponent } from './card.component';
 
 @NgModule({
-  declarations: [CardComponent],
+  declarations: [EventsComponent],
   imports: [
     CommonModule,
     IonicModule,
-    CardRountingModule
   ]
 })
-export class CardModule { }
+export class EventsModule { }

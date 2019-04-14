@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CoffeeService } from '../core';
+import { CalendarComponent } from 'ionic2-calendar/calendar';
 
 import { AlertController, IonList, LoadingController, ModalController, ToastController } from '@ionic/angular';
 
@@ -14,19 +15,84 @@ export class Tab3Page implements OnInit {
     public loadingCtrl: LoadingController,
     public modalCtrl: ModalController
       ){}
-  coffees = [];
-  color = 'default';
-  colorSecundary = 'default';
-  shownSessions = 0;
-  events: [];
+  collapseCard = false;
+  eventSource: [];
+  viewtitle = 'Events';
+  event = {
+    title: '',
+    desc: '',
+    startTime: new Date().toUTCString(),
+    endTime: new Date().toUTCString(),
+    allDay: false
+  };
+
+
+  @ViewChild(CalendarComponent) mycal: CalendarComponent;
+
   ngOnInit(): void {
-    this.CoffeeService.getAllcoffe().subscribe(coffees =>{
-      this.coffees.push(coffees);
-      console.log(coffees);
-    });
+    this.resetEvent();
+  }
+  calendar = {
+    mode: "week",
+    currentDate: new Date().toUTCString()
   }
 
+  addEvent(){
+    let eventCopy = {
+      title: this.event.title,
+      desc: this.event.desc,
+      startTime: new Date(this.event.startTime),
+      endTime: new Date(this.event.endTime),
+      allDay: this.event.allDay
+    }
 
+    if(eventCopy.allDay){
+      let start = eventCopy.startTime;
+      let end = eventCopy.endTime;
+
+      eventCopy.startTime = new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), start.getUTCDate()));
+      eventCopy.endTime = new Date(Date.UTC(end.getUTCFullYear(), end.getUTCMonth(), end.getUTCDate()+ 1));
+      this.mycal.loadEvents();
+      this.resetEvent(); 
+    }
+
+    this.eventSource.push(eventCopy);
+
+  }
+
+  removeEvent(){
+
+  }
+
+  onCurrentDateChanged(){
+
+  }
+
+  reloadSource(){
+
+  }
+  onEventSelected(){
+
+  }
+
+  onViewTitleChanged(){
+
+  }
+
+  onTimeSelected(){
+
+  }
+
+  resetEvent(){
+    this.event = {
+    title: '',
+    desc: '',
+    startTime: new Date().toUTCString(),
+    endTime: new Date().toUTCString(),
+    allDay: true
+    }
+  }
+  /*
   clickEventHandler(event) {
     if (event.color === 'default') {
       event.color = 'danger';
@@ -44,7 +110,7 @@ export class Tab3Page implements OnInit {
       event.colorSecundary = this.colorSecundary;
     }
 
-  }
+  }*/
 
 
   async presentFilter() {

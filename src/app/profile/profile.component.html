@@ -1,29 +1,89 @@
 <ion-header>
-  <ion-toolbar color="danger">
-      <ion-buttons slot="start">
-          <ion-back-button></ion-back-button>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
         </ion-buttons>
-    <ion-title>
-      Profile
-    </ion-title>
-    <ion-buttons slot="end">
-      <ion-icon name="search"></ion-icon>
-    </ion-buttons>
-  </ion-toolbar>
+        <ion-title>
+            Profile
+        </ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-chip>
-    <ion-avatar slot="start">
-      <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
-        alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
-    </ion-avatar>
-    <ion-label>Jorge Beneyto Castelló</ion-label>
-  </ion-chip>
-  <ion-item-divider *ngFor="let p of appPages" [routerDirection]="'root'" [routerLink]="[p.url]">
-      <ion-icon slot="start" [name]="p.icon"></ion-icon>
-      <ion-label>
-        {{p.title}}
-      </ion-label>
-    </ion-item-divider>
+    <form [formGroup]="profileForm" (ngSubmit)="submitForm()">
+        <ion-item>
+                <ion-avatar>
+                        <img [src]="currentUser.avatar" *ngIf="!avaible" 
+                            alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
+                    </ion-avatar>
+        </ion-item>
+        
+        <ion-button *ngIf="avaible" (click)="changeavatar()">Cambiar la foto</ion-button>
+
+        <ion-list>
+
+            <ion-item>
+                <ion-label *ngIf="!avaible" >{{ currentUser.usuario }}</ion-label>
+                <ion-input *ngIf="avaible" formControlName="usuario" placeholder="Username" class="form-control form-control-lg"
+                    type="text"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label *ngIf="!avaible" >{{currentUser.email}}</ion-label>
+                <ion-input *ngIf="avaible" formControlName="email" placeholder="Email" class="form-control form-control-lg" type="text">
+                </ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-icon name="people"></ion-icon>
+                <ion-label>"Tipo de usuario"</ion-label>
+                <!-- <ion-select placeholder="Eligue el tipo de usuario" formControlName="tipo"></ion-select>
+      <ion-select-option value="admin">Admin</ion-select-option>
+      <ion-select-option value="client">Client</ion-select-option>
+    </ion-select> -->
+            </ion-item>
+
+
+            <ion-item>
+                <ion-label *ngIf="!avaible" >{{currentUser.password}}</ion-label>
+                <ion-input *ngIf="avaible" formControlName="password" placeholder="Password" class="form-control form-control-lg"
+                    type="password"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                    <ion-label *ngIf="!avaible" >{{currentUser.pais}}</ion-label>
+                    <ion-input *ngIf="avaible" formControlName="pais" placeholder="Pais" class="form-control form-control-lg"
+                        type="text"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                        <ion-label *ngIf="!avaible" >{{currentUser.provincia}}</ion-label>
+                        <ion-input *ngIf="avaible" formControlName="provincia" placeholder="Provincia" class="form-control form-control-lg"
+                            type="text"></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                            <ion-label *ngIf="!avaible" >{{currentUser.poblacion}}</ion-label>
+                            <ion-input *ngIf="avaible" formControlName="poblacion" placeholder="poblacion" class="form-control form-control-lg"
+                                type="text"></ion-input>
+                        </ion-item>
+
+        </ion-list>
+        <ion-button class="btn btn-lg btn-primary pull-xs-right" type="submit">
+            <ion-icon name="person"></ion-icon>Guardar cambios
+        </ion-button>
+
+    </form>
+
 </ion-content>
+<ion-footer>
+    <ion-button name="pencil" (click)="changeeditable()" >Editar el prfil</ion-button>
+    <ion-button color="danger" (click)="logout()">Cerrar session</ion-button>
+</ion-footer>
+
+
+
+
+
+
+

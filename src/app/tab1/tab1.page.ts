@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as firebase from 'firebase';
 import { AlertController, IonList, LoadingController, ModalController, ToastController } from '@ionic/angular';
-import { CoffeeService } from '../core';
+import { CoffeeService, User, UserService } from '../core';
 
 @Component({
   selector: 'app-tab1',
@@ -10,20 +10,25 @@ import { CoffeeService } from '../core';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page implements OnInit {
+  constructor(
+    public alertCtrl: AlertController,
+    private route: ActivatedRoute,
+    private router: Router,
+    public loadingController: LoadingController,
+    private toastCtrl : ToastController,
+    public modalCtrl: ModalController,
+    private CoffeeService:CoffeeService,
+    private userService: UserService) { }
+
+    
   segment = 'all';
   infos = [];
   ref = firebase.database().ref('pictures');
   color = 'default';
   colorSecundary = 'default';
-  //name = [{ id: '1', name: 'jorge', color: 'danger' }, { id: '2', name: 'Alex', color: 'primary' }, { id: '3', name: 'Carlos', color: 'waring' }]
- 
-  constructor(
-    public alertCtrl: AlertController,
-    private router: Router,
-    public loadingController: LoadingController,
-    private toastCtrl : ToastController,
-    public modalCtrl: ModalController,
-    private CoffeeService:CoffeeService) { }
+  visible = false;
+  authenticated = false;
+  currentUser: User;
 
     dayIndex = 0;
     tab_active = 1;
@@ -35,21 +40,38 @@ export class Tab1Page implements OnInit {
     coffees = [];
 
   ngOnInit(): void {
-    this.loaddata();
+    console.log(this.router);
+    this.presentLoading();
+    this.ref.on('value', resp => {
+      this.infos = snapshotToArray(resp);
+      /* setTimeout(() => {
+        this.stopLoading();
+      }, 1000); */
+    });
+
     this.CoffeeService.getAllcoffe().subscribe(coffees =>{
       this.coffees.push(coffees);
+      //this.stopLoading();
     });
-  }
-
-  ngAfterContentInit() {
+    this.userService.currentUser.subscribe(
+      (userData) => {
+        this.currentUser = userData;
+        if(this.currentUser.usuario !== '') this.authenticated = true;
+      }
+    );
     
   }
+
+/*   ngAfterContentInit() {
+    
+  } */
 
   setab(tab: number) { this.tab_active = tab};
  
-  onToggleFavorite(){
+ /*  onToggleFavorite(){
     
-  }
+  } */
+
 /*
   async addFavorite(slidingItem: HTMLIonItemSlidingElement, sessionData: any) {
     if (this.user.hasFavorite(sessionData.name)) {
@@ -85,21 +107,21 @@ async sendNotification(message: string) {
 
 }
 */
-  async loaddata() {
+
+  async presentLoading() {
     const loading = await this.loadingController.create({
       spinner: 'bubbles',
       message: 'Cargando',
-      cssClass: 'custom-class custom-loading'
+      cssClass: 'custom-class custom-loading',
+      duration: 1000
     });
 
-    await loading.present();
-    
-    await this.ref.on('value', resp => {
-      this.infos = snapshotToArray(resp);
-      loading.dismiss();
-    });
-   
+    return await loading.present();
   }
+  async stopLoading() {
+    return await this.loadingController.dismiss();
+  }
+
  
   clickEventHandler(event) {
     if (event.color === 'default') {

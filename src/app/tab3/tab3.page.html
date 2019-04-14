@@ -1,16 +1,11 @@
 <ion-header>
-  <ion-toolbar color="danger">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-nav-pop>
-      <ion-title> Events </ion-title>
-    </ion-nav-pop>
+  <ion-toolbar>
+    <ion-title> {{viewtitle}} </ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
 
-  <ion-list #scheduleList [hidden]="shownSessions === 0">
+  <!--  <ion-list #scheduleList [hidden]="shownSessions === 0">
     <ion-item-group *ngFor="let event of events" [hidden]="event.hide">
       <ion-item-divider sticky>
         <ion-label>
@@ -31,18 +26,52 @@
           <ion-item-option color="favorite" (click)="addFavorite(slidingItem, session)">
             Favorite
           </ion-item-option>
-          <ion-item-option color="danger" (click)="removeFavorite(slidingItem, session, 'Remove Favorite')" >
+          <ion-item-option  (click)="removeFavorite(slidingItem, session, 'Remove Favorite')" >
             Remove
           </ion-item-option>
         </ion-item-options>
       </ion-item-sliding>
     </ion-item-group>
   </ion-list>
-
- <!--  <ion-list-header [hidden]="shownSessions > 0">
+ -->
+  <!--  <ion-list-header [hidden]="shownSessions > 0">
     No Sessions Found
   </ion-list-header> -->
+  <ion-card>
+      <ion-card-header tappable (click)="collapseCard != collapseCard" >
+        <ion-card-title>Nuevo evento</ion-card-title>
+      </ion-card-header>
+      <ion-card-content *ngIf="!collapseCard">
+        <ion-item>
+          <ion-input type="text" placeholder="Titulo" [(ngModel)]="event.title"> </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="text" placeholder="DFescripcion" [(ngModel)]="event.desc"> </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Fecha de inicio</ion-label>
+          <ion-datetime display-format="DD.MM.YYYY HH:mm" pickerFormat="HHM D:HH:mm" [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
+        </ion-item>
+        <ion-item>
+          <ion-label>Fecha de fin</ion-label>
+          <ion-datetime display-format="DD.MM.YYYY HH:mm" pickerFormat="MMH D:HH:mm" [(ngModel)]="event.endTime" [min]="minDate"></ion-datetime>
+        </ion-item>
+        <ion-item>
+          <ion-label>Todo el dia</ion-label>
+          <ion-checkbox [(ngModel)]="event.allDay"></ion-checkbox>
+        </ion-item>
+        <ion-button fill="outline" expand="block" (click)="addEvent()"></ion-button>
+      </ion-card-content>
+    </ion-card>
+    
+  <calendar [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate"
+    (onCurrentDateChanged)="onCurrentDateChanged($event)"
+    (onRangeChanged)="reloadSource(event.startTime, event.endTime)" (onEventSelected)="onEventSelected($event)"
+    (onTitleChanged)="onViewTitleChanged($event)" (onTimeSelected)="onTimeSelected($event)" step="30" strat>
+  </calendar>
 
+  
+  <!-- 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end" #fab>
     <ion-fab-button><ion-icon name="share"></ion-icon></ion-fab-button>
     <ion-fab-list side="top">
@@ -59,9 +88,9 @@
         <ion-icon name="logo-facebook"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>
-  </ion-fab>
+  </ion-fab> -->
 
-          <!-- <ion-grid *ngFor="let info of coffees; let i of index" [ngStyle]="{'width': 320, 'height': 510}"
+  <!-- <ion-grid *ngFor="let info of coffees; let i of index" [ngStyle]="{'width': 320, 'height': 510}"
         routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/coffeedetails/{{info.id}}">
           <ion-row>
             <ion-col>
@@ -83,5 +112,5 @@
     <ion-icon name="add"></ion-icon>
     </ion-fab-button> 
   </ion-fab>-->
-  
+
 </ion-content>

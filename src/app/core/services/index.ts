@@ -7,4 +7,4 @@ export * from './book.service';
 export * from './reserve.service';
 export * from './coffee.service';
 export * from './xat.service';
-export * from './card.service';
+export * from './collections.service';

@@ -16,8 +16,7 @@ import { ProfileModule } from './profile/profile.module';
 import { FilterModule } from './filter/filter.module';
 import { ReserveModule } from './reserve/reserve.module';
 import { ReserveListModule } from './reserve-list/reserve-list.module';
-import { CardModule } from './card/card.module';
-import { CardListModule } from './card-list/card-list.module';
+import { CollectionsListModule } from './collections/collections.module';
 
 @NgModule({
   declarations: [ AppComponent],
@@ -32,8 +31,7 @@ import { CardListModule } from './card-list/card-list.module';
     ListPageModule,
     CoffeeDetailsModule,
     FilterModule,
-    CardModule,
-    CardListModule,
+    CollectionsListModule,
     ReserveListModule,
     ReserveModule
 ],

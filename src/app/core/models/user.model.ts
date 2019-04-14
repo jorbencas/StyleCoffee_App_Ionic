@@ -7,4 +7,7 @@ export interface User {
  avatar: string;
  token: string;
  activado: number;
+ pais: string;
+ provincia: string;
+ poblacion: string;
 }

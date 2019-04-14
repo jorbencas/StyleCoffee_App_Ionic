@@ -46,9 +46,7 @@ export class AppComponent implements OnInit {
  showSplash = true; // <-- show animation
  currentUser: User;
  busqueda: '';
- visible = false;
  authenticated = false;
-
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
@@ -59,19 +57,8 @@ export class AppComponent implements OnInit {
     firebase.initializeApp(config);
   }
 
-
-
   ngOnInit() {
-    this.userService.currentUser.subscribe(
-      (userData) => {
-        this.currentUser = userData;
-        if(this.currentUser.usuario  !== undefined){
-          console.log(this.currentUser.usuario);
-          this.authenticated = true;
-          this.visible = true;
-        }
-      }
-    );
+    this.userService.populate();
   }
 
   logout() {

@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="danger">
+  <ion-toolbar >
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -10,21 +10,17 @@
 </ion-header>
 
 <ion-content>
-        <ion-item>
-          <ion-button routerLink="/login" >Have an account?</ion-button>
-          <ion-button routerLink="/register">Need an account?</ion-button>
-        </ion-item>
         <app-list-errors [errors]="errors"></app-list-errors>
         <form [formGroup]="authForm" (ngSubmit)="submitForm()">
           <ion-list>
-            <ion-item >
+            <ion-item>
               <ion-input
                 formControlName="usuario"
                 placeholder="Username"
                 class="form-control form-control-lg"
                 type="text"></ion-input>
             </ion-item>
-            <ion-item>
+            <ion-item *ngIf="avaible">
                 <ion-input
                 formControlName="email"
                 placeholder="Email"
@@ -38,6 +34,20 @@
                 class="form-control form-control-lg"
                 type="password"></ion-input>
             </ion-item>
+            <ion-item *ngIf="avaible">
+              <ion-icon name="people"></ion-icon>
+              <ion-label>"Tipo de usuario"</ion-label>
+              <ion-select placeholder="Eligue el tipo de usuario" 
+              formControlName="tipo">
+                <ion-select-option value="admin">Admin</ion-select-option>
+                <ion-select-option value="client">Client</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-button *ngIf="avaible" routerLink="/login" >Entrar</ion-button>
+                <ion-button *ngIf="!avaible" routerLink="/register">Registr-se</ion-button>
+              </ion-item>
+
             <ion-button class="btn btn-lg btn-primary pull-xs-right" [disabled]="!authForm.valid" type="submit">
                 <ion-icon name="person"></ion-icon>{{ title }}
             </ion-button>

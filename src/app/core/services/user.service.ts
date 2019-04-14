@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable ,  BehaviorSubject ,  ReplaySubject } from 'rxjs';
-
+import { ToastController } from '@ionic/angular';
 import { ApiService } from './api.service';
 import { JwtService } from './jwt.service';
 import { User } from '../models';
@@ -19,7 +19,8 @@ export class UserService {
   constructor (
     private apiService: ApiService,
     private http: HttpClient,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    public toastCtrl: ToastController
   ) {}
 
   // Verify JWT in localstorage with server & load user's info.
@@ -27,15 +28,26 @@ export class UserService {
   populate() {
     // If JWT detected, attempt to get & store user's info
     if (this.jwtService.getToken()) {
-      this.apiService.get('/user')
-      .subscribe(
-        data => this.setAuth(data.user),
-        err => this.purgeAuth()
-      );
+      const token = this.jwtService.getToken();
+      this.apiService.post('user&function=getuser',{token: token})
+      .pipe(map(
+        data => {
+          this.setAuth(data.user[0]);
+          return data;
+        },err => {return err;}
+      ));
     } else {
       // Remove any potential remnants of previous auth states
       this.purgeAuth();
     }
+  }
+
+  async sendNotification(message: string) {
+    let toast = await this.toastCtrl.create({
+      message: message,
+      duration: 3000
+    });
+    toast.present();
   }
 
   setAuth(user: User) {
@@ -58,12 +70,17 @@ export class UserService {
 
   attemptAuth(type, credentials): Observable<User> {
     const route = (type === 'login') ? 'login' : 'signup_user';
-    return this.apiService.post('user' + "&function=" + route, {user: credentials})
+    return this.apiService.post('user&function='+route, {user: credentials})
       .pipe(map(
       data => {
-        this.setAuth(data.user[0]);
-        return data;
-      },err => {return err;}
+        if(data.success){
+          this.sendNotification("Todo realizado con exito");
+          this.setAuth(data.user[0]);
+          return data.user[0];
+        }else{
+          this.sendNotification(data.error);
+        }
+      }
     ));
   }
 
@@ -71,14 +88,75 @@ export class UserService {
     return this.currentUserSubject.value;
   }
 
+  update_img(img){
+    return this.apiService.put('user&function=upload_avatar', { img })
+    .pipe(map(data => {
+      if(data.success){
+        this.sendNotification("Todo realizado con exito");
+        // Update the currentUser observable
+        this.currentUserSubject.next(data.user[0]);
+        return data.user[0];
+      }else{
+        this.sendNotification(data.error);
+      }
+    }));
+
+  }
+
+  loadpais(){
+    return this.apiService.get('user&function=load_pais_user&param=' + true)
+    .pipe(map(data => {
+      if(data.success){
+        this.sendNotification("Todo realizado con exito");
+        // Update the currentUser observable
+        this.currentUserSubject.next(data.paises);
+        return data.paises;
+      }else{
+        this.sendNotification(data.error);
+      }
+    }));
+  }
+
+  loadProvincia(){
+    return this.apiService.get('user&function=load_provincias_user&param=' + true)
+    .pipe(map(data => {
+      if(data.success){
+        this.sendNotification("Todo realizado con exito");
+        // Update the currentUser observable
+        this.currentUserSubject.next(data.provincias );
+        return data.provincias;
+      }else{
+        this.sendNotification(data.error);
+      }
+    }));
+  }
+
+  loadPoblacion(){
+    return this.apiService.get('user&function=load_poblaciones_user&param=' + true)
+    .pipe(map(data => {
+      if(data.success){
+        this.sendNotification("Todo realizado con exito");
+        // Update the currentUser observable
+        this.currentUserSubject.next(data.poblaciones);
+        return data.poblaciones;
+      }else{
+        this.sendNotification(data.error);
+      }
+    }));
+  }
+
   // Update the user on the server (email, pass, etc)
   update(user): Observable<User> {
-    return this.apiService
-    .put('/user', { user })
+    return this.apiService.put('user&function=modify', { user })
     .pipe(map(data => {
-      // Update the currentUser observable
-      this.currentUserSubject.next(data.user);
-      return data.user;
+      if(data.success){
+        this.sendNotification("Todo realizado con exito");
+        // Update the currentUser observable
+        this.currentUserSubject.next(data.user[0]);
+        return data.user[0];
+      }else{
+        this.sendNotification(data.error);
+      }
     }));
   }
 
