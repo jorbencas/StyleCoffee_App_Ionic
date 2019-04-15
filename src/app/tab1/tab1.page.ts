@@ -20,8 +20,6 @@ export class Tab1Page implements OnInit {
     private CoffeeService:CoffeeService,
     private userService: UserService) { }
 
-    
-  segment = 'all';
   infos = [];
   ref = firebase.database().ref('pictures');
   color = 'default';
@@ -31,7 +29,7 @@ export class Tab1Page implements OnInit {
   currentUser: User;
 
     dayIndex = 0;
-    tab_active = 1;
+    tab_active = 'book';
     queryText = '';
     excludeTracks: any = [];
     shownSessions: any = [];
@@ -62,15 +60,8 @@ export class Tab1Page implements OnInit {
     
   }
 
-/*   ngAfterContentInit() {
-    
-  } */
+  setab(tab: string) { this.tab_active = tab};
 
-  setab(tab: number) { this.tab_active = tab};
- 
- /*  onToggleFavorite(){
-    
-  } */
 
 /*
   async addFavorite(slidingItem: HTMLIonItemSlidingElement, sessionData: any) {

@@ -4,39 +4,34 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Stylecoffee</ion-title>
-    <ion-segment>
-      <ion-segment-button value="all" (click)="setab(1)">
-        <ion-icon name="bookmarks"></ion-icon>
-      </ion-segment-button>
-      <ion-segment-button value="favorites" (click)="setab(2)">
-        <ion-icon name="cafe"></ion-icon>
-      </ion-segment-button>
-    </ion-segment>
     <ion-buttons slot="end">
       <ion-button routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/filter">
         <ion-icon slot="icon-only" name="search"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-item *ngIf="authenticated" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-      [routerLink]="['/profile', currentUser.usuario]">
-      <ion-avatar slot="start">
-        <img [src]="currentUser.avatar" *ngIf="currentUser.avatar"
-          alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
+    <ion-item slot="end">
+      <ion-avatar *ngIf="!authenticated" [routerLink]="['/login']">
+          <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
+              alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
       </ion-avatar>
-    </ion-item>
-    <ion-avatar *ngIf="!authenticated" slot="end">
-      <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
-        alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
-    </ion-avatar>
-    <ion-avatar slot="start" slot="end" *ngIf="authenticated" routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }" [routerLink]="['/profile', currentUser.usuario]">
-      <img [src]="currentUser.avatar"
-        alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
-    </ion-avatar>
+      <ion-avatar *ngIf="authenticated" [routerLink]="['/profile', currentUser.usuario]" >
+          <img [src]="currentUser.avatar" *ngIf="currentUser.avatar"
+              alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
+      </ion-avatar>
+  </ion-item>
   </ion-toolbar>
+  <ion-segment [(ngModel)]="tab_active" value = 'book'>
+    <ion-segment-button value="book" (click)="setab('book')">
+      <ion-icon name="bookmarks"></ion-icon>Libros
+    </ion-segment-button>
+    <ion-segment-button value="coffee" (click)="setab('coffee')">
+      <ion-icon name="cafe"></ion-icon>Cafés
+    </ion-segment-button>
+  </ion-segment>
+
 </ion-header>
 <ion-content>
-  <ion-grid *ngIf="tab_active === 1">
+  <ion-grid *ngIf="tab_active === 'book'">
     <ion-row *ngFor="let info of infos; let i of index" [ngStyle]="{'width': 320, 'height': 510}"
       routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/details/{{info.id}}">
       <ion-col>
@@ -59,7 +54,8 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-grid *ngIf="tab_active === 2">
+
+  <ion-grid *ngIf="tab_active === 'coffee'">
     <ion-row *ngFor="let info of coffees" [ngStyle]="{'width': 320, 'height': 510}" routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }" routerLink="/coffeedetails/{{info.id}}">
       <ion-col>
@@ -71,7 +67,6 @@
             <ion-buttons slot="start">
               <ion-icon name="heart" [color]="color" (click)="clickEventHandler($event.target)"></ion-icon>
             </ion-buttons>
-
             <ion-title routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
               routerLink="/coffeedetails/{{info.id}}">{{info.name}}</ion-title>
             <ion-buttons slot="end">
@@ -83,4 +78,5 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
 </ion-content>

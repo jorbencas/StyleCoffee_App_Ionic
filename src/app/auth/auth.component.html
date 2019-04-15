@@ -3,10 +3,16 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>
-      {{title}}
-    </ion-title>
+    <ion-title> {{title}} </ion-title>
   </ion-toolbar>
+  <ion-segment [(ngModel)]="tabs" value='login'>
+    <ion-segment-button value="login"  (ionSelect)="segmentButtonClicked($event)">
+      <ion-icon name="person"></ion-icon>Iniciar Sessión
+    </ion-segment-button>
+    <ion-segment-button value="register"  (ionSelect)="segmentButtonClicked($event)">
+      <ion-icon name="person"></ion-icon>Registrar-se
+    </ion-segment-button>
+  </ion-segment>
 </ion-header>
 
 <ion-content>
@@ -20,7 +26,7 @@
                 class="form-control form-control-lg"
                 type="text"></ion-input>
             </ion-item>
-            <ion-item *ngIf="avaible">
+            <ion-item *ngIf="tabs === 'register'">
                 <ion-input
                 formControlName="email"
                 placeholder="Email"
@@ -34,7 +40,7 @@
                 class="form-control form-control-lg"
                 type="password"></ion-input>
             </ion-item>
-            <ion-item *ngIf="avaible">
+            <ion-item *ngIf="tabs === 'register'">
               <ion-icon name="people"></ion-icon>
               <ion-label>"Tipo de usuario"</ion-label>
               <ion-select placeholder="Eligue el tipo de usuario" 
@@ -43,11 +49,6 @@
                 <ion-select-option value="client">Client</ion-select-option>
               </ion-select>
             </ion-item>
-            <ion-item>
-                <ion-button *ngIf="avaible" routerLink="/login" >Entrar</ion-button>
-                <ion-button *ngIf="!avaible" routerLink="/register">Registr-se</ion-button>
-              </ion-item>
-
             <ion-button class="btn btn-lg btn-primary pull-xs-right" [disabled]="!authForm.valid" type="submit">
                 <ion-icon name="person"></ion-icon>{{ title }}
             </ion-button>

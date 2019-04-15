@@ -15,7 +15,8 @@ export class AuthComponent implements OnInit {
   errors: Errors = {errors: {}};
   isSubmitting = false;
   authForm: FormGroup;
-  avaible = true;
+
+  tabs  = 'login';
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -37,14 +38,19 @@ export class AuthComponent implements OnInit {
       this.authType = data[data.length - 1].path;
       // Set a title for the page accordingly
       this.title = (this.authType === 'login') ? 'Login' : 'Registro';
-      // add form control for username if this is the register page
-      if (this.authType === 'login') {
-        this.avaible = false;
-        this.authForm.removeControl('email');
-        this.authForm.removeControl('tipo');
-      }
-      console.log(this.avaible);
     });
+  }
+
+  segmentButtonClicked(ev: any) {
+    if(ev == 'register'){
+      this.tabs = 'register';
+      this.authForm.removeControl('email');
+    }else{
+      this.tabs = 'login';
+      this.authForm.addControl('email', new  FormControl('', Validators.required));
+    }
+    
+    console.log('Segment button clicked', ev);
   }
 
   submitForm() {
