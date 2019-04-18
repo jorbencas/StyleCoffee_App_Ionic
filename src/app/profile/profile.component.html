@@ -21,51 +21,50 @@
         <ion-button *ngIf="avaible" (click)="changeavatar()">Cambiar la foto</ion-button>
 
         <ion-list>
-
             <ion-item>
                 <ion-label *ngIf="!avaible" >{{ currentUser.usuario }}</ion-label>
                 <ion-input *ngIf="avaible" formControlName="usuario" placeholder="Username" class="form-control form-control-lg"
-                    type="text"></ion-input>
+                    type="text" value="{{ currentUser.usuario }}"></ion-input>
             </ion-item>
 
             <ion-item>
                 <ion-label *ngIf="!avaible" >{{currentUser.email}}</ion-label>
-                <ion-input *ngIf="avaible" formControlName="email" placeholder="Email" class="form-control form-control-lg" type="text">
+                <ion-input *ngIf="avaible" formControlName="email" placeholder="Email" class="form-control form-control-lg" type="text" value="{{currentUser.email}}">
                 </ion-input>
             </ion-item>
 
             <ion-item>
                 <ion-icon name="people"></ion-icon>
                 <ion-label>"Tipo de usuario"</ion-label>
-                <!-- <ion-select placeholder="Eligue el tipo de usuario" formControlName="tipo"></ion-select>
-      <ion-select-option value="admin">Admin</ion-select-option>
-      <ion-select-option value="client">Client</ion-select-option>
-    </ion-select> -->
+                <ion-select placeholder="Eligue el tipo de usuario" formControlName="tipo" value="{{currentUser.tipo}}">
+                    <ion-select-option value="admin">Admin</ion-select-option>
+                    <ion-select-option value="client">Client</ion-select-option>
+                </ion-select>
             </ion-item>
 
 
             <ion-item>
                 <ion-label *ngIf="!avaible" >{{currentUser.password}}</ion-label>
                 <ion-input *ngIf="avaible" formControlName="password" placeholder="Password" class="form-control form-control-lg"
-                    type="password"></ion-input>
+                    type="password" value="{{currentUser.password}}"></ion-input>
             </ion-item>
 
             <ion-item>
                     <ion-label *ngIf="!avaible" >{{currentUser.pais}}</ion-label>
                     <ion-input *ngIf="avaible" formControlName="pais" placeholder="Pais" class="form-control form-control-lg"
-                        type="text"></ion-input>
+                        type="text" value="{{currentUser.pais}}"></ion-input>
                 </ion-item>
 
                 <ion-item>
                         <ion-label *ngIf="!avaible" >{{currentUser.provincia}}</ion-label>
                         <ion-input *ngIf="avaible" formControlName="provincia" placeholder="Provincia" class="form-control form-control-lg"
-                            type="text"></ion-input>
+                            type="text" value="{{currentUser.provincia}}"></ion-input>
                     </ion-item>
 
                     <ion-item>
                             <ion-label *ngIf="!avaible" >{{currentUser.poblacion}}</ion-label>
                             <ion-input *ngIf="avaible" formControlName="poblacion" placeholder="poblacion" class="form-control form-control-lg"
-                                type="text"></ion-input>
+                                type="text" value="{{currentUser.poblacion}}"></ion-input>
                         </ion-item>
 
         </ion-list>

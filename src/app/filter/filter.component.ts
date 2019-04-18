@@ -9,7 +9,11 @@ import { ModalController } from '@ionic/angular';
 })
 export class FilterComponent  implements AfterViewInit {
 
-  tracks: {name: string, isChecked: boolean}[] = [];
+  tracks: {name: string, value: string}[] = [];
+  tags1 = ["Novela Negra", " Novela Contemporania", "Drama", "Romance", "Acción", "Thriller", "Comedia", 
+  " Novela Juvenil", "Infantil", "Libros de Auto ayuda"]
+  tags2 = ["Capuchino", "Bombón" , "Descafeinado", "Cortado", "Café solo", "Cafe con leche", "Expreso Doble",
+  "Café Jamaicano", "Làgrima", "Instantaneo"]
 
   constructor(
     public modalCtrl: ModalController
@@ -18,26 +22,13 @@ export class FilterComponent  implements AfterViewInit {
   // TODO use the ionViewDidEnter event
   ngAfterViewInit() {
     // passed in array of track names that should be excluded (unchecked)
-    
-  }
-
-  resetFilters() {
-    // reset all of the toggles to be checked
-    this.tracks.forEach(track => {
-      track.isChecked = true;
+    this.tags1.forEach(element => {
+      console.log(element);
+      this.tracks.push({"name":element, "value":element.toLowerCase().replace(" ", "") });
     });
-  }
-
-  applyFilters() {
-    // Pass back a new array of track names to exclude
-    const excludedTrackNames = this.tracks.filter(c => !c.isChecked).map(c => c.name);
-    this.dismiss(excludedTrackNames);
-  }
-
-  dismiss(data?: any) {
-    // using the injected ModalController this page
-    // can "dismiss" itself and pass back data
-    this.modalCtrl.dismiss(data);
+    this.tags2.forEach(element => {
+      this.tracks.push({"name":element, "value":element.toLowerCase().replace(" ", "") });
+    });
   }
 
 }

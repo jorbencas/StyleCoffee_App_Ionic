@@ -145,6 +145,28 @@ export class UserService {
     }));
   }
 
+  addFavorite( id: number){
+    return this.apiService.get('collection&function=addfavorite&param='+id)
+    .pipe(map(data => {
+      if(data.success){
+        this.sendNotification("Se ha añadido con exito");
+      }else{
+        this.sendNotification(data.error);
+      }
+    }));
+  }
+
+  removeFavorite( id: number){
+    return this.apiService.get('collection&function=removefavorite&param='+id)
+    .pipe(map(data => {
+      if(data.success){
+        this.sendNotification("Se ha eliminado de favoritos  con exito");
+      }else{
+        this.sendNotification(data.error);
+      }
+    }));
+  }
+
   // Update the user on the server (email, pass, etc)
   update(user): Observable<User> {
     return this.apiService.put('user&function=modify', { user })

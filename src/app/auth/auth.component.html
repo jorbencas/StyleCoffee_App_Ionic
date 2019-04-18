@@ -42,14 +42,14 @@
             </ion-item>
             <ion-item *ngIf="tabs === 'register'">
               <ion-icon name="people"></ion-icon>
-              <ion-label>"Tipo de usuario"</ion-label>
+              <ion-label>Tipo de usuario</ion-label>
               <ion-select placeholder="Eligue el tipo de usuario" 
               formControlName="tipo">
                 <ion-select-option value="admin">Admin</ion-select-option>
                 <ion-select-option value="client">Client</ion-select-option>
               </ion-select>
             </ion-item>
-            <ion-button class="btn btn-lg btn-primary pull-xs-right" [disabled]="!authForm.valid" type="submit">
+            <ion-button class="btn btn-lg btn-primary pull-xs-right" type="submit">
                 <ion-icon name="person"></ion-icon>{{ title }}
             </ion-button>
           </ion-list>

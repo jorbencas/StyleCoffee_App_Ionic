@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as firebase from 'firebase';
+import { BookService } from '../core';
 
 @Component({
   selector: 'app-details',
@@ -11,32 +12,18 @@ import * as firebase from 'firebase';
 export class DetailsPage implements OnInit  {
 
   infos = [];
-  ref = firebase.database().ref('pictures');
-  id = 0;
-  constructor(private route: ActivatedRoute, private router: Router){
+  constructor(private route: ActivatedRoute, private router: Router, private BookService: BookService){
    
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.id = params['id'];
-       this.ref.on('value', resp => {
-        this.infos = [];
-        this.infos = this.snapshotToArray(resp);
-      }); 
+      let id = params['id'];
+      this.BookService.getBook(id).subscribe(book =>{
+        this.infos = book;
+      });
     });
   }
 
-  snapshotToArray(snapshot) {
-    let returnArr = [];
   
-    snapshot.forEach(childSnapshot => {
-      let item = childSnapshot.val();
-      console.log(item);
-      console.log(this.id);
-      if(item.id === this.id)
-      returnArr.push(item);
-  });
-  return returnArr;
-  }
 }

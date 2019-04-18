@@ -10,4 +10,5 @@ export interface User {
  pais: string;
  provincia: string;
  poblacion: string;
+ genere:string;
 }

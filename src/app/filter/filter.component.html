@@ -1,34 +1,7 @@
-<ion-header>
-  <ion-toolbar >
-    <ion-buttons slot="start">
-      <ion-button (click)="dismiss()">Cancel</ion-button>
-    </ion-buttons>
-
-    <ion-title>
-      Filtros
-    </ion-title>
-
-    <ion-buttons slot="end">
-      <ion-button (click)="applyFilters()" strong>Done</ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-  <ion-list>
-    <ion-list-header>Tracks</ion-list-header>
-
-    <ion-item *ngFor="let track of tracks" [attr.track]="track.name | lowercase">
-      <span slot="start" class="dot"></span>
-      <ion-label>{{track.name}}</ion-label>
-      <ion-toggle  color="success"></ion-toggle>
-    </ion-item>
-
-  </ion-list>
-
-  <ion-list>
-    <ion-item (click)="resetFilters()" detail="false" class="reset-filters">
-      Reset All Filters
-    </ion-item>
-  </ion-list>
+  <div [ngStyle]="{'overflow-x': auto}">
+      <ion-chip *ngFor="let track of tracks" [routerLink]="['/tabs/tab1/{track.value}']">
+        <ion-text>{{track.name}}</ion-text>
+      </ion-chip>
+  </div>
 </ion-content>

@@ -9,11 +9,14 @@ import { CollectionsService } from '../core';
 export class CollectionsListComponent implements OnInit {
 
   constructor( private Collectionsservices: CollectionsService) { }
-  products = [];
+  collections = [];
   ngOnInit() {
    /*  this.Collectionsservices.getAllProducts().subscribe(products =>{
-      this.products.push(products);
+      this.collections.push(products);
     }); */
   }
 
+  delete(collection){
+    
+  }
 }

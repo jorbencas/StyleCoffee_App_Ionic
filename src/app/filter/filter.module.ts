@@ -5,7 +5,6 @@ import { FilterRoutingModule } from './filter-routing.module';
 import { IonicModule } from '@ionic/angular';
 
 @NgModule({
-  declarations: [FilterComponent],
   imports: [
     CommonModule,
     FilterRoutingModule,

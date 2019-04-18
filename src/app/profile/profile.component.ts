@@ -107,6 +107,8 @@ avaible = false;
     Object.assign(this.user, values);
   }
 
+  
+
 }
 
 

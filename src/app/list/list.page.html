@@ -4,25 +4,21 @@
           <ion-back-button></ion-back-button>
       </ion-buttons>
       <ion-title>
-        List
+        Favorites
       </ion-title>
     </ion-toolbar>
   </ion-header>
   
   <ion-content>
     <ion-list>
-      <ion-item *ngFor="let item of items">
-        <ion-icon [name]="item.icon" slot="start"></ion-icon>
-        {{item.title}}
+      <ion-item *ngFor="let item of items" routerLink="/details/{{item.id}}">
+        <ion-img slot="start">
+            {{item.image}}
+        </ion-img>
         <div class="item-note" slot="end">
-          {{item.note}}
+          {{item.titulo}}
         </div>
       </ion-item>
     </ion-list>
-    <!--
-      <div *ngIf="selectedItem" padding>
-        You navigated here from <b>{{selectedItem.title }}</b>
-      </div>
-    -->
   </ion-content>
   

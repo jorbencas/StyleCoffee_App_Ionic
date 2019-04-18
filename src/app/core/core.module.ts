@@ -11,7 +11,7 @@ import {
   BookService,
   ReserveService,
   CoffeeService,
-  XatService,
+  FavoriteService,
   CollectionsService
 } from './services';
 
@@ -29,7 +29,7 @@ import {
     BookService,
     ReserveService,
     CoffeeService,
-    XatService,
+    FavoriteService,
     CollectionsService
   ],
   declarations: []
