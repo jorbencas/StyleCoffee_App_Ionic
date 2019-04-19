@@ -92,9 +92,7 @@ avaible = false;
     // update the model
     this.updateUser(this.profileForm.value);
 
-    this.userService
-      .update(this.user)
-      .subscribe(
+    this.userService.update(this.user).subscribe(
         updatedUser => this.router.navigateByUrl('/profile'),
         err => {
           this.errors = err;

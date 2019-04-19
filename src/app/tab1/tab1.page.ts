@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as firebase from 'firebase';
+/* import * as firebase from 'firebase'; */
 import { AlertController, IonList, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { CoffeeService, User, UserService, BookService, FavoriteService } from '../core';
 
@@ -9,18 +9,20 @@ import { CoffeeService, User, UserService, BookService, FavoriteService } from '
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
+
 export class Tab1Page implements OnInit {
   constructor(
     public alertCtrl: AlertController,
     private route: ActivatedRoute,
     private router: Router,
     public loadingController: LoadingController,
-    private toastCtrl : ToastController,
+    private toastCtrl: ToastController,
     public modalCtrl: ModalController,
-    private CoffeeService:CoffeeService,
+    private CoffeeService: CoffeeService,
     private BookService: BookService,
     private userService: UserService,
-    private  FavoriteService: FavoriteService) { }
+    private FavoriteService: FavoriteService
+  ) { }
 
   infos = [];
   color = 'default';
@@ -31,82 +33,115 @@ export class Tab1Page implements OnInit {
   tab_active = 'book';
   coffees = [];
   contentavaible = false;
+
   ngOnInit(): void {
+
+    
+  /*   this.BookService.createBook(book).subscribe(book =>{
+      console.log(book);
+    }); */
+    
     this.presentLoading();
 
     this.route.params.subscribe(param => {
       let genere = param['genere'];
       let kind = param['kind'];
 
-      if(genere){
-        this.BookService.getBookbyGenere(genere).subscribe(book =>{
+      if (genere) {
+        this.BookService.getBookbyGenere(genere).subscribe(book => {
           this.infos.push(book);
         });
-      }else if (kind) {
-        
+      } else if (kind) {
         this.CoffeeService.getByKind(kind).subscribe(coffee => {
           this.coffees.push(coffee);
         });
-      }else{
+      } else {
         this.BookService.getAll().subscribe(book => {
           this.infos.push(book);
         });
-    
-        this.CoffeeService.getAllcoffe().subscribe(coffees =>{
+        this.CoffeeService.getAllcoffe().subscribe(coffees => {
           this.coffees.push(coffees);
         });
+      }
+    });
 
-        if(this.coffees.length > 0 || this.infos.length > 0){
-          this.contentavaible = true;
-        }
-        
-      }
-    })
-   
-   if(!this.authenticated){
-    this.userService.currentUser.subscribe(
-      (userData) => {
-        this.currentUser = userData;
-        if(this.currentUser.usuario !== '') this.authenticated = true;
-      }
-    );
-   }
-    
+    this.cangetdata();
+    this.cangetauth();
+
     setTimeout(() => { this.stopLoading() }, 1000);
   }
 
-  setab(tab: string) { this.tab_active = tab};
+  setab(tab: string) {
+    this.tab_active = tab;
+    this.cangetdata();
+    console.log(this.contentavaible);
+  };
 
+  cangetdata() {
+    if (this.tab_active === 'book' && this.infos.length > 0) {
+      this.contentavaible = true;
+    } else if (this.tab_active === 'coffee' && this.coffees.length > 0) {
+      this.contentavaible = true;
+    } else {
+      this.contentavaible = false;
+    }
+  }
 
-  async removeFavorite(id){
-    // create an alert instance
-    const alert = await this.alertCtrl.create({
-      header: 'Favorite removed',
-      buttons: [{
-        text: 'OK'
-      }]
-    });
-    this.FavoriteService.removeFavorite(id);
-    
-    // now present the alert on top of all other content
-    await alert.present();
+  cangetauth() {
+    if (!this.authenticated) {
+      this.userService.currentUser.subscribe(
+        (userData) => {
+          this.currentUser = userData;
+          if (this.currentUser.usuario !== '') this.authenticated = true;
+        }
+      );
+    }
+  }
+
+  async removeFavorite(id) {
+    if (this.hasFavorite(id)) {
+      // create an alert instance
+      const alert = await this.alertCtrl.create({
+        header: 'Favorite removed',
+        buttons: [{
+          text: 'OK'
+        }]
+      });
+      this.FavoriteService.removeFavorite(id);
+
+      // now present the alert on top of all other content
+      await alert.present();
+    }
   };
 
   async addFavorite(id) {
-     // create an alert instance
-     const alert = await this.alertCtrl.create({
-      header: 'Favorite Added',
-      buttons: [{
-        text: 'OK'
-      }]
-    });
-    
-    this.FavoriteService.addFavorite(id);
+    // create an alert instance
+    if (this.hasFavorite(id)) {
+      const alert = await this.alertCtrl.create({
+        header: 'Favorite Added',
+        buttons: [{
+          text: 'OK'
+        }]
+      });
 
-    // now present the alert on top of all other content
-    await alert.present();
+      this.FavoriteService.addFavorite(id);
+
+      // now present the alert on top of all other content
+      await alert.present();
+    }
+
   }
 
+  hasFavorite(id) {
+    let favorite = false;
+    this.infos.forEach((item, i) => {
+      if (item.id === id) {
+        if (item.favorite) favorite = false;
+        else favorite = true;
+      }
+    });
+    return favorite;
+  }
   async presentLoading() {
     const loading = await this.loadingController.create({
       spinner: 'bubbles',
@@ -122,7 +157,6 @@ export class Tab1Page implements OnInit {
     return await this.loadingController.dismiss();
   }
 
- 
   clickEventHandler(event) {
     if (event.color === 'default') {
       event.color = 'danger';
@@ -133,24 +167,24 @@ export class Tab1Page implements OnInit {
     }
   }
 
-  clickEventHandlerSave(event){
-    if(event.colorSecundary === 'dark'){
-      event.colorSecundary = 'default'
-    }else{
+  clickEventHandlerSave(event) {
+    if (event.colorSecundary === 'dark') {
+      this.colorSecundary = 'default';
+      event.colorSecundary = this.colorSecundary;
+    } else {
       this.colorSecundary = 'dark';
-      event.colorSecundary = this.colorSecundary
+      event.colorSecundary = this.colorSecundary;
     }
 
   }
 
-  doRefresh(event){
-    console.log('Begin async operation');
-    if(this.tab_active === 'book'){
+  doRefresh(event) {
+    if (this.tab_active === 'book') {
       this.BookService.getAll().subscribe(book => {
         this.infos.push(book);
       });
-    }else if (this.tab_active === 'coffee'){
-      this.CoffeeService.getAllcoffe().subscribe(coffees =>{
+    } else if (this.tab_active === 'coffee') {
+      this.CoffeeService.getAllcoffe().subscribe(coffees => {
         this.coffees.push(coffees);
       });
     }

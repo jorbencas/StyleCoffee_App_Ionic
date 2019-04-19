@@ -42,11 +42,8 @@ export class AppComponent implements OnInit {
     this.initializeApp();
   }
 
-  
  showSplash = true; // <-- show animation
- currentUser: User;
- busqueda: '';
- authenticated = false;
+
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
@@ -61,13 +58,4 @@ export class AppComponent implements OnInit {
     this.userService.populate();
   }
 
-  logout() {
-    this.userService.purgeAuth();
-    this.router.navigateByUrl('/');
-  }
-  
-  /* if (!localStorage.getItem('theme')) {
-    localStorage.setItem('theme', 'white');
-  } */
-  
 }

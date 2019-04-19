@@ -25,4 +25,13 @@ export class BookService {
     .pipe(map(data => data.book));
   }
 
+  createBook(book){
+    return this.apiService.post('book&function=createbook', book).pipe(map(data => {
+      if (data.success) {
+        console.log(data.message);
+      }else{
+        console.log(data.message);
+      }
+    }))
+  }
 }

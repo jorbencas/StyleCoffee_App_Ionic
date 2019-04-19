@@ -11,16 +11,16 @@
     </ion-buttons>
     <ion-item slot="end">
       <ion-avatar *ngIf="!authenticated" [routerLink]="['/login']">
-          <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
-              alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
+        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
+          alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
       </ion-avatar>
-      <ion-avatar *ngIf="authenticated" [routerLink]="['/profile', currentUser.usuario]" >
-          <img [src]="currentUser.avatar" *ngIf="currentUser.avatar"
-              alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
+      <ion-avatar *ngIf="authenticated" [routerLink]="['/profile', currentUser.usuario]">
+        <img [src]="currentUser.avatar" *ngIf="currentUser.avatar"
+          alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
       </ion-avatar>
-  </ion-item>
+    </ion-item>
   </ion-toolbar>
-  <ion-segment [(ngModel)]="tab_active" value = 'book'>
+  <ion-segment [(ngModel)]="tab_active" value='book'>
     <ion-segment-button value="book" (click)="setab('book')">
       <ion-icon name="bookmarks"></ion-icon>Libros
     </ion-segment-button>
@@ -28,26 +28,64 @@
       <ion-icon name="cafe"></ion-icon>Cafés
     </ion-segment-button>
   </ion-segment>
-
 </ion-header>
+
 <ion-content>
-    <ion-grid *ngIf="!contentavaible">
-        <ion-row>
+
+    <div *ngIf="!contentavaible">
+        <div class="ion-padding custom-skeleton">
+          <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </div>
+        <div>
+          <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+        </div>
+        <ion-grid>
+          <ion-row [ngStyle]="{'width': 320, 'height': 510}">
             <ion-col>
-            <ion-item>
-                <ion-icon *ngIf="tab_active === 'book'"  name="bookmarks" text-center ></ion-icon>
-                <ion-icon *ngIf="tab_active === 'coffee'" name="cafe"text-center ></ion-icon>
-                <ion-text text-center >No hay {{tab_active}} disponibles!!!</ion-text>
-              </ion-item>
+              <ion-list>
+                <ion-item>
+                  <ion-avatar slot="start">
+                    <ion-skeleton-text animated></ion-skeleton-text>
+                  </ion-avatar>
+                </ion-item>
+                <ion-item>
+                  <ion-buttons slot="start">
+                    <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+                  </ion-buttons>
+                  <p>
+                    <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+                  </p>
+                  <ion-buttons slot="end">
+                    <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+                  </ion-buttons>
+                </ion-item>
+              </ion-list>
             </ion-col>
           </ion-row>
         </ion-grid>
+      </div>
 
-  <ion-grid *ngIf=" contentavaible &&  tab_active === 'book'">
-      <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-          <ion-refresher-content></ion-refresher-content>
-        </ion-refresher>
-    <app-filter></app-filter>
+  <ion-grid *ngIf="!contentavaible">
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-icon *ngIf="tab_active === 'book'" name="bookmarks" text-center></ion-icon>
+          <ion-icon *ngIf="tab_active === 'coffee'" name="cafe" text-center></ion-icon>
+          <ion-text text-center> No hay {{tab_active}} disponibles!!!</ion-text>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <ion-grid *ngIf=" contentavaible && tab_active === 'book'">
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <!-- <app-filter></app-filter> -->
     <ion-row *ngFor="let info of infos; let i of index" [ngStyle]="{'width': 320, 'height': 510}"
       routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/details/{{info.id}}">
       <ion-col>
@@ -57,7 +95,8 @@
           </ion-item>
           <ion-item *ngIf="authenticated">
             <ion-buttons slot="start">
-              <ion-icon name="heart" id="{{info.id}}" [color]="color" (click)="clickEventHandler($event.target)"></ion-icon>
+              <ion-icon name="heart" id="{{info.id}}" [color]="color" (click)="clickEventHandler($event.target)">
+              </ion-icon>
             </ion-buttons>
             <ion-title routerLinkActive="active" id="{{info.id}}" [routerLinkActiveOptions]="{ exact: true }"
               routerLink="/details/{{info.id}}">{{info.displayName}}</ion-title>
@@ -72,10 +111,10 @@
   </ion-grid>
 
   <ion-grid *ngIf="contentavaible && tab_active === 'coffee'">
-    <app-filter></app-filter>
+    <!-- <app-filter></app-filter> -->
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content></ion-refresher-content>
-      </ion-refresher>
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
     <ion-row *ngFor="let info of coffees" [ngStyle]="{'width': 320, 'height': 510}" routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }" routerLink="/coffeedetails/{{info.id}}">
       <ion-col>
@@ -94,10 +133,8 @@
               </ion-icon>
             </ion-buttons>
           </ion-item>
-          </ion-list>
+        </ion-list>
       </ion-col>
     </ion-row>
   </ion-grid>
-
-
 </ion-content>

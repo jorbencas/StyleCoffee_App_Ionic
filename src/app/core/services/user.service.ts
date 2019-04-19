@@ -29,13 +29,16 @@ export class UserService {
     // If JWT detected, attempt to get & store user's info
     if (this.jwtService.getToken()) {
       const token = this.jwtService.getToken();
-      this.apiService.post('user&function=getuser',{token: token})
-      .pipe(map(
+      this.apiService.post('user&function=getuser',{"token": token})
+      .subscribe(
         data => {
-          this.setAuth(data.user[0]);
-          return data;
-        },err => {return err;}
-      ));
+          if(data.success){
+            this.setAuth(data.user);
+          }else{
+            this.sendNotification(data.error);
+          }
+        }
+      );
     } else {
       // Remove any potential remnants of previous auth states
       this.purgeAuth();
@@ -94,8 +97,7 @@ export class UserService {
       if(data.success){
         this.sendNotification("Todo realizado con exito");
         // Update the currentUser observable
-        this.currentUserSubject.next(data.user[0]);
-        return data.user[0];
+        this.currentUserSubject.next(data.user);
       }else{
         this.sendNotification(data.error);
       }
@@ -174,7 +176,7 @@ export class UserService {
       if(data.success){
         this.sendNotification("Todo realizado con exito");
         // Update the currentUser observable
-        this.currentUserSubject.next(data.user[0]);
+        this.currentUserSubject.next(data.user);
         return data.user[0];
       }else{
         this.sendNotification(data.error);
