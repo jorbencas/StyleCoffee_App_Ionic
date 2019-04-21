@@ -14,13 +14,14 @@ export class FavoriteService {
     .pipe(map(data => data.favorite));
   }
 
-  addFavorite(id: number): Observable<[string]>{
-    return this.apiService.get('user&function=addFavorite&param=' + id)
+  addFavorite(id: string, user: string): Observable<[string]>{
+    console.log("ISBN: " + id)
+    return this.apiService.get('book&function=addFavorite&param=' + id + '&param2=' + user)
     .pipe(map(data => data.favorite));
   }
 
-  removeFavorite(id: number): Observable<[string]>{
-    return this.apiService.get('user&function=removeFavorite&param=' + id)
+  removeFavorite(id: number, user: string): Observable<[string]>{
+    return this.apiService.get('user&function=removeFavorite&param=' + id + '&param2=' + user)
     .pipe(map(data => data.favorite));
   }
 

@@ -64,7 +64,8 @@ export class Tab1Page implements OnInit {
         });
       }
     });
-
+    console.log( this.infos.length);
+    console.log(this.coffees.length);
     this.cangetdata();
     this.cangetauth();
 
@@ -107,7 +108,9 @@ export class Tab1Page implements OnInit {
           text: 'OK'
         }]
       });
-      this.FavoriteService.removeFavorite(id);
+
+      let user = this.currentUser.usuario;
+      this.FavoriteService.removeFavorite(id, user);
 
       // now present the alert on top of all other content
       await alert.present();
@@ -124,7 +127,8 @@ export class Tab1Page implements OnInit {
         }]
       });
 
-      this.FavoriteService.addFavorite(id);
+      let user = this.currentUser.usuario;
+      this.FavoriteService.addFavorite(id,user);
 
       // now present the alert on top of all other content
       await alert.present();
@@ -135,7 +139,7 @@ export class Tab1Page implements OnInit {
   hasFavorite(id) {
     let favorite = false;
     this.infos.forEach((item, i) => {
-      if (item.id === id) {
+      if (item.isbn === id) {
         if (item.favorite) favorite = false;
         else favorite = true;
       }

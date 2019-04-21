@@ -12,24 +12,25 @@
 <ion-content>
     <form [formGroup]="profileForm" (ngSubmit)="submitForm()">
         <ion-item>
-                <ion-avatar>
-                        <img [src]="currentUser.avatar" *ngIf="!avaible" 
-                            alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
-                    </ion-avatar>
+            <ion-avatar>
+                <img [src]="currentUser.avatar" *ngIf="!avaible"
+                    alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
+            </ion-avatar>
         </ion-item>
-        
+
         <ion-button *ngIf="avaible" (click)="changeavatar()">Cambiar la foto</ion-button>
 
         <ion-list>
             <ion-item>
-                <ion-label *ngIf="!avaible" >{{ currentUser.usuario }}</ion-label>
-                <ion-input *ngIf="avaible" formControlName="usuario" placeholder="Username" class="form-control form-control-lg"
-                    type="text" value="{{ currentUser.usuario }}"></ion-input>
+                <ion-label *ngIf="!avaible">{{ currentUser.usuario }}</ion-label>
+                <ion-input *ngIf="avaible" formControlName="usuario" placeholder="Username"
+                    class="form-control form-control-lg" type="text" value="{{ currentUser.usuario }}"></ion-input>
             </ion-item>
 
             <ion-item>
-                <ion-label *ngIf="!avaible" >{{currentUser.email}}</ion-label>
-                <ion-input *ngIf="avaible" formControlName="email" placeholder="Email" class="form-control form-control-lg" type="text" value="{{currentUser.email}}">
+                <ion-label *ngIf="!avaible">{{currentUser.email}}</ion-label>
+                <ion-input *ngIf="avaible" formControlName="email" placeholder="Email"
+                    class="form-control form-control-lg" type="text" value="{{currentUser.email}}">
                 </ion-input>
             </ion-item>
 
@@ -44,29 +45,28 @@
 
 
             <ion-item>
-                <ion-label *ngIf="!avaible" >{{currentUser.password}}</ion-label>
-                <ion-input *ngIf="avaible" formControlName="password" placeholder="Password" class="form-control form-control-lg"
-                    type="password" value="{{currentUser.password}}"></ion-input>
+                <ion-label *ngIf="!avaible">{{currentUser.password}}</ion-label>
+                <ion-input *ngIf="avaible" formControlName="password" placeholder="Password"
+                    class="form-control form-control-lg" type="password" value="{{currentUser.password}}"></ion-input>
             </ion-item>
 
             <ion-item>
-                    <ion-label *ngIf="!avaible" >{{currentUser.pais}}</ion-label>
-                    <ion-input *ngIf="avaible" formControlName="pais" placeholder="Pais" class="form-control form-control-lg"
-                        type="text" value="{{currentUser.pais}}"></ion-input>
-                </ion-item>
+                <ion-label *ngIf="!avaible">{{currentUser.pais}}</ion-label>
+                <ion-input *ngIf="avaible" formControlName="pais" placeholder="Pais"
+                    class="form-control form-control-lg" type="text" value="{{currentUser.pais}}"></ion-input>
+            </ion-item>
 
-                <ion-item>
-                        <ion-label *ngIf="!avaible" >{{currentUser.provincia}}</ion-label>
-                        <ion-input *ngIf="avaible" formControlName="provincia" placeholder="Provincia" class="form-control form-control-lg"
-                            type="text" value="{{currentUser.provincia}}"></ion-input>
-                    </ion-item>
+            <ion-item>
+                <ion-label *ngIf="!avaible">{{currentUser.provincia}}</ion-label>
+                <ion-input *ngIf="avaible" formControlName="provincia" placeholder="Provincia"
+                    class="form-control form-control-lg" type="text" value="{{currentUser.provincia}}"></ion-input>
+            </ion-item>
 
-                    <ion-item>
-                            <ion-label *ngIf="!avaible" >{{currentUser.poblacion}}</ion-label>
-                            <ion-input *ngIf="avaible" formControlName="poblacion" placeholder="poblacion" class="form-control form-control-lg"
-                                type="text" value="{{currentUser.poblacion}}"></ion-input>
-                        </ion-item>
-
+            <ion-item>
+                <ion-label *ngIf="!avaible">{{currentUser.poblacion}}</ion-label>
+                <ion-input *ngIf="avaible" formControlName="poblacion" placeholder="poblacion"
+                    class="form-control form-control-lg" type="text" value="{{currentUser.poblacion}}"></ion-input>
+            </ion-item>
         </ion-list>
         <ion-button class="btn btn-lg btn-primary pull-xs-right" type="submit">
             <ion-icon name="person"></ion-icon>Guardar cambios
@@ -74,15 +74,14 @@
 
     </form>
 
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end" #fab>
+        <ion-fab-list side="top">
+            <ion-fab-button color="primary" (click)="changeeditable()">
+                <ion-icon name="create"></ion-icon>Editar el prfil
+            </ion-fab-button>
+            <ion-fab-button color="danger" (click)="logout()">
+                <ion-icon name="log-out"></ion-icon>Cerrar session
+            </ion-fab-button>
+        </ion-fab-list>
+    </ion-fab>
 </ion-content>
-<ion-footer>
-    <ion-button name="pencil" (click)="changeeditable()" >Editar el prfil</ion-button>
-    <ion-button color="danger" (click)="logout()">Cerrar session</ion-button>
-</ion-footer>
-
-
-
-
-
-
-

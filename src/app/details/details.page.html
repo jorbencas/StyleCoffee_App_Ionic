@@ -9,15 +9,18 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <ion-item [ngStyle]="{'text-align': center}" *ngFor="let info of infos; let i of index">
-    <img width="320" src="{{info.image}}"  class="app-logo" alt="{{info.displayName}}">
-    <br>
-    <strong>{{info.image}}</strong>
-    <p>{{info.displayName}}</p>
-  </ion-item>
-  <ion-buttons>
-    <ion-button routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/reserve/add/{{id}}">Reservar</ion-button>
-    <ion-button >Favoritos</ion-button>
-  </ion-buttons>
+<ion-content ion-no-padding>
+  <ion-list *ngFor="let info of infos; let i of index">
+      <ion-item ion-no-padding [ngStyle]="{'text-align': center}" >
+          <ion-img width="320" src="{{info.image}}"  class="app-logo" alt="{{info.titulo}}"></ion-img>
+        </ion-item>
+        <ion-item>
+          <strong>{{info.titulo}}</strong>
+          <p>{{info.sinopsis}}</p>
+        </ion-item>
+        <ion-buttons>
+          <ion-button routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/reserve/add/{{isbn}}">Reservar</ion-button>
+          <ion-button >Favoritos</ion-button>
+        </ion-buttons>
+  </ion-list>
 </ion-content>

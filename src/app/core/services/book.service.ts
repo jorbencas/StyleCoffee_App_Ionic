@@ -20,7 +20,7 @@ export class BookService {
           .pipe(map(data => data.anime));
   }
   
-  getBook(id: number): Observable<[string]>{
+  getBook(id: string): Observable<[string]>{
     return this.apiService.get('book&function=getBookOne&param='+id)
     .pipe(map(data => data.book));
   }

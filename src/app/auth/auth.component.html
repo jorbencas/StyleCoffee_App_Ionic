@@ -5,12 +5,12 @@
     </ion-buttons>
     <ion-title> {{title}} </ion-title>
   </ion-toolbar>
-  <ion-segment [(ngModel)]="tabs" value='login'>
+  <ion-segment value='login'>
     <ion-segment-button value="login"  (ionSelect)="segmentButtonClicked($event)">
-      <ion-icon name="person"></ion-icon>Iniciar Sessión
+      <ion-icon name="log-in"></ion-icon>Iniciar Sessión
     </ion-segment-button>
     <ion-segment-button value="register"  (ionSelect)="segmentButtonClicked($event)">
-      <ion-icon name="person"></ion-icon>Registrar-se
+      <ion-icon name="person-add"></ion-icon>Registrar-se
     </ion-segment-button>
   </ion-segment>
 </ion-header>

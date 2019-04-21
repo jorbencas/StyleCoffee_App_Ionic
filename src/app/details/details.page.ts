@@ -12,15 +12,16 @@ import { BookService } from '../core';
 export class DetailsPage implements OnInit  {
 
   infos = [];
+  isbn = "";
   constructor(private route: ActivatedRoute, private router: Router, private BookService: BookService){
    
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      let id = params['id'];
-      this.BookService.getBook(id).subscribe(book =>{
-        this.infos = book;
+      this.isbn = params['isbn'];
+      this.BookService.getBook(this.isbn).subscribe(book =>{
+        this.infos.push(book);
       });
     });
   }

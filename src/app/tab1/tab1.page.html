@@ -32,41 +32,41 @@
 
 <ion-content>
 
-    <div *ngIf="!contentavaible">
-        <div class="ion-padding custom-skeleton">
-          <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
-          <ion-skeleton-text animated></ion-skeleton-text>
-        </div>
-        <div>
-          <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
-          <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
-          <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
-        </div>
-        <ion-grid>
-          <ion-row [ngStyle]="{'width': 320, 'height': 510}">
-            <ion-col>
-              <ion-list>
-                <ion-item>
-                  <ion-avatar slot="start">
-                    <ion-skeleton-text animated></ion-skeleton-text>
-                  </ion-avatar>
-                </ion-item>
-                <ion-item>
-                  <ion-buttons slot="start">
-                    <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
-                  </ion-buttons>
-                  <p>
-                    <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
-                  </p>
-                  <ion-buttons slot="end">
-                    <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
-                  </ion-buttons>
-                </ion-item>
-              </ion-list>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </div>
+  <div *ngIf="!contentavaible">
+    <div class="ion-padding custom-skeleton">
+      <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </div>
+    <div>
+      <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+    </div>
+    <ion-grid>
+      <ion-row [ngStyle]="{'width': 320, 'height': 510}">
+        <ion-col>
+          <ion-list>
+            <ion-item>
+              <ion-avatar slot="start">
+                <ion-skeleton-text animated></ion-skeleton-text>
+              </ion-avatar>
+            </ion-item>
+            <ion-item>
+              <ion-buttons slot="start">
+                <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+              </ion-buttons>
+              <p>
+                <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+              </p>
+              <ion-buttons slot="end">
+                <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
+              </ion-buttons>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 
   <ion-grid *ngIf="!contentavaible">
     <ion-row>
@@ -81,27 +81,28 @@
   </ion-grid>
 
 
+  <app-filter *ngIf="contentavaible && tab_active === 'book'"></app-filter>
   <ion-grid *ngIf=" contentavaible && tab_active === 'book'">
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-    <!-- <app-filter></app-filter> -->
-    <ion-row *ngFor="let info of infos; let i of index" [ngStyle]="{'width': 320, 'height': 510}"
-      routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/details/{{info.id}}">
-      <ion-col>
+    <ion-row>
+      <ion-col *ngFor="let info of infos; let i of index" [ngStyle]="{'width': 320, 'height': 510}"
+        routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/details/{{info.isbn}}">
         <ion-list>
           <ion-item>
-            <ion-img width="auto" height="350px" src="{{info.image}}" alt="{{info.displayName}}"></ion-img>
+            <ion-img width="auto" height="350px" src="{{info.image}}" alt="{{info.titulo}}"></ion-img>
           </ion-item>
           <ion-item *ngIf="authenticated">
             <ion-buttons slot="start">
-              <ion-icon name="heart" id="{{info.id}}" [color]="color" (click)="clickEventHandler($event.target)">
+              <ion-icon name="heart" id="{{info.isbn}}" [color]="color" (click)="clickEventHandler($event.target)">
               </ion-icon>
             </ion-buttons>
-            <ion-title routerLinkActive="active" id="{{info.id}}" [routerLinkActiveOptions]="{ exact: true }"
-              routerLink="/details/{{info.id}}">{{info.displayName}}</ion-title>
+            <ion-title routerLinkActive="active" id="{{info.isbn}}" [routerLinkActiveOptions]="{ exact: true }"
+              routerLink="/details/{{info.isbn}}">{{info.titulo}}</ion-title>
             <ion-buttons slot="end">
-              <ion-icon name="archive" [color]="colorSecundary" (click)="clickEventHandlerSave($event.target)">
+              <ion-icon name="archive" id="{{info.isbn}}" [color]="colorSecundary"
+                (click)="clickEventHandlerSave($event.target)">
               </ion-icon>
             </ion-buttons>
           </ion-item>
@@ -110,14 +111,15 @@
     </ion-row>
   </ion-grid>
 
+
+  <app-filter *ngIf="contentavaible && tab_active === 'coffee'"></app-filter>
   <ion-grid *ngIf="contentavaible && tab_active === 'coffee'">
-    <!-- <app-filter></app-filter> -->
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-    <ion-row *ngFor="let info of coffees" [ngStyle]="{'width': 320, 'height': 510}" routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }" routerLink="/coffeedetails/{{info.id}}">
-      <ion-col>
+    <ion-row>
+      <ion-col *ngFor="let info of coffees" [ngStyle]="{'width': 320, 'height': 510}" routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }" routerLink="/coffeedetails/{{info.id}}">
         <ion-list>
           <ion-item>
             <ion-img width="auto" height="350px" src="{{info.image}}" alt="{{info.displayName}}"></ion-img>

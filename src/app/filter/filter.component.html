@@ -1,7 +1,7 @@
-<ion-content>
-  <div [ngStyle]="{'overflow-x': auto}">
-      <ion-chip *ngFor="let track of tracks" [routerLink]="['/tabs/tab1/{track.value}']">
-        <ion-text>{{track.name}}</ion-text>
-      </ion-chip>
-  </div>
-</ion-content>
+<ion-slides class="film-slider "  [options]="slidesOpts">
+  <ion-slide *ngFor="let track of tracks" [routerLink]="['/tabs/tab1/track.value']">
+    <ion-chip [color]="colorSecundary" (click)="clickEventHandlerSave($event.target)">
+      {{track.name}}
+    </ion-chip>
+  </ion-slide>
+</ion-slides> 
