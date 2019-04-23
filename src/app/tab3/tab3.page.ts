@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CoffeeService } from '../core';
+import { CoffeeService,  User, UserService, } from '../core';
 import { CalendarComponent } from 'ionic2-calendar/calendar';
 import {  Inject, LOCALE_ID } from '@angular/core';
 import { formatDate } from '@angular/common';
-
 import { AlertController, LoadingController, ModalController, ToastController } from '@ionic/angular';
 
 @Component({
@@ -15,8 +14,14 @@ export class Tab3Page implements OnInit {
   constructor(private CoffeeService:CoffeeService,  public toastCtrl: ToastController,
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
-    public modalCtrl: ModalController, @Inject(LOCALE_ID) private locale: string
+    public modalCtrl: ModalController, @Inject(LOCALE_ID) private locale: string,
+    
+    private userService: UserService
       ){}
+      authcolor = 'default';
+      authenticated = false;
+      currentUser: User;
+
       addevent = false;
       event = {
         title: '',
@@ -40,8 +45,23 @@ export class Tab3Page implements OnInit {
      
   ngOnInit(): void {
     this.resetEvent();
+
   }
  
+  cangetauth() {
+    if (!this.authenticated) {
+      this.userService.currentUser.subscribe(
+        (userData) => {
+          this.currentUser = userData;
+          if (this.currentUser.usuario !== undefined) {
+            this.authenticated = true;
+            this.authcolor = 'dark';
+          }
+        }
+      );
+    }
+  }
+
   resetEvent() {
     this.event = {
       title: '',

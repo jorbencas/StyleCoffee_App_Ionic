@@ -6,7 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { timer } from 'rxjs';
 import { timeInterval} from 'rxjs/operators';
-import { User, UserService } from './core';
+import { UserService } from './core';
 import { ActivatedRoute, Router } from '@angular/router';
 
   // Initialize Firebase

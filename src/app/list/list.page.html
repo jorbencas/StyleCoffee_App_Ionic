@@ -1,8 +1,5 @@
 <ion-header>
-    <ion-toolbar>
-      <ion-buttons slot="start">
-          <ion-back-button></ion-back-button>
-      </ion-buttons>
+    <ion-toolbar color='dark'>
       <ion-title>
         Favorites
       </ion-title>
@@ -11,10 +8,10 @@
   
   <ion-content>
     <ion-list>
-      <ion-item *ngFor="let item of items" routerLink="/details/{{item.id}}">
-        <ion-img slot="start">
-            {{item.image}}
-        </ion-img>
+      <ion-item *ngFor="let item of items" routerLink="/details/{{item.isbn}}">
+        <div class="item-img">
+          <ion-img src="{{item.image}}" alt="{{item.titulo}}"></ion-img>
+        </div>
         <div class="item-note" slot="end">
           {{item.titulo}}
         </div>

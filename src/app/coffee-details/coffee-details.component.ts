@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CoffeeService } from '../core';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { CoffeeService,  User, UserService, } from '../core';
 @Component({
   selector: 'app-coffee-details',
   templateUrl: './coffee-details.component.html',
@@ -10,10 +9,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class CoffeeDetailsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
-    private CoffeeService: CoffeeService) { }
+    private CoffeeService: CoffeeService,
+    private userService: UserService,) { }
 
   coffee = [];
   id = 0;
+  authcolor = 'default';
+  authenticated = false;
+  currentUser: User;
+
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.id = params['id'];
@@ -21,5 +25,22 @@ export class CoffeeDetailsComponent implements OnInit {
         this.coffee.push(coffee);
       });
     });
+    this.cangetauth();
   }
+
+
+  cangetauth() {
+    if (!this.authenticated) {
+      this.userService.currentUser.subscribe(
+        (userData) => {
+          this.currentUser = userData;
+          if (this.currentUser.usuario !== undefined) {
+            this.authenticated = true;
+            this.authcolor = 'dark';
+          }
+        }
+      );
+    }
+  }
+
 }

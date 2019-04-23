@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import * as firebase from 'firebase';
-import { BookService } from '../core';
+/* import * as firebase from 'firebase'; */
+import { BookService,  User, UserService, } from '../core';
 
 @Component({
   selector: 'app-details',
@@ -13,7 +13,14 @@ export class DetailsPage implements OnInit  {
 
   infos = [];
   isbn = "";
-  constructor(private route: ActivatedRoute, private router: Router, private BookService: BookService){
+  authcolor = 'default';
+  authenticated = false;
+  currentUser: User;
+
+  constructor(private route: ActivatedRoute, 
+    private router: Router, 
+    private BookService: BookService,
+    private userService: UserService,){
    
   }
 
@@ -24,7 +31,21 @@ export class DetailsPage implements OnInit  {
         this.infos.push(book);
       });
     });
+    this.cangetauth();
   }
 
+  cangetauth() {
+    if (!this.authenticated) {
+      this.userService.currentUser.subscribe(
+        (userData) => {
+          this.currentUser = userData;
+          if (this.currentUser.usuario !== undefined) {
+            this.authenticated = true;
+            this.authcolor = 'dark';
+          }
+        }
+      );
+    }
+  }
   
 }

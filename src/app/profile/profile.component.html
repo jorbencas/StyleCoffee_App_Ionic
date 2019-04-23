@@ -1,11 +1,19 @@
 <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="dark">
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
         <ion-title>
             Profile
         </ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="changeeditable()">
+                    <ion-icon name="create"></ion-icon>
+            </ion-button>
+            <ion-button color="danger" (click)="logout()">
+                    <ion-icon name="log-out"></ion-icon>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
@@ -18,7 +26,7 @@
             </ion-avatar>
         </ion-item>
 
-        <ion-button *ngIf="avaible" (click)="changeavatar()">Cambiar la foto</ion-button>
+        <ion-button expand="block" shape="round" *ngIf="avaible" color='dark' (click)="changeavatar()">Cambiar la foto</ion-button>
 
         <ion-list>
             <ion-item>
@@ -37,7 +45,8 @@
             <ion-item>
                 <ion-icon name="people"></ion-icon>
                 <ion-label>"Tipo de usuario"</ion-label>
-                <ion-select placeholder="Eligue el tipo de usuario" formControlName="tipo" value="{{currentUser.tipo}}">
+                <ion-select *ngIf="avaible" placeholder="Eligue el tipo de usuario" value="{{currentUser.tipo}}"></ion-select>
+                <ion-select *ngIf="avaible" placeholder="Eligue el tipo de usuario" formControlName="tipo" value="{{currentUser.tipo}}">
                     <ion-select-option value="admin">Admin</ion-select-option>
                     <ion-select-option value="client">Client</ion-select-option>
                 </ion-select>
@@ -68,20 +77,8 @@
                     class="form-control form-control-lg" type="text" value="{{currentUser.poblacion}}"></ion-input>
             </ion-item>
         </ion-list>
-        <ion-button class="btn btn-lg btn-primary pull-xs-right" type="submit">
+        <ion-button shape="round" expand="block" *ngIf="avaible" color='dark' type="submit">
             <ion-icon name="person"></ion-icon>Guardar cambios
         </ion-button>
-
     </form>
-
-    <ion-fab slot="fixed" vertical="bottom" horizontal="end" #fab>
-        <ion-fab-list side="top">
-            <ion-fab-button color="primary" (click)="changeeditable()">
-                <ion-icon name="create"></ion-icon>Editar el prfil
-            </ion-fab-button>
-            <ion-fab-button color="danger" (click)="logout()">
-                <ion-icon name="log-out"></ion-icon>Cerrar session
-            </ion-fab-button>
-        </ion-fab-list>
-    </ion-fab>
 </ion-content>

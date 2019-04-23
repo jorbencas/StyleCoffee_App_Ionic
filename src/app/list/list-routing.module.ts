@@ -4,7 +4,7 @@ import { ListPage } from './list.page';
 
 const routes: Routes = [
   {
-    path: 'list',
+    path: 'favorites',
     component: ListPage
   }
 ];

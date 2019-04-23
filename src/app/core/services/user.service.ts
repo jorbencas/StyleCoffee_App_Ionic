@@ -78,8 +78,8 @@ export class UserService {
       data => {
         if(data.success){
           this.sendNotification("Todo realizado con exito");
-          this.setAuth(data.user[0]);
-          return data.user[0];
+          this.setAuth(data.user);
+          return data.user;
         }else{
           this.sendNotification(data.error);
         }

@@ -44,10 +44,18 @@ export class AuthComponent implements OnInit {
   segmentButtonClicked(ev: any) {
     if(ev == 'register'){
       this.tabs = 'register';
-      this.authForm.removeControl('email');
-    }else{
+      this.authType = 'signup_user';
+      this.title = "Registro";
+      if(this.authForm.value === 'email'){
+        this.authForm.addControl('email', new  FormControl('', Validators.required));
+        this.authForm.addControl('tipo', new  FormControl('', Validators.required));
+      }
+    }else if(ev == 'login'){
       this.tabs = 'login';
-      this.authForm.addControl('email', new  FormControl('', Validators.required));
+      this.authType = 'login';
+      this.title = "Login";
+      this.authForm.removeControl('email');
+      this.authForm.removeControl('tipo');
     }
   }
 
@@ -56,6 +64,7 @@ export class AuthComponent implements OnInit {
     this.errors = {errors: {}};
 
     const credentials = this.authForm.value;
+    console.log(credentials);
     this.userService.attemptAuth(this.authType, credentials)
     .subscribe(
       data => this.router.navigateByUrl('/'),

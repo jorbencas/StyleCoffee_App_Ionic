@@ -1,84 +1,73 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar [color]="authcolor">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Stylecoffee</ion-title>
-    <ion-buttons slot="end">
-      <ion-button routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/filter">
-        <ion-icon slot="icon-only" name="search"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-item slot="end">
-      <ion-avatar *ngIf="!authenticated" [routerLink]="['/login']">
-        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
-          alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
-      </ion-avatar>
-      <ion-avatar *ngIf="authenticated" [routerLink]="['/profile', currentUser.usuario]">
-        <img [src]="currentUser.avatar" *ngIf="currentUser.avatar"
-          alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
-      </ion-avatar>
-    </ion-item>
+    <ion-button slot="end" [color]="authcolor" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+      routerLink="/filter">
+      <ion-icon slot="icon-only" name="search"></ion-icon>
+    </ion-button>
+    <ion-avatar slot="end">
+      <img *ngIf="!authenticated" [routerLink]="['/login']"
+        src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
+        alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
+
+      <img *ngIf="authenticated" [routerLink]="['/profile', currentUser.usuario]" [src]="currentUser.avatar"
+        alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
+    </ion-avatar>
   </ion-toolbar>
-  <ion-segment [(ngModel)]="tab_active" value='book'>
-    <ion-segment-button value="book" (click)="setab('book')">
-      <ion-icon name="bookmarks"></ion-icon>Libros
+
+  <ion-segment [color]="authcolor" value='book'>
+    <ion-segment-button value="book" (ionSelect)="setab($event.target.value)">
+      <ion-icon name="bookmarks">Libros</ion-icon>
     </ion-segment-button>
-    <ion-segment-button value="coffee" (click)="setab('coffee')">
-      <ion-icon name="cafe"></ion-icon>Cafés
+    <ion-segment-button value="coffee" (ionSelect)="setab($event.target.value)">
+      <ion-icon name="cafe">Cafés</ion-icon>
     </ion-segment-button>
   </ion-segment>
 </ion-header>
 
 <ion-content>
-
-  <div *ngIf="!contentavaible">
-    <div class="ion-padding custom-skeleton">
-      <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
-      <ion-skeleton-text animated></ion-skeleton-text>
-    </div>
-    <div>
-      <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
-      <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
-      <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
-    </div>
+  <div *ngIf="!contentavaible && ( tab_active === 'book' || tab_active === 'coffee' )">
     <ion-grid>
-      <ion-row [ngStyle]="{'width': 320, 'height': 510}">
+      <ion-row>
         <ion-col>
-          <ion-list>
-            <ion-item>
+          <ion-item>
+            <ion-icon *ngIf="tab_active === 'book'" name="bookmarks" text-center></ion-icon>
+            <ion-icon *ngIf="tab_active === 'coffee'" name="cafe" text-center></ion-icon>
+            <ion-text text-center> No hay {{tab_active}} disponibles!!!</ion-text>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <!--<ion-row [ngStyle]="{'width': 320, 'height': 510}">
+        <ion-col>
+          <ion-list class="ion-padding custom-skeleton">
+            <ion-item animated style="width: 100%">
               <ion-avatar slot="start">
                 <ion-skeleton-text animated></ion-skeleton-text>
               </ion-avatar>
+              <p animated style="width: 20%">
+                <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+              </p>
             </ion-item>
-            <ion-item>
+            <ion-item animated style="width: 20%">
               <ion-buttons slot="start">
                 <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
               </ion-buttons>
-              <p>
-                <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
-              </p>
               <ion-buttons slot="end">
                 <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
               </ion-buttons>
             </ion-item>
           </ion-list>
         </ion-col>
-      </ion-row>
+      </ion-row> -->
     </ion-grid>
   </div>
 
-  <ion-grid *ngIf="!contentavaible">
-    <ion-row>
-      <ion-col>
-        <ion-item>
-          <ion-icon *ngIf="tab_active === 'book'" name="bookmarks" text-center></ion-icon>
-          <ion-icon *ngIf="tab_active === 'coffee'" name="cafe" text-center></ion-icon>
-          <ion-text text-center> No hay {{tab_active}} disponibles!!!</ion-text>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <!--   <ion-button *ngIf="tab_active == 'book'" (click)="toggleInfiniteScroll()" expand="block">
+    Toggle Infinite Scroll
+  </ion-button> -->
 
 
   <app-filter *ngIf="contentavaible && tab_active === 'book'"></app-filter>
@@ -87,20 +76,21 @@
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <ion-row>
-      <ion-col *ngFor="let info of infos; let i of index" [ngStyle]="{'width': 320, 'height': 510}"
-        routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/details/{{info.isbn}}">
+      <ion-col *ngFor="let info of infos; let i of index" [ngStyle]="{'width': 320, 'height': 510}">
         <ion-list>
-          <ion-item>
-            <ion-img width="auto" height="350px" src="{{info.image}}" alt="{{info.titulo}}"></ion-img>
+          <ion-item routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+            routerLink="/details/{{info.isbn}}">
+            <ion-thumbnail item-left width="140px" height="215px">
+              <ion-img src="{{info.image}}" alt="{{info.titulo}}"></ion-img>
+            </ion-thumbnail>
+            <ion-title routerLinkActive="active" id="{{info.isbn}}">{{info.titulo}}</ion-title>
           </ion-item>
           <ion-item *ngIf="authenticated">
             <ion-buttons slot="start">
               <ion-icon name="heart" id="{{info.isbn}}" [color]="color" (click)="clickEventHandler($event.target)">
               </ion-icon>
             </ion-buttons>
-            <ion-title routerLinkActive="active" id="{{info.isbn}}" [routerLinkActiveOptions]="{ exact: true }"
-              routerLink="/details/{{info.isbn}}">{{info.titulo}}</ion-title>
-            <ion-buttons slot="end">
+            <ion-buttons>
               <ion-icon name="archive" id="{{info.isbn}}" [color]="colorSecundary"
                 (click)="clickEventHandlerSave($event.target)">
               </ion-icon>
@@ -111,6 +101,9 @@
     </ion-row>
   </ion-grid>
 
+  <!--  <ion-button *ngIf="tab_active == 'coffee'" (click)="toggleInfiniteScroll()" expand="block">
+    Toggle Infinite Scroll
+  </ion-button>  -->
 
   <app-filter *ngIf="contentavaible && tab_active === 'coffee'"></app-filter>
   <ion-grid *ngIf="contentavaible && tab_active === 'coffee'">
@@ -126,17 +119,22 @@
           </ion-item>
           <ion-item *ngIf="authenticated">
             <ion-buttons slot="start">
-              <ion-icon name="heart" [color]="color" (click)="clickEventHandler($event.target)"></ion-icon>
-            </ion-buttons>
-            <ion-title routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-              routerLink="/coffeedetails/{{info.id}}">{{info.name}}</ion-title>
-            <ion-buttons slot="end">
               <ion-icon name="archive" [color]="colorSecundary" (click)="clickEventHandlerSave($event.target)">
               </ion-icon>
             </ion-buttons>
+            <ion-title routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+              routerLink="/coffeedetails/{{info.id}}">{{info.name}}</ion-title>
           </ion-item>
         </ion-list>
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <!--   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll> -->
+
 </ion-content>

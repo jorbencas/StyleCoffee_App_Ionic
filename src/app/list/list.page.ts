@@ -12,8 +12,13 @@ export class ListPage implements OnInit {
 
   ngOnInit() {
     this.FavoriteService.getAllFavorites().subscribe(favorite => {
-      this.items.push(favorite);
+      favorite.forEach(element => {
+        console.log(element); 
+        this.items.push(element);
+      });
+      
     });
+   
   }
   
 }
