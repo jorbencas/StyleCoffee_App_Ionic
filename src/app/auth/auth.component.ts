@@ -46,10 +46,8 @@ export class AuthComponent implements OnInit {
       this.tabs = 'register';
       this.authType = 'signup_user';
       this.title = "Registro";
-      if(this.authForm.value === 'email'){
-        this.authForm.addControl('email', new  FormControl('', Validators.required));
-        this.authForm.addControl('tipo', new  FormControl('', Validators.required));
-      }
+      this.authForm.addControl('email', new  FormControl('', Validators.required));
+      this.authForm.addControl('tipo', new  FormControl('', Validators.required));
     }else if(ev == 'login'){
       this.tabs = 'login';
       this.authType = 'login';

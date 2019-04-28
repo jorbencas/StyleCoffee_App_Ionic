@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar [color]="authcolor">
+  <ion-toolbar [color]="authenticated == true ? 'dark' : 'default'">
       <ion-buttons slot="start">
         <ion-back-button></ion-back-button>
       </ion-buttons>
@@ -9,7 +9,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content ion-no-padding>
   <ion-item [ngStyle]="{'text-align': center}" *ngFor="let info of coffee; let i of index">
     <img width="320" src="{{info.image}}"  class="app-logo" alt="{{info.name}}">
     <br>

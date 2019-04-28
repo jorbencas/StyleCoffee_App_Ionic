@@ -14,7 +14,6 @@ export class CoffeeDetailsComponent implements OnInit {
 
   coffee = [];
   id = 0;
-  authcolor = 'default';
   authenticated = false;
   currentUser: User;
 
@@ -30,17 +29,14 @@ export class CoffeeDetailsComponent implements OnInit {
 
 
   cangetauth() {
-    if (!this.authenticated) {
-      this.userService.currentUser.subscribe(
-        (userData) => {
-          this.currentUser = userData;
-          if (this.currentUser.usuario !== undefined) {
-            this.authenticated = true;
-            this.authcolor = 'dark';
-          }
+    this.userService.isAuthenticated.subscribe(
+      (authenticated) => {
+        this.authenticated = authenticated;
+        if(authenticated){
+          this.currentUser = this.userService.getCurrentUser();
         }
-      );
-    }
+      }
+    );   
   }
 
 }

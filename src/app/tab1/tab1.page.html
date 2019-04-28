@@ -1,13 +1,22 @@
 <ion-header>
-  <ion-toolbar [color]="authcolor">
+  <ion-toolbar [hidden]="search" [color]="authenticated == true ? 'dark' : 'default'">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Stylecoffee</ion-title>
-    <ion-button slot="end" [color]="authcolor" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-      routerLink="/filter">
-      <ion-icon slot="icon-only" name="search"></ion-icon>
-    </ion-button>
+    <ion-segment [color]="authenticated == true ? 'light' : 'primary'" value='book'>
+      <ion-segment-button value="book" (ionSelect)="setab($event.target.value)">
+        <ion-icon name="bookmarks">Libros</ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="coffee" (ionSelect)="setab($event.target.value)">
+        <ion-icon name="cafe">Cafés</ion-icon>
+      </ion-segment-button>
+    </ion-segment>
+    <ion-buttons slot="end">
+      <ion-button (click)="cansearch()">
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-avatar slot="end">
       <img *ngIf="!authenticated" [routerLink]="['/login']"
         src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
@@ -18,24 +27,25 @@
     </ion-avatar>
   </ion-toolbar>
 
-  <ion-segment [color]="authcolor" value='book'>
-    <ion-segment-button value="book" (ionSelect)="setab($event.target.value)">
-      <ion-icon name="bookmarks">Libros</ion-icon>
-    </ion-segment-button>
-    <ion-segment-button value="coffee" (ionSelect)="setab($event.target.value)">
-      <ion-icon name="cafe">Cafés</ion-icon>
-    </ion-segment-button>
-  </ion-segment>
+  <ion-toolbar [hidden]="!search" [color]="authenticated == true ? 'dark' : 'default'">
+    <ion-buttons slot="start">
+      <ion-button (click)="cansearch()">
+        <ion-icon name='arrow-back'></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-searchbar [(ngModel)]="queryText" [color]="authenticated == true ? 'dark' : 'default'"
+      (ionChange)="updateSchedule()" placeholder="Search" animated autocorrect='on'></ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div *ngIf="!contentavaible && ( tab_active === 'book' || tab_active === 'coffee' )">
+  <div [hidden]='infos.length > 0 || coffees.length > 0'>
     <ion-grid>
       <ion-row>
         <ion-col>
           <ion-item>
-            <ion-icon *ngIf="tab_active === 'book'" name="bookmarks" text-center></ion-icon>
-            <ion-icon *ngIf="tab_active === 'coffee'" name="cafe" text-center></ion-icon>
+            <ion-icon [hidden]="tab_active !== 'book'" name="bookmarks" text-center></ion-icon>
+            <ion-icon [hidden]="tab_active !== 'coffee'" name="cafe" text-center></ion-icon>
             <ion-text text-center> No hay {{tab_active}} disponibles!!!</ion-text>
           </ion-item>
         </ion-col>
@@ -70,8 +80,8 @@
   </ion-button> -->
 
 
-  <app-filter *ngIf="contentavaible && tab_active === 'book'"></app-filter>
-  <ion-grid *ngIf=" contentavaible && tab_active === 'book'">
+  <app-filter [hidden]="tab_active !== 'book'"></app-filter>
+  <ion-grid [hidden]="tab_active !== 'book'">
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
@@ -80,17 +90,22 @@
         <ion-list>
           <ion-item routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
             routerLink="/details/{{info.isbn}}">
-            <ion-thumbnail item-left width="140px" height="215px">
-              <ion-img src="{{info.image}}" alt="{{info.titulo}}"></ion-img>
-            </ion-thumbnail>
-            <ion-title routerLinkActive="active" id="{{info.isbn}}">{{info.titulo}}</ion-title>
+            <ion-img style='width: 10%; height: 100%;' 
+            class="item-img" 
+            slot="start" 
+            src="{{info.image}}"
+            alt="{{info.titulo}}"></ion-img>
+            <div class="item-text" slot="end">
+              <ion-text id="{{info.isbn}}">{{info.titulo}}</ion-text>
+              <ion-text> {{info.price}} €</ion-text>
+            </div>
           </ion-item>
           <ion-item *ngIf="authenticated">
-            <ion-buttons slot="start">
-              <ion-icon name="heart" id="{{info.isbn}}" [color]="color" (click)="clickEventHandler($event.target)">
-              </ion-icon>
+            <ion-buttons slot="end">
+              <ion-icon name="heart" id="{{info.isbn}}" [color]="info.favorite == 1 ? 'danger':'default'"
+                (click)="clickEventHandler($event.target)"></ion-icon>
             </ion-buttons>
-            <ion-buttons>
+            <ion-buttons slot="end">
               <ion-icon name="archive" id="{{info.isbn}}" [color]="colorSecundary"
                 (click)="clickEventHandlerSave($event.target)">
               </ion-icon>
@@ -105,8 +120,8 @@
     Toggle Infinite Scroll
   </ion-button>  -->
 
-  <app-filter *ngIf="contentavaible && tab_active === 'coffee'"></app-filter>
-  <ion-grid *ngIf="contentavaible && tab_active === 'coffee'">
+  <app-filter [hidden]="tab_active !== 'coffee'"></app-filter>
+  <ion-grid [hidden]="tab_active !== 'coffee'">
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
@@ -119,8 +134,8 @@
           </ion-item>
           <ion-item *ngIf="authenticated">
             <ion-buttons slot="start">
-              <ion-icon name="archive" [color]="colorSecundary" (click)="clickEventHandlerSave($event.target)">
-              </ion-icon>
+              <ion-icon name="archive" [color]="info.favorite == 1 ? 'dark':'default'"
+                (click)="clickEventHandlerSave($event.target)"></ion-icon>
             </ion-buttons>
             <ion-title routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
               routerLink="/coffeedetails/{{info.id}}">{{info.name}}</ion-title>

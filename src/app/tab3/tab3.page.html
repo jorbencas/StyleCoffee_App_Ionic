@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar [color]="authcolor">
+  <ion-toolbar [color]="authenticated == true ? 'dark' : 'default'">
     <ion-title>
       {{ viewTitle }}
     </ion-title>
@@ -11,7 +11,7 @@
 
 <ion-content>
   <!-- Card for adding a new event -->
-  <ion-card *ngIf="addevent">
+  <ion-card *ngIf="!addevent">
     <ion-card-header tappable (click)="collapseCard = !collapseCard">
       <ion-card-title>New Event</ion-card-title>
     </ion-card-header>

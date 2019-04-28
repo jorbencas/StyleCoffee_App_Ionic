@@ -22,10 +22,9 @@ export class Tab1Page implements OnInit {
   ) { }
 
   infos = [];
-  authcolor = 'default';
-  color = 'default';
   colorSecundary = 'default';
-  visible = false;
+  search = false;
+  queryText = '';
   authenticated = false;
   currentUser: User;
   tab_active = 'book';
@@ -41,19 +40,22 @@ export class Tab1Page implements OnInit {
       let kind = param['kind'];
 
       if (genere) {
-        this.BookService.getBookbyGenere(genere).subscribe(book => {
-          this.infos.push(book);
+        this.BookService.getBookbyGenere(genere).subscribe(books => {
+          books.forEach(element => {
+            this.infos.push(element);
+          });
         });
       } else if (kind) {
-        this.CoffeeService.getByKind(kind).subscribe(coffee => {
-          this.coffees.push(coffee);
+        this.CoffeeService.getByKind(kind).subscribe(coffees => {
+          coffees.forEach(element => {
+            this.coffees.push(element);
+          });
         });
       } else {
         this.BookService.getAll().subscribe(books => {
           books.forEach(element => {
             this.infos.push(element);
           });
-         
         });
         this.CoffeeService.getAllcoffe().subscribe(coffees => {
           coffees.forEach(element => {
@@ -61,14 +63,21 @@ export class Tab1Page implements OnInit {
           });
         });
       }
-
     });
-
   }
 
   ionViewWillEnter() {
-    this.cangetdata();
     this.cangetauth();
+  }
+
+  cansearch(){
+    console.log(this.search);
+    if(this.search) this.search = false;
+    else this.search = true;
+  }
+
+  updateSchedule(){
+    console.log(this.queryText);
   }
 
   doRefresh(event) {
@@ -106,39 +115,19 @@ export class Tab1Page implements OnInit {
     return await this.loadingController.dismiss();
   }
 
-  cangetdata() {
-    if (this.tab_active === 'book' && this.infos.length > 0) {
-      this.infos.forEach(item => {
-        if (item.favorite == 1) this.color = 'danger';
-      });
-      this.contentavaible = true;
-    } else if (this.tab_active === 'coffee' && this.coffees.length > 0) {
-      this.infos.forEach(item => {
-        if (item.favorite == 1) {
-          this.colorSecundary = 'dark';
-        }
-      });
-      this.contentavaible = true;
-    }
-  }
-
   cangetauth() {
-    if (!this.authenticated) {
-      this.userService.currentUser.subscribe(
-        (userData) => {
-          this.currentUser = userData;
-          if (this.currentUser.usuario !== undefined) {
-            this.authenticated = true;
-            this.authcolor = 'dark';
-          }
+    this.userService.isAuthenticated.subscribe(
+      (authenticated) => {
+        this.authenticated = authenticated;
+        if(authenticated){
+          this.currentUser = this.userService.getCurrentUser();
         }
-      );
-    }
+      }
+    );         
   }
 
   setab(tab: string) {
     this.tab_active = tab;
-    this.cangetdata();
   };
 
   async removeFavorite(id) {
@@ -193,94 +182,16 @@ export class Tab1Page implements OnInit {
     return favorite;
   }
 
-
-
   clickEventHandler(event) {
     if (event.color === 'default') {
-      this.color = 'danger';
-      event.color = this.color;
       this.addFavorite(event.id);
     } else {
-      this.color = 'default';
-      event.color = this.color;
       this.removeFavorite(event.id);
     }
   }
 
   async listcollections() {
-    const header =  `<ion-icon ios="add" md="add"></ion-icon>Add your info`
-    const alert = await this.alertCtrl.create({
-      header: 'Coleciones',
-      inputs: [
-        {
-          name: 'checkbox1',
-          type: 'checkbox',
-          label: 'Checkbox 1',
-          value: 'value1',
-          checked: true
-        },
-
-        {
-          name: 'checkbox2',
-          type: 'checkbox',
-          label: 'Checkbox 2',
-          value: 'value2'
-        },
-
-        {
-          name: 'checkbox3',
-          type: 'checkbox',
-          label: 'Checkbox 3',
-          value: 'value3'
-        },
-
-        {
-          name: 'checkbox4',
-          type: 'checkbox',
-          label: 'Checkbox 4',
-          value: 'value4'
-        },
-
-        {
-          name: 'checkbox5',
-          type: 'checkbox',
-          label: 'Checkbox 5',
-          value: 'value5'
-        },
-
-        {
-          name: 'checkbox6',
-          type: 'checkbox',
-          label: 'Checkbox 6 Checkbox 6 Checkbox 6 Checkbox 6 Checkbox 6 Checkbox 6 Checkbox 6 Checkbox 6 Checkbox 6 Checkbox 6',
-          value: 'value6'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Nueva',
-          cssClass: 'secondary',
-          handler: () => {
-            this.addcollection();
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            alert.dismiss();
-          }
-        }, 
-        {
-          text: 'Guarda',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('Confirm Ok');
-          }
-        }
-      ]
-    });
-    await alert.present();
+   
   }
 
   async addcollection() {
@@ -295,7 +206,8 @@ export class Tab1Page implements OnInit {
         }],
       buttons: [{
         text: 'Añade',
-        handler: () => {
+        handler: (data) => {
+          console.log(data.collection);
           this.listcollections();
         }
       }]
@@ -307,10 +219,8 @@ export class Tab1Page implements OnInit {
   clickEventHandlerSave(event) {
     if (event.colorSecundary === 'dark') {
       this.listcollections();
-      this.colorSecundary = 'default';
       event.colorSecundary = this.colorSecundary;
     } else {
-      this.colorSecundary = 'dark';
       event.colorSecundary = this.colorSecundary;
     }
 

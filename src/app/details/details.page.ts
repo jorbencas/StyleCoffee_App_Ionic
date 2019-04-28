@@ -13,7 +13,6 @@ export class DetailsPage implements OnInit  {
 
   infos = [];
   isbn = "";
-  authcolor = 'default';
   authenticated = false;
   currentUser: User;
 
@@ -35,17 +34,14 @@ export class DetailsPage implements OnInit  {
   }
 
   cangetauth() {
-    if (!this.authenticated) {
-      this.userService.currentUser.subscribe(
-        (userData) => {
-          this.currentUser = userData;
-          if (this.currentUser.usuario !== undefined) {
-            this.authenticated = true;
-            this.authcolor = 'dark';
-          }
+    this.userService.isAuthenticated.subscribe(
+      (authenticated) => {
+        this.authenticated = authenticated;
+        if(authenticated){
+          this.currentUser = this.userService.getCurrentUser();
         }
-      );
-    }
+      }
+    );   
   }
   
 }

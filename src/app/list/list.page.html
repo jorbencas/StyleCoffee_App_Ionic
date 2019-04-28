@@ -8,14 +8,20 @@
   
   <ion-content>
     <ion-list>
-      <ion-item *ngFor="let item of items" routerLink="/details/{{item.isbn}}">
-        <div class="item-img">
-          <ion-img src="{{item.image}}" alt="{{item.titulo}}"></ion-img>
-        </div>
-        <div class="item-note" slot="end">
-          {{item.titulo}}
-        </div>
-      </ion-item>
+        <ion-item-sliding *ngFor="let item of items"  >
+            <ion-item routerLink="/details/{{item.isbn}}">
+                <ion-img style='width: 90px; height: 40px;' class="item-img" slot="start" src="{{item.image}}" alt="{{item.titulo}}"></ion-img>
+                <div class="item-text" slot="end">
+                  <ion-text>{{item.titulo}}</ion-text>
+                  <ion-text>{{item.price}}</ion-text>
+                </div>
+              </ion-item>
+            <ion-item-options side="end">
+                <ion-item-option color="danger" expandable (click)="removeFavorite(item.isbn)">
+                    <ion-icon name='md-trash'></ion-icon>
+                  </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
     </ion-list>
   </ion-content>
   
