@@ -10,13 +10,15 @@ export class CollectionsListComponent implements OnInit {
 
   constructor( private Collectionsservices: CollectionsService) { }
   collections = [];
+
   ngOnInit() {
-   /*  this.Collectionsservices.getAllProducts().subscribe(products =>{
-      this.collections.push(products);
-    }); */
+    this.Collectionsservices.getAllcollections().subscribe(collections =>{
+      this.collections.push(collections);
+    });
   }
 
+  
   delete(collection){
-    
+    this.Collectionsservices.deletecolection(collection);
   }
 }

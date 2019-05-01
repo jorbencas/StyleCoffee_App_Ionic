@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CoffeeService,  User, UserService, } from '../core';
+import { CoffeeService,  User, UserService } from '../core';
 import { CalendarComponent } from 'ionic2-calendar/calendar';
 import {  Inject, LOCALE_ID } from '@angular/core';
 import { formatDate } from '@angular/common';
