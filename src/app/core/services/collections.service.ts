@@ -37,10 +37,10 @@ export class CollectionsService {
     return this.apiService.get('collections&function=getCollection&param=' + id)
     .pipe(map(data => { 
       if(data.success){
-          this.sendNotification("Todo realizado con exito");
+          //this.sendNotification("Todo realizado con exito");
           return data.collections;
         }else{
-          this.sendNotification(data.error);
+          //this.sendNotification(data.error);
         }
       }
     ));

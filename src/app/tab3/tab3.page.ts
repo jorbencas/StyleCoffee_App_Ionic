@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CoffeeService,  User, UserService } from '../core';
+import { CoffeeService,  User, UserService, BookService} from '../core';
 import { CalendarComponent } from 'ionic2-calendar/calendar';
 import {  Inject, LOCALE_ID } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { AlertController, LoadingController, ModalController, ToastController } from '@ionic/angular';
+import { a } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-tab3',
@@ -11,17 +12,19 @@ import { AlertController, LoadingController, ModalController, ToastController } 
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page implements OnInit {
-  constructor(private CoffeeService:CoffeeService,  public toastCtrl: ToastController,
+  constructor(private CoffeeService:CoffeeService,  
+    public toastCtrl: ToastController,
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
-    public modalCtrl: ModalController, @Inject(LOCALE_ID) private locale: string,
-    
-    private userService: UserService
+     @Inject(LOCALE_ID) private locale: string,
+    private userService: UserService,
+    private bookservice: BookService
       ){}
       authenticated = false;
       currentUser: User;
-
+      tab_active = 'calendar';
       addevent = false;
+    
       event = {
         title: '',
         desc: '',
@@ -31,7 +34,7 @@ export class Tab3Page implements OnInit {
       };
      
       minDate = new Date().toISOString();
-     
+     authors = [];
       eventSource = [];
       viewTitle;
      
@@ -43,10 +46,18 @@ export class Tab3Page implements OnInit {
       @ViewChild(CalendarComponent) myCal: CalendarComponent;
      
   ngOnInit(): void {
-    this.resetEvent();
-
+    //this.resetEvent();
+    this.bookservice.getAll().subscribe(authors =>{
+      authors.forEach(a =>{
+        this.authors.push(a);
+      });
+    });
   }
  
+  setab(tab: string) {
+    this.tab_active = tab;
+  };
+
   cangetauth() {
     this.userService.isAuthenticated.subscribe(
       (authenticated) => {
@@ -91,73 +102,54 @@ export class Tab3Page implements OnInit {
     this.resetEvent();
   }
    // Change current month/week/day
- next() {
-  var swiper = document.querySelector('.swiper-container')['swiper'];
-  swiper.slideNext();
-}
-
-
-
-back() {
-  var swiper = document.querySelector('.swiper-container')['swiper'];
-  swiper.slidePrev();
-}
- 
-// Change between month/week/day
-changeMode(mode) {
-  this.calendar.mode = mode;
-}
- 
-// Focus today
-today() {
-  this.calendar.currentDate = new Date();
-}
- 
-// Selected date reange and hence title changed
-onViewTitleChanged(title) {
-  this.viewTitle = title;
-}
- 
-// Calendar event was clicked
-async onEventSelected(event) {
-  // Use Angular date pipe for conversion
-  let start = formatDate(event.startTime, 'medium', this.locale);
-  let end = formatDate(event.endTime, 'medium', this.locale);
- 
-  const alert = await this.alertCtrl.create({
-    header: event.title,
-    subHeader: event.desc,
-    message: 'From: ' + start + '<br><br>To: ' + end,
-    buttons: ['OK']
-  });
-  alert.present();
-}
- 
-// Time slot was clicked
-onTimeSelected(ev) {
-  let selected = new Date(ev.selectedTime);
-  this.event.startTime = selected.toISOString();
-  selected.setHours(selected.getHours() + 1);
-  this.event.endTime = (selected.toISOString());
-}
-  /*
-  clickEventHandler(event) {
-    if (event.color === 'default') {
-      event.color = 'danger';
-    } else {
-      event.color = 'default';
-    }
+  next() {
+    var swiper = document.querySelector('.swiper-container')['swiper'];
+    swiper.slideNext();
   }
 
-  clickEventHandlerSave(event){
-    if(event.colorSecundary === 'dark'){
-      this.colorSecundary = 'default';
-      event.colorSecundary = this.colorSecundary;
-    }else{
-      this.colorSecundary = 'dark';
-      event.colorSecundary = this.colorSecundary;
-    }
 
-  }*/
+
+  back() {
+    var swiper = document.querySelector('.swiper-container')['swiper'];
+    swiper.slidePrev();
+  }
+  
+  // Change between month/week/day
+  changeMode(mode) {
+    this.calendar.mode = mode;
+  }
+  
+  // Focus today
+  today() {
+    this.calendar.currentDate = new Date();
+  }
+  
+  // Selected date reange and hence title changed
+  onViewTitleChanged(title) {
+    this.viewTitle = title;
+  }
+  
+  // Calendar event was clicked
+  async onEventSelected(event) {
+    // Use Angular date pipe for conversion
+    let start = formatDate(event.startTime, 'medium', this.locale);
+    let end = formatDate(event.endTime, 'medium', this.locale);
+  
+    const alert = await this.alertCtrl.create({
+      header: event.title,
+      subHeader: event.desc,
+      message: 'From: ' + start + '<br><br>To: ' + end,
+      buttons: ['OK']
+    });
+    alert.present();
+  }
+  
+  // Time slot was clicked
+  onTimeSelected(ev) {
+    let selected = new Date(ev.selectedTime);
+    this.event.startTime = selected.toISOString();
+    selected.setHours(selected.getHours() + 1);
+    this.event.endTime = (selected.toISOString());
+  }
 
 }

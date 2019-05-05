@@ -81,39 +81,37 @@
 
 
   <app-filter [hidden]="tab_active !== 'book'"></app-filter>
-  <ion-grid [hidden]="tab_active !== 'book'">
-    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-      <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
-    <ion-row>
-      <ion-col *ngFor="let info of infos; let i of index" [ngStyle]="{'width': 320, 'height': 510}">
-        <ion-list>
-          <ion-item routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-            routerLink="/details/{{info.isbn}}">
-            <ion-img style='width: 10%; height: 100%;' 
-            class="item-img" 
-            slot="start" 
-            src="{{info.image}}"
-            alt="{{info.titulo}}"></ion-img>
-            <div class="item-text" slot="end">
-              <ion-text id="{{info.isbn}}">{{info.titulo}}</ion-text>
-              <ion-text> {{info.price}} €</ion-text>
-            </div>
-          </ion-item>
-          <ion-item *ngIf="authenticated">
-            <ion-buttons slot="end">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-grid [hidden]="tab_active !== 'book'" >
+      <ion-col *ngFor="let info of infos; let i of index" size='12'>
+        <ion-row routerLink="/details/{{info.isbn}}">
+          <ion-col size='4'>
+            <ion-img class="item-img" src="{{info.image}}" alt="{{info.titulo}}"></ion-img>
+          </ion-col>
+          <ion-col size='8'>
+              <p id="{{info.isbn}}" >{{info.titulo}}</p>
+              <p>{{info.name}}</p>
+              <p> {{info.price}} €</p>
+          </ion-col>
+        </ion-row>
+      <ion-row *ngIf="authenticated">
+          <ion-col size="1">
+            <ion-buttons>
               <ion-icon name="heart" id="{{info.isbn}}" [color]="info.favorite == 1 ? 'danger':'default'"
                 (click)="clickEventHandler($event.target)"></ion-icon>
             </ion-buttons>
-            <ion-buttons slot="end">
+          </ion-col>
+          <ion-col size="1">
+            <ion-buttons>
               <ion-icon name="archive" id="{{info.isbn}}" [color]="colorSecundary"
-                (click)="clickEventHandlerSave($event.target)">
-              </ion-icon>
+                (click)="clickEventHandlerSave($event.target)"></ion-icon>
             </ion-buttons>
-          </ion-item>
-        </ion-list>
+          </ion-col>
+        </ion-row>
       </ion-col>
-    </ion-row>
   </ion-grid>
 
   <!--  <ion-button *ngIf="tab_active == 'coffee'" (click)="toggleInfiniteScroll()" expand="block">
@@ -121,29 +119,23 @@
   </ion-button>  -->
 
   <app-filter [hidden]="tab_active !== 'coffee'"></app-filter>
-  <ion-grid [hidden]="tab_active !== 'coffee'">
-    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-      <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
-    <ion-row>
-      <ion-col *ngFor="let info of coffees" [ngStyle]="{'width': 320, 'height': 510}" routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }" routerLink="/coffeedetails/{{info.id}}">
-        <ion-list>
-          <ion-item>
-            <ion-img width="auto" height="350px" src="{{info.image}}" alt="{{info.displayName}}"></ion-img>
-          </ion-item>
-          <ion-item *ngIf="authenticated">
-            <ion-buttons slot="start">
-              <ion-icon name="archive" [color]="info.favorite == 1 ? 'dark':'default'"
-                (click)="clickEventHandlerSave($event.target)"></ion-icon>
-            </ion-buttons>
-            <ion-title routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-              routerLink="/coffeedetails/{{info.id}}">{{info.name}}</ion-title>
-          </ion-item>
-        </ion-list>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list [hidden]="tab_active !== 'coffee'">
+    <ion-item *ngFor="let info of coffees" [ngStyle]="{'width': 320, 'height': 510}" routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }" routerLink="/coffeedetails/{{info.id}}">
+      <ion-img width="auto" height="350px" src="{{info.image}}" alt="{{info.displayName}}"></ion-img>
+    </ion-item>
+    <ion-item *ngIf="authenticated">
+      <ion-buttons slot="start">
+        <ion-icon name="archive" (click)="clickEventHandlerSave($event.target)"></ion-icon>
+      </ion-buttons>
+      <ion-title *ngFor="let info of coffees" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        routerLink="/coffeedetails/{{info.id}}">{{info.name}}</ion-title>
+    </ion-item>
+  </ion-list>
 
   <!--   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
     <ion-infinite-scroll-content

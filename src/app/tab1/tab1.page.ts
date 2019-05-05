@@ -2,7 +2,8 @@ import { Component, OnInit, ɵConsole } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController, IonInfiniteScroll, LoadingController, ModalController } from '@ionic/angular';
 import { CoffeeService, User, UserService, BookService, FavoriteService } from '../core';
-
+import { CollectionsListComponent } from '../collections-list/collections-list.component';
+import { Errors } from './../core';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -21,6 +22,7 @@ export class Tab1Page implements OnInit {
     private FavoriteService: FavoriteService
   ) { }
 
+  errors: Errors = {errors: {}};
   infos = [];
   colorSecundary = 'default';
   search = false;
@@ -151,6 +153,7 @@ export class Tab1Page implements OnInit {
 
   async addFavorite(id) {
     // create an alert instance
+    console.log(id);
     if (this.hasFavorite(id)) {
       const alert = await this.alertCtrl.create({
         header: 'Favorite Added',
@@ -185,42 +188,33 @@ export class Tab1Page implements OnInit {
   clickEventHandler(event) {
     if (event.color === 'default') {
       this.addFavorite(event.id);
+      event.color = 'danger';
     } else {
       this.removeFavorite(event.id);
+      event.color = 'default';
     }
   }
 
-  async listcollections() {
-   
-  }
-
-  async addcollection() {
-    const alert = await this.alertCtrl.create({
-      header: 'Añade la colección',
-      inputs: [
-        {
-          name: 'collection',
-          placeholder:'Añade la nueva colección',
-          type: 'text',
-          value: ''
-        }],
-      buttons: [{
-        text: 'Añade',
-        handler: (data) => {
-          console.log(data.collection);
-          this.listcollections();
-        }
-      }]
+  async listcollections(id) {
+    const modal = await this.modalCtrl.create({
+      component: CollectionsListComponent
     });
-    // now present the alert on top of all other content
-    await alert.present();
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      
+    }
   }
 
+  
   clickEventHandlerSave(event) {
-    if (event.colorSecundary === 'dark') {
-      this.listcollections();
+    if (event.colorSecundary === 'default') {
+      this.listcollections(event.id);
+      this.colorSecundary = 'dark';
       event.colorSecundary = this.colorSecundary;
     } else {
+      this.colorSecundary = 'default';
       event.colorSecundary = this.colorSecundary;
     }
 

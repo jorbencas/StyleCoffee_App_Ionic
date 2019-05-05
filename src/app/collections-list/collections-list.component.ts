@@ -1,25 +1,32 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { CollectionsService  User, UserService } from '../core';
+import { Component, OnInit } from '@angular/core';
+import { CollectionsService, UserService } from '../core';
 import { ModalController } from '@ionic/angular';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-collections-list',
   templateUrl: './collections-list.component.html',
   styleUrls: ['./collections-list.component.scss']
 })
+
 export class CollectionsListComponent implements OnInit {
+
+  authForm: FormGroup;
 
   constructor( 
     private Collectionsservices: CollectionsService,
     public modalCtrl: ModalController,
-    private userservice: UserService) { }
-
+    private userservice: UserService,
+    private fb: FormBuilder) {
+      // use FormBuilder to create a form group
+    this.authForm = this.fb.group({
+      'collectionname': ['', Validators.maxLength(25)]
+    });
+     }
+     
   collections = [];
-  collectionname = "";
   eleement = {};
-
-  @ViewChild('element')
-  
+   
   ngOnInit() {
     this.Collectionsservices.getAllcollections().subscribe(collections =>{
       this.collections.push(collections);
@@ -27,18 +34,16 @@ export class CollectionsListComponent implements OnInit {
   }
 
   dismiss(data?: any) {
-    // using the injected ModalController this page
-    // can "dismiss" itself and pass back data
     this.modalCtrl.dismiss(data);
   }
 
   addelement(){
     let user = this.userservice.getCurrentUser();
-    this.eleement = {'user':user,'name':this.collectionname,'idbook':,'idcoffee':0};
+    this.eleement = {'user':user,'name':this.authForm};
     this.Collectionsservices.addelement(this.eleement);
   }
 
-  Submiting (){
-    this.Collectionsservices.addCollection(this.collectionname);
+  submitForm (){
+    this.Collectionsservices.addCollection(this.authForm.value);
   }
 }

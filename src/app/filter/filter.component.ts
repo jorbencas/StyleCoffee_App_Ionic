@@ -1,5 +1,6 @@
-import { Component, AfterViewInit, ViewEncapsulation  } from '@angular/core';
+import { Component, AfterViewInit, Input  } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Errors } from '../core';
 
 
 @Component({
@@ -28,24 +29,29 @@ export class FilterComponent  implements AfterViewInit {
           centeredSlides: false,
       }
     }
+
+  @Input() kind: Errors;
   // TODO use the ionViewDidEnter event
   ngAfterViewInit() {
+    console.log(this);
     // passed in array of track names that should be excluded (unchecked)
-    this.tags1.forEach(element => {
-      this.tracks.push({"name":element, "value":element.toLowerCase().replace(" ", "") });
-    });
-    this.tags2.forEach(element => {
-      this.tracks.push({"name":element, "value":element.toLowerCase().replace(" ", "") });
-    });
+    //if(this.kind.errors.name == 'books'){
+      this.tags1.forEach(element => {
+        this.tracks.push({"name":element, "value":element.toLowerCase().replace(" ", "") });
+      });
+    /* }
+    if(this.kind.errors.name == 'coffee'){ */
+      this.tags2.forEach(element => {
+        this.tracks.push({"name":element, "value":element.toLowerCase().replace(" ", "") });
+      });
+    //}
   }
 
   clickEventHandlerSave(event) {
     if (event.colorSecundary === 'primary') {
-      this.colorSecundary = 'medium';
-      event.colorSecundary = this.colorSecundary;
+      event.color = 'medium';
     } else {
-      this.colorSecundary = 'primary';
-      event.colorSecundary = this.colorSecundary;
+      event.color = 'primary'
     }
 
   }

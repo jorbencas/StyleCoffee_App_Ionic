@@ -1,17 +1,20 @@
 <ion-header>
-  <ion-toolbar [color]="authenticated == true ? 'dark' : 'default'">
-    <ion-title>
-      {{ viewTitle }}
-    </ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="today()">Today</ion-button>
-    </ion-buttons>
+  <ion-toolbar [color]="authenticated == true ? 'dark' : 'light'">
+    <ion-title>Eventos</ion-title>
+    <ion-segment [color]="authenticated == true ? 'dark' : 'primary'" value='calendar'>
+        <ion-segment-button value="calendar" (ionSelect)="setab($event.target.value)">
+          <ion-icon name="calendar"></ion-icon>
+        </ion-segment-button>     
+        <ion-segment-button value="list" (ionSelect)="setab($event.target.value)">
+          <ion-icon name="list"></ion-icon>
+        </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <!-- Card for adding a new event -->
-  <ion-card *ngIf="!addevent">
+  <ion-card *ngIf="addevent">
     <ion-card-header tappable (click)="collapseCard = !collapseCard">
       <ion-card-title>New Event</ion-card-title>
     </ion-card-header>
@@ -40,113 +43,145 @@
       </ion-button>
     </ion-card-content>
   </ion-card>
-  <ion-grid>
+
+  <ion-list-header *ngIf= "!addevent && tab_active == 'calendar'">
+      <ion-title>
+          Events
+        </ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="today()">Today</ion-button>
+        </ion-buttons>
+  </ion-list-header>
+
+  <ion-grid *ngIf= "!addevent && tab_active == 'calendar'" >
     <ion-row>
       <!-- Change the displayed calendar mode -->
       <ion-col size="4">
-        <ion-button expand="block" [color]="calendar.mode == 'month' ? 'primary' : 'secondary'"
+        <ion-button expand="block" [color]="calendar.mode == 'month' ? 'primary' : 'default'"
           (click)="changeMode('month')">Month</ion-button>
       </ion-col>
       <ion-col size="4">
-        <ion-button expand="block" [color]="calendar.mode == 'week' ? 'primary' : 'secondary'"
+        <ion-button expand="block" [color]="calendar.mode == 'week' ? 'primary' : 'defualt'"
           (click)="changeMode('week')">Week</ion-button>
       </ion-col>
       <ion-col size="4">
-        <ion-button expand="block" [color]="calendar.mode == 'day' ? 'primary' : 'secondary'"
+        <ion-button expand="block" [color]="calendar.mode == 'day' ? 'primary' : 'default'"
           (click)="changeMode('day')">Day</ion-button>
       </ion-col>
 
       <!-- Move back one screen of the slides -->
-      <ion-col size="6" text-left>
+      <ion-col size="3" text-left>
         <ion-button fill="clear" (click)="back()">
           <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
         </ion-button>
       </ion-col>
 
+      <ion-col size="6">
+        <ion-text>{{ viewTitle }}</ion-text>
+      </ion-col>
       <!-- Move forward one screen of the slides -->
-      <ion-col size="6" text-right>
+      <ion-col size="3" text-right>
         <ion-button fill="clear" (click)="next()">
           <ion-icon name="arrow-forward" slot="icon-only"></ion-icon>
         </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
+  
 
-  <calendar [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate"
+  <calendar *ngIf="!addevent && tab_active == 'calendar'"  [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate"
     (onEventSelected)="onEventSelected($event)" (onTitleChanged)="onViewTitleChanged($event)"
     (onTimeSelected)="onTimeSelected($event)" startHour="6" endHour="20" step="30" startingDayWeek="1">
   </calendar>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="addeventtoggle = !addeventtoggle">
+    <ion-fab-button (click)="addevent = !addevent">
       <ion-icon name="create"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
+  <ion-list-header *ngIf="tab_active == 'list'"  >
+    <ul class="container">
+      <li *ngFor="let author of authors">
+          <ion-avatar>
+              <ion-img src='{{author.foto}}'></ion-img>
+            </ion-avatar>
+            <ion-text>
+              {{author.name}}
+            </ion-text>
+      </li>
+      <li *ngFor="let author of authors">
+          <ion-avatar>
+              <ion-img src='{{author.foto}}'></ion-img>
+            </ion-avatar>
+            <ion-text>
+              {{author.name}}
+            </ion-text>
+      </li>
+      <li *ngFor="let author of authors">
+          <ion-avatar>
+              <ion-img src='{{author.foto}}'></ion-img>
+            </ion-avatar>
+            <ion-text>
+              {{author.name}}
+            </ion-text>
+      </li>
+    </ul>
+  </ion-list-header>
+
+  <ion-list *ngIf="tab_active == 'list'" [hidden]="eventSource.length === 0">
+    <ion-item-group *ngFor="let group of eventSource" [hidden]="group.hide">
+      <ion-item-divider sticky>
+        <ion-label>
+          {{group.time}}
+        </ion-label>
+      </ion-item-divider>
+
+      <ion-item-sliding *ngFor="let session of eventSource" #slidingItem>
+        <ion-item>
+          <ion-label>
+            <h3>{{session.title}}</h3>
+            <p>
+              {{session.timeStart}} &mdash; {{session.timeEnd}}: {{session.desc}}
+            </p>
+          </ion-label>
+        </ion-item>
+      </ion-item-sliding>
+    </ion-item-group>
+  </ion-list>
+
+  <ion-list-header *ngIf="tab_active == 'list'" [hidden]="eventSource.length > 0">
+    No Sessions Found
+  </ion-list-header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </ion-content>
 
 
 
-
-<!--  <ion-list #scheduleList [hidden]="shownSessions === 0">
-    <ion-item-group *ngFor="let event of events" [hidden]="event.hide">
-      <ion-item-divider sticky>
-        <ion-label>
-          {{event.time}}
-        </ion-label>
-      </ion-item-divider>
-
-      <ion-item-sliding *ngFor="let session of event.sessions" #slidingItem [attr.track]="session.tracks[0] | lowercase" [hidden]="session.hide">
-        <ion-item routerLink="/app/tabs/schedule/session/{{session.id}}">
-          <ion-label>
-            <h3>{{session.name}}</h3>
-            <p>
-              {{session.timeStart}} &mdash; {{session.timeEnd}}: {{session.location}}
-            </p>
-          </ion-label>
-        </ion-item>
-        <ion-item-options>
-          <ion-item-option color="favorite" (click)="addFavorite(slidingItem, session)">
-            Favorite
-          </ion-item-option>
-          <ion-item-option  (click)="removeFavorite(slidingItem, session, 'Remove Favorite')" >
-            Remove
-          </ion-item-option>
-        </ion-item-options>
-      </ion-item-sliding>
-    </ion-item-group>
-  </ion-list>
- -->
-<!--  <ion-list-header [hidden]="shownSessions > 0">
-    No Sessions Found
-  </ion-list-header> 
-  <ion-card>
-      <ion-card-header tappable (click)="collapseCard != collapseCard" >
-        <ion-card-title>Nuevo evento</ion-card-title>
-      </ion-card-header>
-      <ion-card-content *ngIf="!collapseCard">
-        <ion-item>
-          <ion-input type="text" placeholder="Titulo" [(ngModel)]="event.title"> </ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input type="text" placeholder="DFescripcion" [(ngModel)]="event.desc"> </ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label>Fecha de inicio</ion-label>
-          <ion-datetime display-format="DD.MM.YYYY HH:mm" pickerFormat="HHM D:HH:mm" [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
-        </ion-item>
-        <ion-item>
-          <ion-label>Fecha de fin</ion-label>
-          <ion-datetime display-format="DD.MM.YYYY HH:mm" pickerFormat="MMH D:HH:mm" [(ngModel)]="event.endTime" [min]="minDate"></ion-datetime>
-        </ion-item>
-        <ion-item>
-          <ion-label>Todo el dia</ion-label>
-          <ion-checkbox [(ngModel)]="event.allDay"></ion-checkbox>
-        </ion-item>
-        <ion-button fill="outline" expand="block" (click)="addEvent()"></ion-button>
-      </ion-card-content>
-    </ion-card>
-    -->
 
 <!-- <ion-grid *ngFor="let info of coffees; let i of index" [ngStyle]="{'width': 320, 'height': 510}"
         routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/coffeedetails/{{info.id}}">
