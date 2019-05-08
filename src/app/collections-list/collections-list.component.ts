@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CollectionsService, UserService } from '../core';
+import { CollectionsService, User, UserService } from '../core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
@@ -16,17 +16,20 @@ export class CollectionsListComponent implements OnInit {
   constructor( 
     private Collectionsservices: CollectionsService,
     public modalCtrl: ModalController,
-    private userservice: UserService,
+    private userService: UserService,
     private fb: FormBuilder) {
-      // use FormBuilder to create a form group
+      
     this.authForm = this.fb.group({
       'collectionname': ['', Validators.maxLength(25)]
     });
      }
      
   collections = [];
-  eleement = {};
-   
+  element = {};
+  addcollection = false;
+  authenticated = false;
+  currentUser: User;
+
   ngOnInit() {
     this.Collectionsservices.getAllcollections().subscribe(collections =>{
       this.collections.push(collections);
@@ -38,9 +41,8 @@ export class CollectionsListComponent implements OnInit {
   }
 
   addelement(){
-    let user = this.userservice.getCurrentUser();
-    this.eleement = {'user':user,'name':this.authForm};
-    this.Collectionsservices.addelement(this.eleement);
+    this.element = {'user':this.currentUser.usuario,'name':this.authForm};
+    this.Collectionsservices.addelement(this.element);
   }
 
   submitForm (){

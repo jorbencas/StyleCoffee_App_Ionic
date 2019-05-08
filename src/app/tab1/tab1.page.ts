@@ -22,7 +22,7 @@ export class Tab1Page implements OnInit {
     private FavoriteService: FavoriteService
   ) { }
 
-  errors: Errors = {errors: {}};
+
   infos = [];
   colorSecundary = 'default';
   search = false;
@@ -73,9 +73,7 @@ export class Tab1Page implements OnInit {
   }
 
   cansearch(){
-    console.log(this.search);
-    if(this.search) this.search = false;
-    else this.search = true;
+    this.search = this.search ? false : true;
   }
 
   updateSchedule(){

@@ -4,28 +4,34 @@ ion-col{
     }
 }
 
-
-.container{
-    display: inline-block;
-    overflow: auto;
-    max-height: 55px;
-    max-width: 100%;
-    padding: 0;
-    margin: 0, 2;
-    li{
-        display: block;
-        width: auto;
-        text-align: center;
-        padding: 0;
-        margin: 0;
-        ion-avatar{
-            padding:auto;
-            border: 4px solid #026fc9;
-            width: 50px;
-            height: 50px;
-        }
-        ion-text{
-            font-size: 12px;
-        }
-    }
+ion-list-header{
+    border: 0;
+    margin-top:5px;
+    margin-bottom: 2px;
+    .container{
+        overflow-x: scroll;
+        overflow-y: hidden;
+        white-space: nowrap;
+          margin:0;
+          padding-left:2px;
+          padding-right: 2px;
+          li{
+              display: inline-block;
+              margin:0;
+              padding-right:2%;
+              ion-avatar{
+                  margin:auto;
+                  display:block;
+                  padding:auto;
+                  border: 4px solid #026fc9;
+                  width: 50px;
+                  height: 50px;
+              }
+              ion-text{
+                  text-align:center;
+                  display:block;
+                  font-size: 12px;
+              }
+          }
+      }
 }

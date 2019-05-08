@@ -8,3 +8,4 @@ export * from './reserve.service';
 export * from './coffee.service';
 export * from './favorites.service';
 export * from './collections.service';
+export * from './events.service';

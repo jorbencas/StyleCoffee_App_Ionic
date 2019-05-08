@@ -12,7 +12,8 @@ import {
   ReserveService,
   CoffeeService,
   FavoriteService,
-  CollectionsService
+  CollectionsService,
+  EventsService
 } from './services';
 
 @NgModule({
@@ -30,7 +31,8 @@ import {
     ReserveService,
     CoffeeService,
     FavoriteService,
-    CollectionsService
+    CollectionsService,
+    EventsService
   ],
   declarations: []
 })

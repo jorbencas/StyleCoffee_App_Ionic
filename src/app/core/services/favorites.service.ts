@@ -8,7 +8,6 @@ import { ToastController } from '@ionic/angular';
 export class FavoriteService {
   constructor (
     private apiService: ApiService,
-    
     public toastCtrl: ToastController
   ) {}
 

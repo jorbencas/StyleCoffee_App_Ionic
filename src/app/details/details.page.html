@@ -1,41 +1,47 @@
 <ion-header>
   <ion-toolbar [color]="authenticated == true ? 'dark' : 'default'">
-      <ion-buttons slot="start">
-        <ion-back-button></ion-back-button>
-      </ion-buttons>
-      <ion-title>
-        Details
-      </ion-title>
-    </ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Details
+    </ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content ion-no-padding>
-    <div class="about-header" *ngFor="let info of infos; let i of index">
-        <img src="{{info.image}}"  alt="{{info.titulo}}" >
-      </div>
-      <div class="about-info" *ngFor="let info of infos; let i of index">
-        <h4 class="ion-padding-start">{{info.titulo}}</h4>
-    
-        <ion-list lines="none" *ngFor="let info of infos; let i of index">
-          <ion-item>
-            <ion-icon name="calendar" slot="start"></ion-icon>
-            <ion-label position="stacked">Date</ion-label>
-            <ion-label>{{info.yearpublication}}</ion-label>
-          </ion-item>
-          <ion-buttons>
-              <ion-button routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/reserve/add/{{isbn}}">Reservar</ion-button>
-              <ion-button>
-                  <ion-icon name="heart" id="{{info.isbn}}" [color]="info.favorite == 1 ? 'danger':'default'"></ion-icon>
-              </ion-button>
-            </ion-buttons>
-          <ion-item>
-            <ion-icon name="pin" slot="start"></ion-icon>
-            <ion-label position="stacked">Location</ion-label>
-          </ion-item>
-        </ion-list>
-    
-        <p class="ion-padding-start">
-            {{info.sinopsis}}
-        </p>
-      </div>
+  <div class="about-header" *ngFor="let info of infos; let i of index">
+    <img src="{{info.image}}" alt="{{info.titulo}}">
+  </div>
+  <div class="about-info" *ngFor="let info of infos; let i of index">
+    <h4 class="ion-padding-start">{{info.titulo}}</h4>
+
+    <ion-buttons expanded>
+      <ion-button routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        routerLink="/reserve/add/{{isbn}}">
+        <ion-icon name="bookmarks"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="heart" id="{{info.isbn}}" [color]="info.favorite == 1 ? 'danger':'default'"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="pin"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="archive"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-list lines="none" *ngFor="let info of infos; let i of index">
+      <ion-item>
+        <ion-icon name="calendar" slot="start"></ion-icon>
+        <ion-label position="stacked">Date</ion-label>
+        <ion-label>{{info.yearpublication}}</ion-label>
+      </ion-item>
+    </ion-list>
+
+    <p class="ion-padding-start">
+      {{info.sinopsis}}
+    </p>
+  </div>
 </ion-content>

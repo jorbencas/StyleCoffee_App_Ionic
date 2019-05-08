@@ -1,10 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { CoffeeService,  User, UserService, BookService} from '../core';
-import { CalendarComponent } from 'ionic2-calendar/calendar';
-import {  Inject, LOCALE_ID } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { EventsService,  User, UserService, BookService} from '../core';
+/* import { CalendarComponent } from 'ionic2-calendar/calendar';
+import { Inject, LOCALE_ID } from '@angular/core'; */
 import { formatDate } from '@angular/common';
-import { AlertController, LoadingController, ModalController, ToastController } from '@ionic/angular';
-import { a } from '@angular/core/src/render3';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab3',
@@ -12,17 +11,17 @@ import { a } from '@angular/core/src/render3';
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page implements OnInit {
-  constructor(private CoffeeService:CoffeeService,  
+  constructor(private eventservice:EventsService,  
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
-     @Inject(LOCALE_ID) private locale: string,
+   /*   @Inject(LOCALE_ID) private locale: string, */
     private userService: UserService,
     private bookservice: BookService
       ){}
       authenticated = false;
       currentUser: User;
-      tab_active = 'calendar';
+      tab_active = 'list';
       addevent = false;
     
       event = {
@@ -34,24 +33,60 @@ export class Tab3Page implements OnInit {
       };
      
       minDate = new Date().toISOString();
-     authors = [];
+      authors = [];
+      search = false;
+      queryText = '';
       eventSource = [];
+      eventSource2 = [
+        {
+          title: 'Event 1',
+        desc: 'Desce events 1 2 3 4 5',
+        startTime: '',
+        endTime: '',
+        allDay: false
+        },{
+          title: 'Event 2',
+        desc: 'Desce events 1 2 3 4 5',
+        startTime: '',
+        endTime: '',
+        allDay: false
+        },{
+          title: 'Event 3',
+        desc: 'Desce events 1 2 3 4 5',
+        startTime: '',
+        endTime: '',
+        allDay: false
+        },{
+          title: 'Event 4',
+        desc: 'Desce events 1 2 3 4 5',
+        startTime: '',
+        endTime: '',
+        allDay: false
+        }
+      ];
       viewTitle;
      
-      calendar = {
+     /*  calendar = {
         mode: 'month',
         currentDate: new Date(),
       };
      
-      @ViewChild(CalendarComponent) myCal: CalendarComponent;
+      @ViewChild(CalendarComponent) myCal: CalendarComponent; */
      
   ngOnInit(): void {
     //this.resetEvent();
+    this.cangetauth();
     this.bookservice.getAll().subscribe(authors =>{
       authors.forEach(a =>{
         this.authors.push(a);
       });
     });
+    console.log(this.authenticated);
+    /* this.eventservice.getAllEvents().subscribe(events => {
+      events.forEach(e =>{
+        this.eventSource2.push(e);
+      });
+    }); */
   }
  
   setab(tab: string) {
@@ -68,6 +103,15 @@ export class Tab3Page implements OnInit {
       }
     );   
   }
+
+  cansearch(){
+    this.search = this.search ? false : true;
+  }
+
+  updateSchedule(){
+    console.log(this.queryText);
+  }
+
 
   resetEvent() {
     this.event = {
@@ -98,7 +142,8 @@ export class Tab3Page implements OnInit {
     }
  
     this.eventSource.push(eventCopy);
-    this.myCal.loadEvents();
+    this.eventservice.addEvent(eventCopy);
+    //this.myCal.loadEvents();
     this.resetEvent();
   }
    // Change current month/week/day
@@ -115,14 +160,14 @@ export class Tab3Page implements OnInit {
   }
   
   // Change between month/week/day
-  changeMode(mode) {
+ /*  changeMode(mode) {
     this.calendar.mode = mode;
-  }
+  } */
   
   // Focus today
-  today() {
+  /* today() {
     this.calendar.currentDate = new Date();
-  }
+  } */
   
   // Selected date reange and hence title changed
   onViewTitleChanged(title) {
@@ -130,8 +175,7 @@ export class Tab3Page implements OnInit {
   }
   
   // Calendar event was clicked
-  async onEventSelected(event) {
-    // Use Angular date pipe for conversion
+  /* async onEventSelected(event) {
     let start = formatDate(event.startTime, 'medium', this.locale);
     let end = formatDate(event.endTime, 'medium', this.locale);
   
@@ -142,14 +186,14 @@ export class Tab3Page implements OnInit {
       buttons: ['OK']
     });
     alert.present();
-  }
+  } */
   
   // Time slot was clicked
-  onTimeSelected(ev) {
+/*   onTimeSelected(ev) {
     let selected = new Date(ev.selectedTime);
     this.event.startTime = selected.toISOString();
     selected.setHours(selected.getHours() + 1);
     this.event.endTime = (selected.toISOString());
-  }
+  } */
 
 }

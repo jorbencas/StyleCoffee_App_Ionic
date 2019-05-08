@@ -1,14 +1,20 @@
 
 .container{
-    display: inline-block;
-    overflow: auto;
-    max-height: 25px;
-    max-width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    max-height: 45px;
+    margin:0;
+    padding-left:2px;
+    padding-right: 2px;
     li{
+        display: inline-block;
         text-decoration: none;
         list-style: none;
-        display: block;
+        margin:0;
         ion-chip{
+            margin: auto;
+            display: block;
             width: auto;
             text-align: center;
         }

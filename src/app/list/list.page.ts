@@ -9,11 +9,15 @@ export class ListPage implements OnInit {
 
   items = [];
   currentUser: User;
+  authenticated = false;
+  search = false;
+  queryText = '';
 
   constructor(private FavoriteService: FavoriteService,
-    private userService: UserService,) {}
+    private userService: UserService) {}
 
   ngOnInit() {
+    this.cangetauth();
     this.FavoriteService.getAllFavorites().subscribe(favorite => {
       favorite.forEach(element => {
         console.log(element); 
@@ -34,7 +38,24 @@ export class ListPage implements OnInit {
     }
   };
 
-  
+  cansearch(){
+    this.search = this.search ? false : true;
+  }
+
+  updateSchedule(){
+    console.log(this.queryText);
+  }
+
+  cangetauth() {
+    this.userService.isAuthenticated.subscribe(
+      (authenticated) => {
+        this.authenticated = authenticated;
+        if(authenticated){
+          this.currentUser = this.userService.getCurrentUser();
+        }
+      }
+    );   
+  }
 
   hasFavorite(id) {
     let favorite = false;

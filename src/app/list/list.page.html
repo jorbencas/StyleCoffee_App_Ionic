@@ -1,27 +1,55 @@
 <ion-header>
-    <ion-toolbar color='dark'>
-      <ion-title>
-        Favorites
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-toolbar color='dark'>
+      <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+        </ion-buttons>
+    <ion-title>
+      Favorites
+    </ion-title>
+    <ion-buttons slot="end">
+        <ion-button (click)="cansearch()">
+          <ion-icon slot="icon-only" name="search"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-avatar slot="end">
+        <img *ngIf="!authenticated" [routerLink]="['/login']"
+          src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
+          alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
   
-  <ion-content>
-    <ion-list>
-        <ion-item-sliding *ngFor="let item of items"  >
-            <ion-item routerLink="/details/{{item.isbn}}">
-                <ion-img style='width: 90px; height: 40px;' class="item-img" slot="start" src="{{item.image}}" alt="{{item.titulo}}"></ion-img>
-                <div class="item-text" slot="end">
-                  <ion-text>{{item.titulo}}</ion-text>
-                  <ion-text>{{item.price}}</ion-text>
-                </div>
-              </ion-item>
-            <ion-item-options side="end">
-                <ion-item-option color="danger" expandable (click)="removeFavorite(item.isbn)">
-                    <ion-icon name='md-trash'></ion-icon>
-                  </ion-item-option>
-            </ion-item-options>
-          </ion-item-sliding>
-    </ion-list>
-  </ion-content>
-  
+        <img *ngIf="authenticated" [routerLink]="['/profile', currentUser.usuario]" [src]="currentUser.avatar"
+          alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
+      </ion-avatar>
+  </ion-toolbar>
+  <ion-toolbar [hidden]="!search" [color]="authenticated == true ? 'dark' : 'default'">
+      <ion-buttons slot="start">
+        <ion-button (click)="cansearch()">
+          <ion-icon name='arrow-back'></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-searchbar [(ngModel)]="queryText" [color]="authenticated == true ? 'dark' : 'default'"
+        (ionChange)="updateSchedule()" placeholder="Search" animated autocorrect='on'></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card [hidden]='items.length > 0'>
+    <ion-card-title>No hay libros favoritos</ion-card-title>
+  </ion-card>
+  <ion-list *ngIf="items.length > 0" >
+    <ion-item-sliding *ngFor="let item of items">
+      <ion-item routerLink="/details/{{item.isbn}}">
+        <ion-img style='width: 90px; height: 40px;' class="item-img" slot="start" src="{{item.image}}"
+          alt="{{item.titulo}}"></ion-img>
+        <div class="item-text" slot="end">
+          <ion-text>{{item.titulo}}</ion-text>
+          <ion-text>{{item.price}}</ion-text>
+        </div>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="danger" expandable (click)="removeFavorite(item.isbn)">
+          <ion-icon name='md-trash'></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

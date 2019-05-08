@@ -80,12 +80,12 @@
   </ion-button> -->
 
 
-  <app-filter [hidden]="tab_active !== 'book'"></app-filter>
+  <app-filter *ngIf="infos.length > 0" [hidden]="tab_active !== 'book'"></app-filter>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-grid [hidden]="tab_active !== 'book'" >
+  <ion-grid *ngIf="infos.length > 0" [hidden]="tab_active !== 'book'" >
       <ion-col *ngFor="let info of infos; let i of index" size='12'>
         <ion-row routerLink="/details/{{info.isbn}}">
           <ion-col size='4'>
@@ -118,12 +118,12 @@
     Toggle Infinite Scroll
   </ion-button>  -->
 
-  <app-filter [hidden]="tab_active !== 'coffee'"></app-filter>
+  <app-filter *ngIf="coffees.length > 0"   [hidden]="tab_active !== 'coffee'"></app-filter>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-list [hidden]="tab_active !== 'coffee'">
+  <ion-list  *ngIf="coffees.length > 0"  [hidden]="tab_active !== 'coffee'">
     <ion-item *ngFor="let info of coffees" [ngStyle]="{'width': 320, 'height': 510}" routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }" routerLink="/coffeedetails/{{info.id}}">
       <ion-img width="auto" height="350px" src="{{info.image}}" alt="{{info.displayName}}"></ion-img>
