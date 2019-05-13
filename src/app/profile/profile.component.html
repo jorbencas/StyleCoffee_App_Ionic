@@ -19,30 +19,28 @@
 
 <ion-content>
     <form [formGroup]="profileForm" (ngSubmit)="submitForm()">
-        <ion-item>
-            <ion-avatar>
+        <div class="circle-image-containe">
                 <img [src]="currentUser.avatar" *ngIf="!avaible"
-                    alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
-            </ion-avatar>
-        </ion-item>
+                alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
+        </div>
 
         <ion-button expand="block" shape="round" *ngIf="avaible" color='dark' (click)="changeavatar()">Cambiar la foto</ion-button>
 
         <ion-list>
-            <ion-item>
+            <ion-item >
                 <ion-label *ngIf="!avaible">{{ currentUser.usuario }}</ion-label>
                 <ion-input *ngIf="avaible" formControlName="usuario" placeholder="Username"
                     class="form-control form-control-lg" type="text" value="{{ currentUser.usuario }}"></ion-input>
             </ion-item>
 
-            <ion-item>
+            <ion-item >
                 <ion-label *ngIf="!avaible">{{currentUser.email}}</ion-label>
                 <ion-input *ngIf="avaible" formControlName="email" placeholder="Email"
                     class="form-control form-control-lg" type="text" value="{{currentUser.email}}">
                 </ion-input>
             </ion-item>
 
-            <ion-item>
+            <ion-item >
                 <ion-icon name="people"></ion-icon>
                 <ion-label>"Tipo de usuario"</ion-label>
                 <ion-select *ngIf="avaible" placeholder="Eligue el tipo de usuario" value="{{currentUser.tipo}}"></ion-select>

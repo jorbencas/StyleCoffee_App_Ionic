@@ -11,18 +11,17 @@ export class TabsPage implements OnInit {
     private userService: UserService) { }
 
   currentUser: User;
-  auth = false;
+  authenticated = false;
 
   ngOnInit() {
-    this.userService.currentUser.subscribe(
-      (userData) => {
-        this.currentUser = userData;
-        if(this.currentUser.usuario  !== undefined){
-          console.log(this.currentUser.usuario);
-          this.auth = true;
+    this.userService.isAuthenticated.subscribe(
+      (authenticated) => {
+        this.authenticated = authenticated;
+        if(authenticated){
+          this.currentUser = this.userService.getCurrentUser();
         }
       }
-    );
+    );   
   }
 
 }

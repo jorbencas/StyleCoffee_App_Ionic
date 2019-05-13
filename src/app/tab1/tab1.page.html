@@ -19,7 +19,7 @@
     </ion-buttons>
     <ion-avatar slot="end">
       <img *ngIf="!authenticated" [routerLink]="['/login']"
-        src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
+        src="https://cdn1.iconfinder.com/data/icons/business-users/512/circle-512.png"
         alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
 
       <img *ngIf="authenticated" [routerLink]="['/profile', currentUser.usuario]" [src]="currentUser.avatar"
@@ -39,7 +39,7 @@
 </ion-header>
 
 <ion-content>
-  <div [hidden]='infos.length > 0 || coffees.length > 0'>
+  <div [hidden]='books.length > 0 || coffees.length > 0'>
     <ion-grid>
       <ion-row>
         <ion-col>
@@ -50,28 +50,6 @@
           </ion-item>
         </ion-col>
       </ion-row>
-      <!--<ion-row [ngStyle]="{'width': 320, 'height': 510}">
-        <ion-col>
-          <ion-list class="ion-padding custom-skeleton">
-            <ion-item animated style="width: 100%">
-              <ion-avatar slot="start">
-                <ion-skeleton-text animated></ion-skeleton-text>
-              </ion-avatar>
-              <p animated style="width: 20%">
-                <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
-              </p>
-            </ion-item>
-            <ion-item animated style="width: 20%">
-              <ion-buttons slot="start">
-                <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
-              </ion-buttons>
-              <ion-buttons slot="end">
-                <ion-skeleton-text animated style="width: 20%"></ion-skeleton-text>
-              </ion-buttons>
-            </ion-item>
-          </ion-list>
-        </ion-col>
-      </ion-row> -->
     </ion-grid>
   </div>
 
@@ -80,50 +58,48 @@
   </ion-button> -->
 
 
-  <app-filter *ngIf="infos.length > 0" [hidden]="tab_active !== 'book'"></app-filter>
+  <app-filter [filter]="onfilter('book')" *ngIf="books.length > 0" [hidden]="tab_active !== 'book'"></app-filter>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-grid *ngIf="infos.length > 0" [hidden]="tab_active !== 'book'" >
-      <ion-col *ngFor="let info of infos; let i of index" size='12'>
-        <ion-row routerLink="/details/{{info.isbn}}">
-          <ion-col size='4'>
-            <ion-img class="item-img" src="{{info.image}}" alt="{{info.titulo}}"></ion-img>
-          </ion-col>
-          <ion-col size='8'>
-              <p id="{{info.isbn}}" >{{info.titulo}}</p>
-              <p>{{info.name}}</p>
-              <p> {{info.price}} €</p>
-          </ion-col>
-        </ion-row>
-      <ion-row *ngIf="authenticated">
-          <ion-col size="1">
-            <ion-buttons>
-              <ion-icon name="heart" id="{{info.isbn}}" [color]="info.favorite == 1 ? 'danger':'default'"
-                (click)="clickEventHandler($event.target)"></ion-icon>
-            </ion-buttons>
-          </ion-col>
-          <ion-col size="1">
-            <ion-buttons>
-              <ion-icon name="archive" id="{{info.isbn}}" [color]="colorSecundary"
-                (click)="clickEventHandlerSave($event.target)"></ion-icon>
-            </ion-buttons>
-          </ion-col>
-        </ion-row>
-      </ion-col>
+  <ion-grid *ngIf="books.length > 0" [hidden]="tab_active !== 'book'">
+    <ion-col *ngFor="let info of books; let i of index" size='12'>
+      <ion-row >
+        <ion-col size='4' routerLink="/details/{{info.isbn}}" >
+          <ion-img class="item-img" src="{{info.image}}" alt="{{info.titulo}}"></ion-img>
+        </ion-col>
+        <ion-col size='8'>
+          <p id="{{info.isbn}}" routerLink="/details/{{info.isbn}}" >{{info.titulo}}</p>
+          <p routerLink="/details/{{info.isbn}}" >{{info.name}}</p>
+          <div class="ion-align-items-baseline" style=" width:100%; display:inline-flex; justify-content:space-around;">
+            <div style="width:50%;"> {{info.price}} € </div>
+            <div style="width:50%; display:inline-flex; justify-content:space-around; align-items:center;" *ngIf="authenticated">
+                  <ion-buttons>
+                    <ion-icon name="heart" id="{{info.isbn}}" [color]="info.favorite == 1 ? 'danger':'default'"
+                      (click)="clickEventHandler($event.target)"></ion-icon>
+                  </ion-buttons>
+                  <ion-buttons>
+                    <ion-icon name="archive" id="{{info.isbn}}" [color]="colorSecundary"
+                      (click)="clickEventHandlerSave($event.target)"></ion-icon>
+                  </ion-buttons>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-col>
   </ion-grid>
 
   <!--  <ion-button *ngIf="tab_active == 'coffee'" (click)="toggleInfiniteScroll()" expand="block">
     Toggle Infinite Scroll
   </ion-button>  -->
 
-  <app-filter *ngIf="coffees.length > 0"   [hidden]="tab_active !== 'coffee'"></app-filter>
+  <app-filter [filter]="onfilter('coffee')" *ngIf="coffees.length > 0" [hidden]="tab_active !== 'coffee'"></app-filter>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-list  *ngIf="coffees.length > 0"  [hidden]="tab_active !== 'coffee'">
+  <ion-list *ngIf="coffees.length > 0" [hidden]="tab_active !== 'coffee'">
     <ion-item *ngFor="let info of coffees" [ngStyle]="{'width': 320, 'height': 510}" routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }" routerLink="/coffeedetails/{{info.id}}">
       <ion-img width="auto" height="350px" src="{{info.image}}" alt="{{info.displayName}}"></ion-img>

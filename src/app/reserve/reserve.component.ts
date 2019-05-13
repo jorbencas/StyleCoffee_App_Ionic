@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User, Errors, UserService , ReserveService } from '../core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-reserve',
@@ -9,12 +9,8 @@ import { User, Errors, UserService , ReserveService } from '../core';
   styleUrls: ['./reserve.component.scss']
 })
 export class ReserveComponent implements OnInit {
-  authType: String = '';
-  title: String = '';
-  errors: Errors = {errors: {}};
-  isSubmitting = false;
-  authForm: FormGroup;
 
+  reserveForm: FormGroup;
 
   constructor(
     private reserveservices: ReserveService,
@@ -23,7 +19,7 @@ export class ReserveComponent implements OnInit {
     private userService: UserService,
     private fb: FormBuilder
     ) {
-      this.authForm = this.fb.group({
+      this.reserveForm = this.fb.group({
         'dni': ['', Validators.required],
         'email': ['', Validators.required],
         'timestart': ['', Validators.required],
@@ -33,33 +29,19 @@ export class ReserveComponent implements OnInit {
       });
      }
 
-    authenticated = false;
-    reserve = [];
-    currentUser: User;
-    id = 0;
-
+     authType: String = '';
+     title: String = '';
+     errors: Errors = {errors: {}};
+     isSubmitting = false;
+   
+     authenticated = false;
+     reserve = [];
+     currentUser: User;
+     id = 0;
+     
   ngOnInit() {
     this.route.params.subscribe(params => {
-      let action = params['actions'];
       this.id = params['id'];
-      if(action){
-        switch (action){
-          case "add":
-           /*  this.reserveservices.addReserve(id).subscribe(reserve => {
-              this.reserve.push(reserve);
-            }); */
-            break;
-          case "reserve":
-            /* this.reserveservices.removeReserve(id).subscribe(reserve => {
-              this.reserve.push(reserve);
-            }); */
-            break;
-        }
-      }else{
-        this.reserveservices.getOneReserve(this.id).subscribe(reserve => {
-          this.reserve.push(reserve);
-        });
-      }//end else 
     });
   }
 
@@ -74,13 +56,14 @@ export class ReserveComponent implements OnInit {
     );         
   }
 
-  onSubmit(){
+  Submiting(){
     this.isSubmitting = true;
     this.errors = {errors: {}};
     
-    let elements = this.authForm.value;
+    let elements = this.reserveForm.value;
     let usuario = this.currentUser.usuario;
     let id = this.id;
+    console.log("Dentro: " + id);
     this.reserveservices.addReserve(elements, usuario, id).subscribe(
       data => this.router.navigateByUrl('/details/' + this.id),
       err => {

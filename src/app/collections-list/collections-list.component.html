@@ -5,7 +5,7 @@
         <ion-icon name='arrow-back'></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title slot="end">
+    <ion-title>
       Coleciones
     </ion-title>
   </ion-toolbar>
@@ -25,17 +25,17 @@
   </ion-list>
 
   <ion-item *ngIf="addcollection">
-    <form [formGroup]="authForm" (ngSubmit)="submitForm()">
-      <ion-input type='text' placeholder="Nombre de la coleción" formControlName="collectionname" placeholder="Username"
+    <form [formGroup]="collectionsForm" (ngSubmit)="submitForm()">
+      <ion-input type='text' placeholder="Nombre de la coleción" formControlName="collectionname"
         class="form-control form-control-lg"></ion-input>
-      <ion-button expand="block" shape="round" fill="outline" type="submit">
+      <ion-button color='dark' expand="block" shape="round" fill="outline" type="submit">
         <ion-icon name="person"></ion-icon>Crear una nueva coleción
       </ion-button>
     </form>
   </ion-item>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="addcollection = !addcollection">
+    <ion-fab-button color='dark' (click)="addcollection = !addcollection">
       <ion-icon name="create"></ion-icon>
     </ion-fab-button>
   </ion-fab>

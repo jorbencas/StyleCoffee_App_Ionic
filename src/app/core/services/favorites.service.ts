@@ -24,7 +24,7 @@ export class FavoriteService {
     .pipe(map(data => data.favorites));
   }
 
-  addFavorite(id: string, user: string): Observable<[string]>{
+  addFavorite(id: number, user: string): Observable<[string]>{
     let data = {"idbook": id, "usuario": user};
     return this.apiService.post('book&function=addFavorite',{"data": data})
     .pipe(map(data => {

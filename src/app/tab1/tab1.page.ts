@@ -1,9 +1,11 @@
 import { Component, OnInit, ɵConsole } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController, IonInfiniteScroll, LoadingController, ModalController } from '@ionic/angular';
-import { CoffeeService, User, UserService, BookService, FavoriteService } from '../core';
+import { CoffeeService, User, UserService, BookService, FavoriteService, Filter } from '../core';
 import { CollectionsListComponent } from '../collections-list/collections-list.component';
-import { Errors } from './../core';
+import { ToastController } from '@ionic/angular';
+import { filter } from 'rxjs/operators';
+
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -19,11 +21,17 @@ export class Tab1Page implements OnInit {
     private CoffeeService: CoffeeService,
     private BookService: BookService,
     private userService: UserService,
-    private FavoriteService: FavoriteService
+    private FavoriteService: FavoriteService,
+    public toastCtrl: ToastController
   ) { }
 
-
-  infos = [];
+  filter: Filter = {
+    titulo: '',
+    filter_books:[],
+    filter_coffee: []
+  };
+ 
+  books = [];
   colorSecundary = 'default';
   search = false;
   queryText = '';
@@ -31,10 +39,15 @@ export class Tab1Page implements OnInit {
   currentUser: User;
   tab_active = 'book';
   coffees = [];
+ 
   contentavaible = false;
-
+  books_original = [];
+  coffees_original = [];
+  num = 0;
   ngOnInit(): void {
 
+  /*   this.filter = this.books.map( e => {return e;});
+    this.filter.filter_coffee = this.coffees.map( e => {return e;}); */
     this.presentLoading();
 
     this.route.params.subscribe(param => {
@@ -43,27 +56,30 @@ export class Tab1Page implements OnInit {
 
       if (genere) {
         this.BookService.getBookbyGenere(genere).subscribe(books => {
-          books.forEach(element => {
-            this.infos.push(element);
-          });
+          this.books = books.map((book) => { return book; });
+          if (this.books.length >= 0) {
+            this.sendNotification("Todo cargado con exito");
+          }
         });
       } else if (kind) {
         this.CoffeeService.getByKind(kind).subscribe(coffees => {
-          coffees.forEach(element => {
-            this.coffees.push(element);
-          });
+          this.coffees = coffees.map((coffee) => { return coffee; });
+          if (this.coffees.length >= 0) {
+            this.sendNotification("Todo cargado con exito");
+          }
         });
       } else {
         this.BookService.getAll().subscribe(books => {
-          books.forEach(element => {
-            this.infos.push(element);
-          });
+          this.books_original = books.map(eleem => { return eleem });
+          this.books = books.map((book) => { return book; });
         });
         this.CoffeeService.getAllcoffe().subscribe(coffees => {
-          coffees.forEach(element => {
-            this.coffees.push(element);
-          });
+          this.coffees_original = coffees.map(eleem => { return eleem });
+          this.coffees = coffees.map((coffee) => { return coffee; });
         });
+        if (this.coffees.length >= 0 || this.books.length >= 0) {
+          this.sendNotification("Todos los libros y cafees se han cargado con exito");
+        }
       }
     });
   }
@@ -72,22 +88,82 @@ export class Tab1Page implements OnInit {
     this.cangetauth();
   }
 
-  cansearch(){
+  onfilter(filter){
+    /* if(filter == 'book' && this.tab_active == 'book') this.filter = { this.book,'book'};
+    else if (filter == 'coffee' && this.tab_active == 'coffee')  this.filter.titulo = 'coffee'; */
+  }
+  cansearch() {
     this.search = this.search ? false : true;
   }
 
-  updateSchedule(){
-    console.log(this.queryText);
+  updateSchedule() {
+    if (this.tab_active == 'book') {
+      const filtrados = this.books.filter(b => b.titulo.toLowerCase().includes(this.queryText));
+      this.books = filtrados.map(book => book);
+
+      /*  this.BookService.getBookbyName(this.queryText).subscribe(result =>{
+         if(result.length > 0){
+           this.books = result.map( (elem) => {return elem});
+         }else{
+           //this.books = [];
+           console.log(this.books.length);
+         }
+         
+       }); */
+    }
+    else {
+      const filtradas = this.coffees.filter(c => c.name.toLowerCase().includes(this.queryText));
+      this.coffees = filtradas.map((elem) => { return elem; });
+
+      /* this.CoffeeService.getByKind(this.queryText).subscribe(result =>{
+        if(result.length > 0){
+          this.coffees = result.map( (elem) => {return elem;});
+        }else{
+         //this.coffees = [];
+         console.log(this.coffees.length);
+        }
+      }); */
+
+    }
+  }
+
+  ngAfterContentChecked() {
+    if (this.search && this.queryText == '') {
+      if (this.tab_active === 'book') {
+        if (this.books_original.length > this.books.length) {
+          this.books = this.books_original.map(b =>  b).sort();
+        };
+      } else if (this.tab_active === 'coffee') {
+        if (this.coffees.length > this.coffees_original.length) {
+          this.coffees = this.coffees_original.map(coffees => coffees).sort();
+        }
+      }
+    }
+  }
+
+
+  async sendNotification(message: string) {
+    let toast = await this.toastCtrl.create({
+      message: message,
+      duration: 3000
+    });
+    toast.present();
   }
 
   doRefresh(event) {
     if (this.tab_active === 'book') {
       this.BookService.getAll().subscribe(book => {
-        if (book == this.infos) this.infos.push(book);
+        if (book.length < this.books.length) {
+          const books_comparateds = book.every(function (value, index) { return value === this.books[index] });
+          if(!books_comparateds) this.books = book.map(b => { return b; });
+        };
       });
     } else if (this.tab_active === 'coffee') {
       this.CoffeeService.getAllcoffe().subscribe(coffees => {
-        if (this.coffees == coffees) this.coffees.push(coffees);
+        if (this.coffees.length < coffees.length) {
+          const coffes_comparateds = coffees.sort().every(function (value, index) { return value === this.coffees.sort()[index] });
+          if(!coffes_comparateds) this.coffees = coffees.map(coffees => { return coffees; });
+        }
       });
     }
     setTimeout(() => {
@@ -119,11 +195,11 @@ export class Tab1Page implements OnInit {
     this.userService.isAuthenticated.subscribe(
       (authenticated) => {
         this.authenticated = authenticated;
-        if(authenticated){
+        if (authenticated) {
           this.currentUser = this.userService.getCurrentUser();
         }
       }
-    );         
+    );
   }
 
   setab(tab: string) {
@@ -132,18 +208,10 @@ export class Tab1Page implements OnInit {
 
   async removeFavorite(id) {
     if (this.hasFavorite(id)) {
-      const alert = await this.alertCtrl.create({
-        header: 'Favorite removed',
-        buttons: [{
-          text: 'OK'
-        }]
-      });
-
       let user = this.currentUser.usuario;
-      this.FavoriteService.removeFavorite(id, user).subscribe(data =>{
-        if(data){
-           // now present the alert on top of all other content
-          alert.present();
+      this.FavoriteService.removeFavorite(id, user).subscribe(data => {
+        if (data) {
+          this.sendNotification("El ilbro " + data + " se ha eliminado con exito");
         }
       });
     }
@@ -151,33 +219,22 @@ export class Tab1Page implements OnInit {
 
   async addFavorite(id) {
     // create an alert instance
-    console.log(id);
     if (this.hasFavorite(id)) {
-      const alert = await this.alertCtrl.create({
-        header: 'Favorite Added',
-        buttons: [{
-          text: 'OK'
-        }]
-      });
-
       let user = this.currentUser.usuario;
-      this.FavoriteService.addFavorite(id, user).subscribe(data =>{
-        if(data){
-           // now present the alert on top of all other content
-          alert.present();
+      this.FavoriteService.addFavorite(id, user).subscribe(data => {
+        if (data) {
+          this.sendNotification("El ilbro " + data + " se ha añadido con exito");
         }
       });
     }
-
   }
 
   hasFavorite(id) {
     let favorite = false;
 
-    this.infos.forEach(item => {
+    this.books.forEach(item => {
       if (item.isbn === id) {
-        if (item.favorite === 1) favorite = false;
-        else favorite = true;
+        favorite = item.favorite === 1 ? false : true;
       }
     });
     return favorite;
@@ -201,11 +258,11 @@ export class Tab1Page implements OnInit {
 
     const { data } = await modal.onWillDismiss();
     if (data) {
-      
+
     }
   }
 
-  
+
   clickEventHandlerSave(event) {
     if (event.colorSecundary === 'default') {
       this.listcollections(event.id);
@@ -215,7 +272,6 @@ export class Tab1Page implements OnInit {
       this.colorSecundary = 'default';
       event.colorSecundary = this.colorSecundary;
     }
-
   }
 
 
@@ -227,7 +283,7 @@ export class Tab1Page implements OnInit {
   
         // App logic to determine if all data is loaded
         // and disable the infinite scroll
-        if (this.infos.length == 50 || this.coffees.length == 50) {
+        if (this.books.length == 50 || this.coffees.length == 50) {
           event.target.disabled = true;
         }
       }, 500);

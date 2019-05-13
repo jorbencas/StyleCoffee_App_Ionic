@@ -2,71 +2,48 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
 import { map } from 'rxjs/operators';
-import { ToastController } from '@ionic/angular';
 
 @Injectable()
 export class CoffeeService {
-  constructor (
-    private apiService: ApiService,
-    public toastCtrl: ToastController
-  ) {}
+  constructor(
+    private apiService: ApiService
+  ) { }
 
-  async sendNotification(message: string) {
-    let toast = await this.toastCtrl.create({
-      message: message,
-      duration: 3000
-    });
-    toast.present();
-  }
-
-  getAllcoffe(): Observable<[string]>{
+  getAllcoffe(): Observable<[string]> {
     return this.apiService.get('coffee&function=getAllcoffee')
-    .pipe(map(data => { 
-      if(data.success){
-          this.sendNotification("Todo realizado con exito");
+      .pipe(map(data => {
+        if (data.success) {
           return data.coffee;
-        }else{
-          this.sendNotification(data.error);
+        } else {
+          return data.error;
         }
       }
-    ));
-  }
-
-  getCoffee(id: number): Observable<[string]>{
-    return this.apiService.get('coffee&function=getcoffee&param=' + id)
-    .pipe(map(data => { 
-      if(data.success){
-          this.sendNotification("Todo realizado con exito");
-          return data.coffee;
-        }else{
-          this.sendNotification(data.error);
-        }
-      }
-    ));
-  }
-
-  getByKind(kind: string): Observable<[string]>{
-    return this.apiService.get('coffee&function=getbykind&param=' + kind)
-    .pipe(map(data => { 
-      if(data.succes){
-          this.sendNotification("Todo realizado con exito");
-          return data.coffee;
-        }else{
-          this.sendNotification(data.error);
-        }
-     }
-      
       ));
   }
-/*
-  getCharacters(id: Number): Observable<[string]>{
-    return this.apiService.get('character&function=getCharacters&param='+id)
-    .pipe(map(data => data.characters));
+
+  getCoffee(id: number): Observable<[string]> {
+    return this.apiService.get('coffee&function=getcoffee&param=' + id)
+      .pipe(map(data => {
+        if (data.success) {
+          return data.coffee;
+        } else {
+          return data.error;
+        }
+      }
+      ));
   }
 
-  getCharacter(id: Number): Observable<[string]>{
-    return this.apiService.get('character&function=getCharacter&param='+id)
-    .pipe(map(data => data.character));
+  getByKind(kind: string): Observable<[string]> {
+    return this.apiService.get('coffee&function=getbykind&param=' + kind)
+      .pipe(map(data => {
+        if (data.succes) {
+          return data.coffee;
+        } else {
+          return data.error;
+        }
+      }
+
+      ));
   }
-*/
+
 }

@@ -58,4 +58,7 @@ export class AppComponent implements OnInit {
     this.userService.populate();
   }
 
+  ionViewDidLeave(){
+    this.userService.populate();
+  }
 }

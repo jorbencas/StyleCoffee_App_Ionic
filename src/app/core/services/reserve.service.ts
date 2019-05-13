@@ -32,6 +32,8 @@ export class ReserveService {
   
   addReserve(elem: JSON, user: string, id: number): Observable<[string]>{
     const data = {"eement":elem, 'user':user, 'idbook':id};
+    console.log(data);
+    debugger;
     return this.apiService.post('reserve&function=addOnereserve', {'data':data})
     .pipe(map(data => {
       if(data.success){

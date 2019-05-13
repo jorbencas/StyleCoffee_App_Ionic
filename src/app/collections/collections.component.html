@@ -13,7 +13,7 @@
       </ion-buttons>
       <ion-avatar slot="end">
         <img *ngIf="!authenticated" [routerLink]="['/login']"
-          src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"
+          src="https://cdn1.iconfinder.com/data/icons/business-users/512/circle-512.png"
           alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
   
         <img *ngIf="authenticated" [routerLink]="['/profile', currentUser.usuario]" [src]="currentUser.avatar"

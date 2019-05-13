@@ -1,4 +1,4 @@
-<ion-header >
+<ion-header>
   <ion-toolbar color="dark">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
@@ -6,42 +6,38 @@
     <ion-title>
       Crea una reserva
     </ion-title>
-    <ion-buttons slot="end">
-      <ion-icon formControlName="search"></ion-icon>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <form id="contact_form" class="form-contact" ((ngSubmit)="onSubmit()" )>   
-  <ion-list>                    
-    <ion-item class="form-group">
+  <form [formGroup]="reserveForm" (ngSubmit)="Submiting()">
+    <ion-list>
+      <ion-item>
         <ion-label for="email">Correo electronico</ion-label>
-        <ion-input  type="email" id="email" formControlName="email" placeholder="Email *"></ion-input>
-    </ion-item>
-    <ion-item class="form-group" >
+        <ion-input type="email" formControlName="email"></ion-input>
+      </ion-item>
+      <ion-item>
         <ion-label for="dni">Dni</ion-label>
-        <ion-input  type="dni" id="dni" formControlName="dni" placeholder="Dni *"></ion-input>
-    </ion-item>
-    <ion-item class="form-group">
+        <ion-input type="text" formControlName="usuario"></ion-input>
+      </ion-item>
+      <ion-item>
         <ion-label for="timestart">Hora inicial de la reserva</ion-label>
-        <ion-input  type="time" id="timestart" formControlName="timestart" placeholder="Ha quiera quiere hacer su reserva ? *" ></ion-input>
-    </ion-item>
-    <ion-item class="form-group">
+        <ion-datetime displayFormat="h:mm A"></ion-datetime>
+      </ion-item>
+      <ion-item>
         <ion-label for="timeend">Hora final de la reserva</ion-label>
-        <ion-input  type="time" id="timeend" formControlName="timeend" placeholder="reservar el libro hasta la hora *" ></ion-input>
-    </ion-item>
-    <ion-item class="form-group">
+        <ion-datetime displayFormat="h:mm A"></ion-datetime>
+      </ion-item>
+      <ion-item>
         <ion-label for="datestart">fecha inicial de la reserva</ion-label>
-        <ion-input  type="date" id="datestart" formControlName="datestart" placeholder="Fecha de inicio de la reserva *" ></ion-input>
-    </ion-item>
-    <ion-item class="form-group">
+        <ion-datetime display-format="MM/DD/YYYY" formControlName="datestart"></ion-datetime>
+      </ion-item>
+      <ion-item>
         <ion-label for="dateend">fecha final de la reserva</ion-label>
-        <ion-input  type="date" id="dateend" formControlName="dateend" placeholder="Fecha final de la reserva*" ></ion-input>
-    </ion-item>
-    <ion-item class="form-group">
-        <ion-input class="btn btn-primary" type="submit" id="submit" value="Enviar"></ion-input>
-    </ion-item>
-  </ion-list>
-</form>
+        <ion-datetime display-format="MM/DD/YYYY" formControlName="dateend"></ion-datetime>
+      </ion-item>
+    </ion-list>
+    <ion-button color='dark' expand="block" shape="round" fill="outline" type="submit">
+      <ion-icon name='archive'></ion-icon>Reservar
+    </ion-button>
+  </form>
 </ion-content>
-
