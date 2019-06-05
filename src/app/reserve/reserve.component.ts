@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { User, Errors, UserService , ReserveService } from '../core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-reserve',
@@ -17,11 +17,9 @@ export class ReserveComponent implements OnInit {
     private route: ActivatedRoute, 
     private router: Router,
     private userService: UserService,
-    private fb: FormBuilder
-    ) {
+    private fb: FormBuilder) {
       this.reserveForm = this.fb.group({
-        'dni': ['', Validators.required],
-        'email': ['', Validators.required],
+        'name': '',
         'timestart': ['', Validators.required],
         'timeend':['',Validators.required],
         'datestart': ['', Validators.required],
@@ -40,6 +38,7 @@ export class ReserveComponent implements OnInit {
      id = 0;
      
   ngOnInit() {
+    this.cangetauth();
     this.route.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -63,7 +62,7 @@ export class ReserveComponent implements OnInit {
     let elements = this.reserveForm.value;
     let usuario = this.currentUser.usuario;
     let id = this.id;
-    console.log("Dentro: " + id);
+
     this.reserveservices.addReserve(elements, usuario, id).subscribe(
       data => this.router.navigateByUrl('/details/' + this.id),
       err => {

@@ -4,7 +4,7 @@
             <ion-back-button></ion-back-button>
         </ion-buttons>
         <ion-title>
-            Profile
+            Perfil
         </ion-title>
         <ion-buttons slot="end">
             <ion-button (click)="changeeditable()">
@@ -24,7 +24,7 @@
                 alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
         </div>
 
-        <ion-button expand="block" shape="round" *ngIf="avaible" color='dark' (click)="changeavatar()">Cambiar la foto</ion-button>
+        <!-- <ion-button expand="block" shape="round" *ngIf="avaible" color='dark' (click)="changeavatar()">Cambiar la foto</ion-button> -->
 
         <ion-list>
             <ion-item >
@@ -51,29 +51,12 @@
             </ion-item>
 
 
-            <ion-item>
+           <!--  <ion-item>
                 <ion-label *ngIf="!avaible">{{currentUser.password}}</ion-label>
                 <ion-input *ngIf="avaible" formControlName="password" placeholder="Password"
                     class="form-control form-control-lg" type="password" value="{{currentUser.password}}"></ion-input>
             </ion-item>
-
-            <ion-item>
-                <ion-label *ngIf="!avaible">{{currentUser.pais}}</ion-label>
-                <ion-input *ngIf="avaible" formControlName="pais" placeholder="Pais"
-                    class="form-control form-control-lg" type="text" value="{{currentUser.pais}}"></ion-input>
-            </ion-item>
-
-            <ion-item>
-                <ion-label *ngIf="!avaible">{{currentUser.provincia}}</ion-label>
-                <ion-input *ngIf="avaible" formControlName="provincia" placeholder="Provincia"
-                    class="form-control form-control-lg" type="text" value="{{currentUser.provincia}}"></ion-input>
-            </ion-item>
-
-            <ion-item>
-                <ion-label *ngIf="!avaible">{{currentUser.poblacion}}</ion-label>
-                <ion-input *ngIf="avaible" formControlName="poblacion" placeholder="poblacion"
-                    class="form-control form-control-lg" type="text" value="{{currentUser.poblacion}}"></ion-input>
-            </ion-item>
+ -->
         </ion-list>
         <ion-button shape="round" expand="block" *ngIf="avaible" color='dark' type="submit">
             <ion-icon name="person"></ion-icon>Guardar cambios

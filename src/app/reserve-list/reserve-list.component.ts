@@ -15,23 +15,14 @@ export class ReserveListComponent implements OnInit {
   authenticated = false;
   currentUser: User;
   
-  search = false;
-  queryText = '';
 
   ngOnInit() {
     this.cangetauth();
-    this.reserveservices.getAllReserves().subscribe(reserve => {
+    let user = this.currentUser.usuario;
+    this.reserveservices.getAllReserves(user).subscribe(reserve => {
       this.list.push(reserve);
       console.log(this.list);
     });
-  }
-
-  cansearch(){
-    this.search = this.search ? false : true;
-  }
-
-  updateSchedule(){
-    console.log(this.queryText);
   }
 
   cangetauth() {
@@ -50,7 +41,7 @@ export class ReserveListComponent implements OnInit {
       console.log("Rerve hecha");
     });
 
-    this.reserveservices.getAllReserves().subscribe(reserve => {
+    this.reserveservices.getAllReserves(this.currentUser.usuario).subscribe(reserve => {
       this.list.push(reserve);
     });
 

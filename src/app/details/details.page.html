@@ -4,7 +4,7 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>
-      Details
+        {{books[0].titulo}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -17,24 +17,26 @@
     <h4 class="ion-padding-start">{{info.titulo}}</h4>
         <ion-buttons  class="ion-justify-content-center">
             <ion-button (click)="reserve()">
-              <ion-icon name="bookmarks"></ion-icon>
+              <ion-icon name="archive"></ion-icon>
             </ion-button>
             <ion-button  (click)="clickEventHandler()" >
               <ion-icon name="heart"  [color]="info.favorite == 1 ? 'danger':'default'" ></ion-icon>
             </ion-button>
-            <ion-button>
-              <ion-icon name="pin"></ion-icon>
-            </ion-button>
             <ion-button (click)="clickEventHandlerSave()" >
-              <ion-icon name="archive" [color]="colorSecundary"></ion-icon>
+              <ion-icon name="bookmark" [color]="colorSecundary"></ion-icon>
             </ion-button>
+            <ion-chip >{{info.state}}</ion-chip>
           </ion-buttons>
     <ion-list lines="none" *ngFor="let info of books; let i of index">
       <ion-item>
-        <ion-icon name="calendar" slot="start"></ion-icon>
-        <ion-label position="stacked">Date</ion-label>
-        <ion-label>{{info.yearpublication}}</ion-label>
+        <ion-text> Autor/a: {{info.name}}</ion-text>
       </ion-item>
+        <p>Año de publicación: {{info.yearpublication}}</p>
+        <p>Numero de paginas: {{info.numpags}}</p>
+        <p>Stock: {{info.stock}}</p>
+        <p>Edición: {{info.edition}}</p>
+        <p>Idioma: {{info.languaje}}</p>
+                  
     </ion-list>
 
     <p class="ion-padding-start">

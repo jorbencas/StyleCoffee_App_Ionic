@@ -1,15 +1,14 @@
-import { Component, OnInit, ɵConsole } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AlertController, IonInfiniteScroll, LoadingController, ModalController } from '@ionic/angular';
-import { CoffeeService, User, UserService, BookService, FavoriteService, Filter } from '../core';
+import { AlertController, LoadingController, ModalController } from '@ionic/angular';
+import { CoffeeService, User, UserService, BookService, FavoriteService, Filter, CollectionsService } from '../core';
 import { CollectionsListComponent } from '../collections-list/collections-list.component';
 import { ToastController } from '@ionic/angular';
-import { filter } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+  selector: 'app-books_coffees',
+  templateUrl: 'books_coffees.page.html',
+  styleUrls: ['books_coffees.page.scss']
 })
 
 export class Tab1Page implements OnInit {
@@ -22,76 +21,64 @@ export class Tab1Page implements OnInit {
     private BookService: BookService,
     private userService: UserService,
     private FavoriteService: FavoriteService,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    private collectionservice: CollectionsService
   ) { }
 
-  filter: Filter = {
-    titulo: '',
-    filter_books:[],
-    filter_coffee: []
-  };
- 
   books = [];
-  colorSecundary = 'default';
+  colorSecundary = '';
   search = false;
   queryText = '';
   authenticated = false;
   currentUser: User;
   tab_active = 'book';
   coffees = [];
- 
   contentavaible = false;
   books_original = [];
   coffees_original = [];
-  num = 0;
+
+  tags1 = ["Novela Negra", " Novela Contemporania", "Drama", "Romance", "Acción", "Thriller", "Comedia", 
+  " Novela Juvenil", "Infantil", "Libros de Auto ayuda"]
+  tags2 = ["Capuchino", "Bombón" , "Descafeinado", "Cortado", "Café solo", "Cafe con leche", "Expreso Doble",
+  "Café Jamaicano", "Làgrima", "Instantaneo"]
+
+
   ngOnInit(): void {
-
-  /*   this.filter = this.books.map( e => {return e;});
-    this.filter.filter_coffee = this.coffees.map( e => {return e;}); */
+    this.cangetauth();
     this.presentLoading();
-
     this.route.params.subscribe(param => {
-      let genere = param['genere'];
-      let kind = param['kind'];
-
-      if (genere) {
-        this.BookService.getBookbyGenere(genere).subscribe(books => {
-          this.books = books.map((book) => { return book; });
-          if (this.books.length >= 0) {
-            this.sendNotification("Todo cargado con exito");
-          }
-        });
-      } else if (kind) {
-        this.CoffeeService.getByKind(kind).subscribe(coffees => {
-          this.coffees = coffees.map((coffee) => { return coffee; });
-          if (this.coffees.length >= 0) {
-            this.sendNotification("Todo cargado con exito");
-          }
-        });
-      } else {
         this.BookService.getAll().subscribe(books => {
-          this.books_original = books.map(eleem => { return eleem });
-          this.books = books.map((book) => { return book; });
+          this.books_original = books.map(eleem => {
+            this.collectionservice.getCollectionsBook(eleem['isbn']).subscribe(collection => {
+              if(collection.length > 0){
+                eleem['collection'] = true;
+              }else{
+                eleem['collection'] = false;
+              }
+            });
+            return eleem;
+          });
+          this.books = this.books_original;
         });
         this.CoffeeService.getAllcoffe().subscribe(coffees => {
-          this.coffees_original = coffees.map(eleem => { return eleem });
-          this.coffees = coffees.map((coffee) => { return coffee; });
+          this.coffees_original = coffees.map(eleem => { 
+            this.collectionservice.getCollectionsCoffee(coffees['id']).subscribe(collection => {
+              if(collection.length > 0){
+                eleem['collection'] = true;
+              }else{
+                eleem['collection'] = false;
+              }
+            });
+            return eleem 
+          });
+          this.coffees = this.coffees_original;
         });
         if (this.coffees.length >= 0 || this.books.length >= 0) {
           this.sendNotification("Todos los libros y cafees se han cargado con exito");
         }
-      }
     });
   }
 
-  ionViewWillEnter() {
-    this.cangetauth();
-  }
-
-  onfilter(filter){
-    /* if(filter == 'book' && this.tab_active == 'book') this.filter = { this.book,'book'};
-    else if (filter == 'coffee' && this.tab_active == 'coffee')  this.filter.titulo = 'coffee'; */
-  }
   cansearch() {
     this.search = this.search ? false : true;
   }
@@ -100,30 +87,9 @@ export class Tab1Page implements OnInit {
     if (this.tab_active == 'book') {
       const filtrados = this.books.filter(b => b.titulo.toLowerCase().includes(this.queryText));
       this.books = filtrados.map(book => book);
-
-      /*  this.BookService.getBookbyName(this.queryText).subscribe(result =>{
-         if(result.length > 0){
-           this.books = result.map( (elem) => {return elem});
-         }else{
-           //this.books = [];
-           console.log(this.books.length);
-         }
-         
-       }); */
-    }
-    else {
+    }else {
       const filtradas = this.coffees.filter(c => c.name.toLowerCase().includes(this.queryText));
       this.coffees = filtradas.map((elem) => { return elem; });
-
-      /* this.CoffeeService.getByKind(this.queryText).subscribe(result =>{
-        if(result.length > 0){
-          this.coffees = result.map( (elem) => {return elem;});
-        }else{
-         //this.coffees = [];
-         console.log(this.coffees.length);
-        }
-      }); */
-
     }
   }
 
@@ -131,7 +97,7 @@ export class Tab1Page implements OnInit {
     if (this.search && this.queryText == '') {
       if (this.tab_active === 'book') {
         if (this.books_original.length > this.books.length) {
-          this.books = this.books_original.map(b =>  b).sort();
+          this.books = this.books_original.map(b => b).sort();
         };
       } else if (this.tab_active === 'coffee') {
         if (this.coffees.length > this.coffees_original.length) {
@@ -141,6 +107,35 @@ export class Tab1Page implements OnInit {
     }
   }
 
+
+ //Filtros 
+
+  onfilter(filter) {
+    if( this.tab_active == 'book'){
+      const filtrados = this.books.filter(b => {
+        let e = b.genere.split(','); 
+        if(e.includes(filter.id)) return b;
+      });
+      if(filtrados.length > 0) this.books = filtrados.map(book => book);
+      if(this.books.length > 0 ) this.filter(filter);
+    }else if ( this.tab_active == 'coffee')  {
+      const filtradas = this.coffees.filter(c => {
+        if(c.kind.includes(filter.filter)){ 
+          return c; 
+        }});
+      if(filtradas.length > 0) this.coffees = filtradas.map((elem) => { return elem; });
+      if(this.coffees.length > 0 ) this.filter(filter);
+    }
+  }
+
+  filter(event) {
+    console.log(event);
+    if (event.colorSecundary === 'primary') {
+      event.color = 'medium';
+    } else {
+      event.color = 'primary'
+    }
+  }
 
   async sendNotification(message: string) {
     let toast = await this.toastCtrl.create({
@@ -155,14 +150,14 @@ export class Tab1Page implements OnInit {
       this.BookService.getAll().subscribe(book => {
         if (book.length < this.books.length) {
           const books_comparateds = book.every(function (value, index) { return value === this.books[index] });
-          if(!books_comparateds) this.books = book.map(b => { return b; });
+          if (!books_comparateds) this.books = book.map(b => { return b; });
         };
       });
     } else if (this.tab_active === 'coffee') {
       this.CoffeeService.getAllcoffe().subscribe(coffees => {
         if (this.coffees.length < coffees.length) {
           const coffes_comparateds = coffees.sort().every(function (value, index) { return value === this.coffees.sort()[index] });
-          if(!coffes_comparateds) this.coffees = coffees.map(coffees => { return coffees; });
+          if (!coffes_comparateds) this.coffees = coffees.map(coffees => { return coffees; });
         }
       });
     }
@@ -206,6 +201,7 @@ export class Tab1Page implements OnInit {
     this.tab_active = tab;
   };
 
+  //favoritos 
   async removeFavorite(id) {
     if (this.hasFavorite(id)) {
       let user = this.currentUser.usuario;
@@ -219,8 +215,10 @@ export class Tab1Page implements OnInit {
 
   async addFavorite(id) {
     // create an alert instance
+    
     if (this.hasFavorite(id)) {
       let user = this.currentUser.usuario;
+      
       this.FavoriteService.addFavorite(id, user).subscribe(data => {
         if (data) {
           this.sendNotification("El ilbro " + data + " se ha añadido con exito");
@@ -231,7 +229,7 @@ export class Tab1Page implements OnInit {
 
   hasFavorite(id) {
     let favorite = false;
-
+    console.log(id);
     this.books.forEach(item => {
       if (item.isbn === id) {
         favorite = item.favorite === 1 ? false : true;
@@ -241,56 +239,30 @@ export class Tab1Page implements OnInit {
   }
 
   clickEventHandler(event) {
-    if (event.color === 'default') {
-      this.addFavorite(event.id);
-      event.color = 'danger';
+    if (!event.favorite) {
+      this.addFavorite(event.isbn);
+      event.favorite = true;
     } else {
-      this.removeFavorite(event.id);
-      event.color = 'default';
+      this.removeFavorite(event.isbn);
+      event.favorite = false;
     }
   }
 
-  async listcollections(id) {
+  //conleciones 
+
+  async listcollections(event) {
     const modal = await this.modalCtrl.create({
-      component: CollectionsListComponent
+      component: CollectionsListComponent,
+      componentProps: { 'isbn': event.isbn }
     });
     await modal.present();
 
-    const { data } = await modal.onWillDismiss();
-    if (data) {
-
-    }
+    await modal.onWillDismiss();
+    if(!event.collection) event.collection = true;
+    else event.collection = false;
   }
-
 
   clickEventHandlerSave(event) {
-    if (event.colorSecundary === 'default') {
-      this.listcollections(event.id);
-      this.colorSecundary = 'dark';
-      event.colorSecundary = this.colorSecundary;
-    } else {
-      this.colorSecundary = 'default';
-      event.colorSecundary = this.colorSecundary;
-    }
+    this.listcollections(event);
   }
-
-
-
-  /*   loadData(event) {
-      setTimeout(() => {
-        console.log('Done');
-        event.target.complete();
-  
-        // App logic to determine if all data is loaded
-        // and disable the infinite scroll
-        if (this.books.length == 50 || this.coffees.length == 50) {
-          event.target.disabled = true;
-        }
-      }, 500);
-    }
-  
-    toggleInfiniteScroll() {
-      this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
-    } */
-
 }

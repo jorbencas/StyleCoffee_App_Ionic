@@ -4,6 +4,17 @@ ion-col{
     }
 }
 
+.desable{
+    background: white!important;
+    color: #026fc9!important;
+  }
+
+  .avable{
+    background: #026fc9!important;
+    color: white!important;
+  }
+
+  
 ion-list-header{
     border: 0;
     margin-top:5px;
@@ -19,6 +30,7 @@ ion-list-header{
               display: inline-block;
               margin:0;
               padding-right:2%;
+             
               ion-avatar{
                   margin:auto;
                   display:block;
@@ -32,6 +44,27 @@ ion-list-header{
                   display:block;
                   font-size: 12px;
               }
+          }
+
+          .desable{
+            background: white;
+            color: #026fc9;
+            max-width: 62px;
+            width: 62px;
+            min-width: 62px;
+
+            ion-avatar{
+                border: 4px solid #026fc9;
+            }
+          }
+
+          .avable{
+            background: #026fc9;
+            color: white;
+            width: auto;
+            ion-avatar{
+                border: 4px solid white;
+            }
           }
       }
 }

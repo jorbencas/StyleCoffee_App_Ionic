@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { ReserveRoutingModule } from './reserve-routing.module';
 import { ReserveComponent } from './reserve.component';
-
+import { SharedModule } from '../shared';
 @NgModule({
-  declarations: [ReserveComponent],
   imports: [
     CommonModule,
     IonicModule,
-    ReserveRoutingModule
-  ]
+    ReserveRoutingModule,
+    SharedModule
+  ],
+  declarations: [ReserveComponent]
 })
 export class ReserveModule { }

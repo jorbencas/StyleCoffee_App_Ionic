@@ -20,18 +20,34 @@ export class ReserveService {
   }
 
 
-  getAllReserves(): Observable<[string]>{
-    return this.apiService.get('reserve&function=getAllreserves')
-    .pipe(map(data => data.reserve));
+  getAllReserves(user: string ): Observable<[string]>{
+    return this.apiService.get('reserve&function=getAllreserves&param=' + user)
+    .pipe(map(data => {
+      if(data.success){
+        //this.sendNotification("Se ha creado la reserva del libro" + data.reserve.titulo +" con exito");
+        return data.reserves;
+      }else{
+        this.sendNotification(data.error);
+      }
+    }
+    ));
   }
 
   getOneReserve(id: number): Observable<[string]>{
     return this.apiService.get('reserve&function=getOnereserve&param=' + id)
-    .pipe(map(data => data.reserve));
+    .pipe(map(data => {
+      if(data.success){
+        this.sendNotification("Se ha creado la reserva del libro" + data.reserve.titulo +" con exito");
+        return data.reserve;
+      }else{
+        this.sendNotification(data.error);
+      }
+    }
+    ));
   }
   
   addReserve(elem: JSON, user: string, id: number): Observable<[string]>{
-    const data = {"eement":elem, 'user':user, 'idbook':id};
+    const data = {"element":elem, 'usuario':user, 'idbook':id};
     console.log(data);
     debugger;
     return this.apiService.post('reserve&function=addOnereserve', {'data':data})

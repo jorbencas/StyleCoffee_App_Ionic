@@ -13,14 +13,15 @@
 
 <ion-content class="outer-content">
 
-  <ion-item *ngIf="collections.length > 0">
+  <ion-item [hidden]='collections.length > 0' *ngIf="!addcollection">
     <p>No hi han colecions </p>
   </ion-item>
 
-  <ion-list *ngIf="!addcollection && collections.length === 0">
-    <ion-item *ngFor="let collection of collections">
-      <ion-input type='checkbox'></ion-input>
-      <ion-label>{{collection.name}}</ion-label>
+  <ion-list *ngIf="!addcollection && collections.length > 0">
+    <ion-item *ngFor="let collection of collections" [color]="collection.checked ? 'primary': 'light'" (click)="manageevent(collection)" >
+      <div [ngClass]="{'disabled': !collection.checked, 'avable': collection.checked }" >
+        <p>{{collection.name}}</p>
+      </div>
     </ion-item>
   </ion-list>
 
@@ -34,7 +35,7 @@
     </form>
   </ion-item>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab *ngIf="!addcollection" vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button color='dark' (click)="addcollection = !addcollection">
       <ion-icon name="create"></ion-icon>
     </ion-fab-button>

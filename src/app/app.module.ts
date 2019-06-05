@@ -11,14 +11,13 @@ import { SharedModule } from './shared';
 import { DetailsPageModule } from './details/details.module';
 import { AuthModule } from './auth/auth.module';
 import { CoffeeDetailsModule } from './coffee-details/coffee-details.module';
-import { ListPageModule } from './list/list.module';
+import { FavoritesPageModule } from './favorites/favorites.module';
 import { ProfileModule } from './profile/profile.module';
 import { ReserveModule } from './reserve/reserve.module';
 import { ReserveListModule } from './reserve-list/reserve-list.module';
 import { CollectionsListModule } from './collections/collections.module';
 
 @NgModule({
-  declarations: [ AppComponent],
   imports: [BrowserModule,
     CoreModule,
     IonicModule.forRoot(),
@@ -27,7 +26,7 @@ import { CollectionsListModule } from './collections/collections.module';
     AuthModule,
     DetailsPageModule,
     ProfileModule,
-    ListPageModule,
+    FavoritesPageModule,
     CoffeeDetailsModule,
     CollectionsListModule,
     ReserveListModule,
@@ -38,6 +37,7 @@ import { CollectionsListModule } from './collections/collections.module';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
+  declarations: [ AppComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

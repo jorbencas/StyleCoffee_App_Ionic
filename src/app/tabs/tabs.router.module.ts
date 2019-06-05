@@ -8,33 +8,46 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
+        path: 'books_coffees',
         children: [
-          {
-            path: '',
-            loadChildren: '../tab1/tab1.module#Tab1PageModule'
+          { path: '', loadChildren: '../books_coffees/books_coffees.module#Tab1PageModule'}
+        ]
+      },
+      {
+        path: 'events',
+        children: [
+          { path: '', loadChildren: '../events/events.module#Tab3PageModule'
           }
         ]
       },
       {
-        path: 'tab3',
+        path:'favorites',
         children: [
-          {
-            path: '',
-            loadChildren: '../tab3/tab3.module#Tab3PageModule'
-          }
+          { path: '', loadChildren: '../favorites/favorites.module#FavoritesPageModule'}
+        ]
+      },
+      {
+        path:'reserves',
+        children: [
+          { path: '', loadChildren: '../reserve-list/reserve-list.module#ReserveListModule'}
+        ]
+      },
+      {
+        path:'collections',
+        children: [
+          { path: '', loadChildren: '../collections/collections.module#CollectionsListModule'}
         ]
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/books_coffees',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/books_coffees',
     pathMatch: 'full'
   }
 ];

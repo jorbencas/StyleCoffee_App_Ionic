@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FavoriteService, User, UserService } from '../core';
 @Component({
-  selector: 'app-list',
-  templateUrl: 'list.page.html',
-  styleUrls: ['list.page.scss']
+  selector: 'app-favorites',
+  templateUrl: 'favorites.page.html',
+  styleUrls: ['favorites.page.scss']
 })
-export class ListPage implements OnInit {
+export class FavoritesPage implements OnInit {
 
   items = [];
   currentUser: User;

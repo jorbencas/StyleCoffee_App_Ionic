@@ -51,7 +51,7 @@ export class AppComponent implements OnInit {
       sourcef.subscribe(() => {this.showSplash = false});
     });
     
-    firebase.initializeApp(config);
+    //firebase.initializeApp(config);
   }
 
   ngOnInit() {

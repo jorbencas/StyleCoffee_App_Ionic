@@ -91,5 +91,7 @@
         <variable name="MAX_STORE" value="2" />
         <variable name="MIN_BACKGROUND_DURATION" value="30" />
     </plugin>
+    <preference name="SplashScreen" value="screen" />
+    <preference name="SplashShowOnlyFirstTime" value="false" />
     <engine name="android" spec="7.1.4" />
 </widget>

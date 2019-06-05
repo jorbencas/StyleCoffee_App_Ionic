@@ -35,7 +35,7 @@ export class AuthComponent implements OnInit {
   ngOnInit() {
     this.route.url.subscribe(data => {
       this.authType = data[data.length - 1].path;
-      this.title = (this.authType === 'login') ? 'Login' : 'Registro';
+      this.title = (this.authType === 'login') ? 'login' : 'Registro';
       this.authForm.removeControl('email');
       this.authForm.removeControl('tipo');
     });
@@ -51,7 +51,7 @@ export class AuthComponent implements OnInit {
     }else if(ev == 'login'){
       this.tabs = 'login';
       this.authType = 'login';
-      this.title = "Login";
+      this.title = "Inicio de sesión";
       this.authForm.removeControl('email');
       this.authForm.removeControl('tipo');
     }
@@ -63,8 +63,7 @@ export class AuthComponent implements OnInit {
 
     let credentials = this.authForm.value;
     
-    this.userService.attemptAuth(this.authType, credentials)
-    .subscribe(
+    this.userService.attemptAuth(this.authType, credentials).subscribe(
       data => this.router.navigateByUrl('/'),
       err => {
         this.errors = err;

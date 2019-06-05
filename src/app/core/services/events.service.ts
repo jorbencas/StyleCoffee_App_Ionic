@@ -33,6 +33,32 @@ export class EventsService {
     ));
   }
 
+  getMyauthors(user: string):Observable<[string]>{
+    return this.apiService.get('events&function=getMyauthors&param=' + user)
+    .pipe(map(data => { 
+      if(data.success){
+          this.sendNotification("Todo realizado con exito");
+          return data.authors;
+        }else{
+          this.sendNotification(data.error);
+        }
+      }
+    ));
+    
+  }
+  getMyevents(user: string):Observable<[string]>{
+    return this.apiService.get('events&function=getMyevents&param=' + user)
+    .pipe(map(data => { 
+      if(data.success){
+          this.sendNotification("Todo realizado con exito");
+          return data.events;
+        }else{
+          this.sendNotification(data.error);
+        }
+      }
+    ));
+  }
+
   getEvent(id: number): Observable<[string]>{
     return this.apiService.get('events&function=getOneevents&param=' + id)
     .pipe(map(data => { 
@@ -72,11 +98,25 @@ export class EventsService {
   }
 
 
-  addelement(Event){
-    this.apiService.post('events&function=addelement', Event)
+  addElement(Event: Object): Observable<[string]>{
+    return this.apiService.post('events&function=addelement', {'event': Event})
     .pipe(map(data => { 
       if(data.success){
           this.sendNotification("Todo realizado con exito");
+          return data.events;
+        }else{
+          this.sendNotification(data.error);
+        }
+      }
+    ));
+  }
+
+  removeElement(Event: Object): Observable<[string]>{
+    return this.apiService.post('events&function=removeelement', {'event': Event})
+    .pipe(map(data => { 
+      if(data.success){
+          this.sendNotification("Todo realizado con exito");
+          return data.events;
         }else{
           this.sendNotification(data.error);
         }

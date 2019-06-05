@@ -6,10 +6,14 @@
     <ion-title>Stylecoffee</ion-title>
     <ion-segment [color]="authenticated == true ? 'light' : 'primary'" value='book'>
       <ion-segment-button value="book" (ionSelect)="setab($event.target.value)">
-        <ion-icon name="bookmarks">Libros</ion-icon>
+        <ion-icon
+          [color]="authenticated == false ? 'primary': 'default' || authenticated == true && tab_active == 'calendar' ? 'light':'default' "
+          name="bookmarks">Libros</ion-icon>
       </ion-segment-button>
       <ion-segment-button value="coffee" (ionSelect)="setab($event.target.value)">
-        <ion-icon name="cafe">Cafés</ion-icon>
+        <ion-icon
+          [color]="authenticated == false ? 'primary': 'default' || authenticated == true && tab_active == 'calendar' ? 'light':'default' "
+          name="cafe">Cafés</ion-icon>
       </ion-segment-button>
     </ion-segment>
     <ion-buttons slot="end">
@@ -53,36 +57,41 @@
     </ion-grid>
   </div>
 
-  <!--   <ion-button *ngIf="tab_active == 'book'" (click)="toggleInfiniteScroll()" expand="block">
-    Toggle Infinite Scroll
-  </ion-button> -->
+<!-- //////////////////////////////////////////////Libros //////////////////////-->
 
+  <ul class="container" *ngIf="books.length > 0" [hidden]="tab_active !== 'book'">
+    <li *ngFor="let track of tags1">
+      <ion-chip [color]="colorSecundary" id="{{track}}" (click)="onfilter($event.target)">
+        <ion-label> {{track}} </ion-label>
+      </ion-chip>
+    </li>
+  </ul>
 
-  <app-filter [filter]="onfilter('book')" *ngIf="books.length > 0" [hidden]="tab_active !== 'book'"></app-filter>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
   <ion-grid *ngIf="books.length > 0" [hidden]="tab_active !== 'book'">
     <ion-col *ngFor="let info of books; let i of index" size='12'>
-      <ion-row >
-        <ion-col size='4' routerLink="/details/{{info.isbn}}" >
+      <ion-row>
+        <ion-col size='4' routerLink="/details/{{info.isbn}}">
           <ion-img class="item-img" src="{{info.image}}" alt="{{info.titulo}}"></ion-img>
         </ion-col>
         <ion-col size='8'>
-          <p id="{{info.isbn}}" routerLink="/details/{{info.isbn}}" >{{info.titulo}}</p>
-          <p routerLink="/details/{{info.isbn}}" >{{info.name}}</p>
+          <p id="{{info.isbn}}" routerLink="/details/{{info.isbn}}">{{info.titulo}}</p>
+          <p routerLink="/details/{{info.isbn}}">{{info.name}}</p>
           <div class="ion-align-items-baseline" style=" width:100%; display:inline-flex; justify-content:space-around;">
             <div style="width:50%;"> {{info.price}} € </div>
-            <div style="width:50%; display:inline-flex; justify-content:space-around; align-items:center;" *ngIf="authenticated">
-                  <ion-buttons>
-                    <ion-icon name="heart" id="{{info.isbn}}" [color]="info.favorite == 1 ? 'danger':'default'"
-                      (click)="clickEventHandler($event.target)"></ion-icon>
-                  </ion-buttons>
-                  <ion-buttons>
-                    <ion-icon name="archive" id="{{info.isbn}}" [color]="colorSecundary"
-                      (click)="clickEventHandlerSave($event.target)"></ion-icon>
-                  </ion-buttons>
+            <div style="width:50%; display:inline-flex; justify-content:space-around; align-items:center;"
+              *ngIf="authenticated">
+              <ion-buttons>
+                <ion-icon name="heart" id="{{info.isbn}}" [color]="info.favorite == 1 ? 'danger':'default'"
+                  (click)="clickEventHandler(info)"></ion-icon>
+              </ion-buttons>
+              <ion-buttons>
+                <ion-icon name="bookmark" id="{{info.isbn}}" [color]="info.collection ? 'dark' : 'medium'"
+                  (click)="clickEventHandlerSave(info)"></ion-icon>
+              </ion-buttons>
             </div>
           </div>
         </ion-col>
@@ -90,11 +99,19 @@
     </ion-col>
   </ion-grid>
 
-  <!--  <ion-button *ngIf="tab_active == 'coffee'" (click)="toggleInfiniteScroll()" expand="block">
-    Toggle Infinite Scroll
-  </ion-button>  -->
 
-  <app-filter [filter]="onfilter('coffee')" *ngIf="coffees.length > 0" [hidden]="tab_active !== 'coffee'"></app-filter>
+
+
+<!-- //////////////////////////////////////////////Cafes //////////////////////-->
+
+  <ul class="container" *ngIf="coffees.length > 0" [hidden]="tab_active !== 'coffee'">
+    <li *ngFor="let track of tags2">
+      <ion-chip [color]="colorSecundary" (click)="onfilter($event.target)">
+        <ion-label> {{track}} </ion-label>
+      </ion-chip>
+    </li>
+  </ul>
+
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -105,19 +122,13 @@
       <ion-img width="auto" height="350px" src="{{info.image}}" alt="{{info.displayName}}"></ion-img>
     </ion-item>
     <ion-item *ngIf="authenticated">
-      <ion-buttons slot="start">
-        <ion-icon name="archive" (click)="clickEventHandlerSave($event.target)"></ion-icon>
+      <ion-buttons slot="start" *ngFor="let info of coffees">
+        <ion-icon name="bookmark" (click)="clickEventHandlerSave(info)" [color]="info.collection ? 'dark' : 'medium'">
+        </ion-icon>
       </ion-buttons>
       <ion-title *ngFor="let info of coffees" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
         routerLink="/coffeedetails/{{info.id}}">{{info.name}}</ion-title>
     </ion-item>
   </ion-list>
-
-  <!--   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
-    <ion-infinite-scroll-content
-      loadingSpinner="bubbles"
-      loadingText="Loading more data...">
-    </ion-infinite-scroll-content>
-  </ion-infinite-scroll> -->
 
 </ion-content>

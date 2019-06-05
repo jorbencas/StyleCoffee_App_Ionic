@@ -12,28 +12,24 @@
   <form [formGroup]="reserveForm" (ngSubmit)="Submiting()">
     <ion-list>
       <ion-item>
-        <ion-label for="email">Correo electronico</ion-label>
-        <ion-input type="email" formControlName="email"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label for="dni">Dni</ion-label>
-        <ion-input type="text" formControlName="usuario"></ion-input>
+        <ion-label for="name">Nombre de la reserva</ion-label>
+        <ion-input type="text" id='name' formControlName="name"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label for="timestart">Hora inicial de la reserva</ion-label>
-        <ion-datetime displayFormat="h:mm A"></ion-datetime>
+        <ion-datetime displayFormat="h:mm A" formControlName="timestart" ></ion-datetime>
       </ion-item>
       <ion-item>
         <ion-label for="timeend">Hora final de la reserva</ion-label>
-        <ion-datetime displayFormat="h:mm A"></ion-datetime>
+        <ion-datetime class="form-control form-control-lg" formControlName="timeend"  displayFormat="h:mm A"></ion-datetime>
       </ion-item>
       <ion-item>
         <ion-label for="datestart">fecha inicial de la reserva</ion-label>
-        <ion-datetime display-format="MM/DD/YYYY" formControlName="datestart"></ion-datetime>
+        <ion-datetime class="form-control form-control-lg" display-format="MM/DD/YYYY" formControlName="datestart"></ion-datetime>
       </ion-item>
       <ion-item>
         <ion-label for="dateend">fecha final de la reserva</ion-label>
-        <ion-datetime display-format="MM/DD/YYYY" formControlName="dateend"></ion-datetime>
+        <ion-datetime  class="form-control form-control-lg"display-format="MM/DD/YYYY" formControlName="dateend"></ion-datetime>
       </ion-item>
     </ion-list>
     <ion-button color='dark' expand="block" shape="round" fill="outline" type="submit">

@@ -1,19 +1,14 @@
 <ion-header>
-  <ion-toolbar  [hidden]="search" [color]="authenticated == true ? 'dark' : 'light'">
+  <ion-toolbar  [color]="authenticated ? 'dark' : 'light'">
     <ion-title>Eventos</ion-title>
-    <!-- <ion-segment [color]="authenticated == true ? 'dark' : 'primary'" value='calendar'>
+    <ion-segment *ngIf="authenticated" [color]="authenticated ? 'light' : 'primary'" value='calendar'>
         <ion-segment-button value="calendar" (ionSelect)="setab($event.target.value)">
-          <ion-icon name="calendar"></ion-icon>
+          <ion-icon [color]="tab_active == 'calendar' ? 'light':'default'" name="calendar"></ion-icon>
         </ion-segment-button>     
         <ion-segment-button value="list" (ionSelect)="setab($event.target.value)">
-          <ion-icon name="list"></ion-icon>
+          <ion-icon [color]="tab_active == 'list' ? 'light':'default' " name="list"></ion-icon>
         </ion-segment-button>
-    </ion-segment> -->
-    <ion-buttons slot="end">
-        <ion-button (click)="cansearch()">
-          <ion-icon slot="icon-only" name="search"></ion-icon>
-        </ion-button>
-      </ion-buttons>
+    </ion-segment>
       <ion-avatar slot="end">
         <img *ngIf="!authenticated" [routerLink]="['/login']"
           src="https://cdn1.iconfinder.com/data/icons/business-users/512/circle-512.png"
@@ -23,18 +18,63 @@
           alt="https://cdn2.iconfinder.com/data/icons/scenarium-vol-4/128/002_avatar_man_profile_account_user_male-128.png">
       </ion-avatar>
   </ion-toolbar>
-  <ion-toolbar [hidden]="!search" [color]="authenticated == true ? 'dark' : 'default'">
-      <ion-buttons slot="start">
-        <ion-button (click)="cansearch()">
-          <ion-icon name='arrow-back'></ion-icon>
-        </ion-button>
-      </ion-buttons>
-      <ion-searchbar [(ngModel)]="queryText" [color]="authenticated == true ? 'dark' : 'default'"
-        (ionChange)="updateSchedule()" placeholder="Search" animated autocorrect='on'></ion-searchbar>
-  </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+
+  <ion-list-header *ngIf="authenticated  && tab_active === 'list' && authors2.length > 0"  >
+    <ul class="container">
+      <li *ngFor="let author of authors2" (click)="findauthor(author)" id={{author.id}}  [ngClass]="{'disabled':!author.select , 'avable': author.select }">
+          <ion-avatar>
+              <ion-img src='{{author.foto}}'></ion-img>
+            </ion-avatar>
+            <ion-text>
+              {{author.name }}
+            </ion-text>
+      </li>
+    </ul>
+  </ion-list-header>
+
+  <ion-list-header *ngIf="authenticated  || tab_active !== 'list'" [hidden]="myevents.length > 0">
+    No tingo ningun evento
+  </ion-list-header>
+
+  <ion-list *ngIf="authenticated  && tab_active == 'list'" [hidden]="myevents.length === 0">
+    <ion-item *ngFor="let session of myevents" [color]="session.checked ? 'primary': 'light'" >
+      <h3 (click)="viewdetails(session);">{{session.titulo}}</h3>
+        <ion-icon slot='end'name='add-circle' (click)="hendleevent(session)" ></ion-icon>
+    </ion-item>
+  </ion-list>
+
+
+  <ion-list-header *ngIf="authenticated == false || tab_active === 'calendar' && authors.length > 0"  >
+    <ul class="container">
+      <li *ngFor="let author of authors" (click)="findauthor(author)" id={{author.id}}  [ngClass]="{'disabled':!author.select , 'avable': author.select }">
+          <ion-avatar>
+              <ion-img src='{{author.foto}}'></ion-img>
+            </ion-avatar>
+            <ion-text>
+              {{author.name }}
+            </ion-text>
+      </li>
+    </ul>
+  </ion-list-header>
+
+  <ion-list-header [hidden]='eventSource2.length > 0'  *ngIf=" tab_active === 'calendar'">
+    No Hay nigun evento
+  </ion-list-header>
+
+  <ion-list [hidden]="eventSource2.length === 0"  *ngIf="tab_active == 'calendar'">
+    <ion-item *ngFor="let session of eventSource2" color="light" >
+      <h3 (click)="viewdetails(session)">{{session.titulo}}</h3>
+      <ion-icon v-if='authenticated && eventSource2.length > 0' slot='end' name='add-circle' (click)="hendleevent(session)"></ion-icon>
+    </ion-item>
+  </ion-list>
+
+
+</ion-content>
+
 <!-- 
   <ion-card *ngIf="addevent">
     <ion-card-header tappable (click)="collapseCard = !collapseCard">
@@ -119,66 +159,6 @@
     </ion-fab-button>
   </ion-fab> -->
 
-  <ion-list-header *ngIf="tab_active == 'list'"  >
-    <ul class="container">
-      <li *ngFor="let author of authors">
-          <ion-avatar>
-              <ion-img src='{{author.foto}}'></ion-img>
-            </ion-avatar>
-            <ion-text>
-              {{author.name}}
-            </ion-text>
-      </li>
-    </ul>
-  </ion-list-header>
-
-  <ion-list *ngIf="tab_active == 'list'" [hidden]="eventSource.length === 0">
-    <ion-item-group *ngFor="let group of eventSource" [hidden]="group.hide">
-      <ion-item-divider sticky>
-        <ion-label>
-          {{group.time}}
-        </ion-label>
-      </ion-item-divider>
-
-      <ion-item-sliding *ngFor="let session of eventSource2" #slidingItem>
-        <ion-item>
-          <ion-label>
-            <h3>{{session.title}}</h3>
-          </ion-label>
-        </ion-item>
-      </ion-item-sliding>
-    </ion-item-group>
-  </ion-list>
-
-  <ion-list-header *ngIf="tab_active !== 'list'" [hidden]="eventSource2.length > 0">
-    No Sessions Found
-  </ion-list-header>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</ion-content>
 
 
 

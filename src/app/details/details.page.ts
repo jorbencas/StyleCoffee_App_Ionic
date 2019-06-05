@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 /* import * as firebase from 'firebase'; */
-import { BookService,  User, UserService, FavoriteService} from '../core';
+import { BookService,  User, UserService, FavoriteService, CollectionsService} from '../core';
 
 import { AlertController, IonInfiniteScroll, LoadingController, ModalController } from '@ionic/angular';
 import { CollectionsListComponent } from '../collections-list/collections-list.component';
@@ -20,6 +20,7 @@ export class DetailsPage implements OnInit  {
   authenticated = false;
   currentUser: User;
   colorSecundary = 'default';
+  collection:{};
 
   constructor(private route: ActivatedRoute, 
     private router: Router, 
@@ -28,7 +29,8 @@ export class DetailsPage implements OnInit  {
     public loadingController: LoadingController,
     public modalCtrl: ModalController,
     private FavoriteService: FavoriteService,
-    public toastCtrl: ToastController){
+    public toastCtrl: ToastController,
+    private collectionservice: CollectionsService){
    
   }
 
@@ -38,6 +40,9 @@ export class DetailsPage implements OnInit  {
       this.BookService.getBook(this.isbn).subscribe(book =>{
         this.books.push(book);
       });
+      this.collectionservice.getCollectionsBook(this.isbn).subscribe(collection => {
+        this.collection = collection;
+      })
     });
     this.cangetauth();
   }

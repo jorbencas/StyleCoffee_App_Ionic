@@ -18,7 +18,6 @@ export class UserService {
 
   constructor (
     private apiService: ApiService,
-    private http: HttpClient,
     private jwtService: JwtService,
     public toastCtrl: ToastController
   ) {}
@@ -29,8 +28,7 @@ export class UserService {
     // If JWT detected, attempt to get & store user's info
     if (this.jwtService.getToken()) {
       const token = this.jwtService.getToken();
-      this.apiService.post('user&function=getuser',{"token": token})
-      .subscribe(
+      this.apiService.post('user&function=getuser',{"token": token}).subscribe(
         data => {
           if(data.success){
             this.setAuth(data.user);
@@ -73,8 +71,7 @@ export class UserService {
 
   attemptAuth(type, credentials): Observable<User> {
     const route = (type === 'login') ? 'login' : 'signup_user';
-    return this.apiService.post('user&function='+route, {user: credentials})
-      .pipe(map(
+    return this.apiService.post('user&function='+route, {user: credentials}).pipe(map(
       data => {
         if(data.success){
           this.sendNotification("Todo realizado con exito");

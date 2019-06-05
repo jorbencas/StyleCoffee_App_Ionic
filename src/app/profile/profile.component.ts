@@ -11,7 +11,7 @@ import { concatMap, tap } from 'rxjs/operators';
 })
 export class ProfileComponent implements OnInit {
   user: User = {} as User;
-  profileForm: FormGroup;
+  profileForm:  FormGroup;
 avaible = false;
   constructor(
     private userService: UserService,
@@ -50,23 +50,6 @@ avaible = false;
         return this.userService.currentUser.pipe(tap(
           (userData: User) => {
             this.currentUser = userData;
-            console.log(this.currentUser);
-            if (this.currentUser.pais == "") {
-              this.userService.loadpais().subscribe(pais => {
-                this.pais = pais
-                this.currentUser.pais = pais;
-              });
-            } else if (this.currentUser.poblacion == "") {
-              this.userService.loadPoblacion().subscribe(poblacion => {
-                this.poblacion = poblacion;
-                this.currentUser.poblacion = poblacion;
-              });
-            } else if (this.currentUser.provincia == "") {
-              this.userService.loadProvincia().subscribe(provincia => {
-                this.provincia = provincia;
-                this.currentUser.provincia = provincia;
-              });
-            }
           }
         ));
       })
