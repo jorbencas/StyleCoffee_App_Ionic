@@ -34,7 +34,6 @@ export class BookService {
   getBookbyName(query: string): Observable<[String]> {
     return this.apiService.get('book&function=getBookbyName&param=' + query).pipe(map(data => {
         if (data.success) {
-          console.log(data);
           return data.book;
         } else {
           return data.error;

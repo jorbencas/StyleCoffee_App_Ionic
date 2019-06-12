@@ -24,4 +24,15 @@ export class TabsPage implements OnInit {
     );   
   }
 
+  ngAfterViewInit() {
+    this.userService.isAuthenticated.subscribe(
+      (authenticated) => {
+        this.authenticated = authenticated;
+        if(authenticated){
+          this.currentUser = this.userService.getCurrentUser();
+        }
+      }
+    );   
+  }
+
 }

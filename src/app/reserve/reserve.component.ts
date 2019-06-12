@@ -64,7 +64,7 @@ export class ReserveComponent implements OnInit {
     let id = this.id;
 
     this.reserveservices.addReserve(elements, usuario, id).subscribe(
-      data => this.router.navigateByUrl('/details/' + this.id),
+      data => this.router.navigateByUrl('/tabs/reserves'),
       err => {
         this.errors = err;
         this.isSubmitting = false;

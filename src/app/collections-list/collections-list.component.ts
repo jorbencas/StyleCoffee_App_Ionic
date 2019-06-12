@@ -3,6 +3,7 @@ import { CollectionsService, User, UserService } from '../core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-collections-list',
@@ -21,6 +22,8 @@ export class CollectionsListComponent implements OnInit {
     private Collectionsservices: CollectionsService,
     public modalCtrl: ModalController,
     private userService: UserService,
+    private route: ActivatedRoute, 
+    private router: Router,
     private fb: FormBuilder,
     public toastCtrl: ToastController) {
       
@@ -92,15 +95,17 @@ export class CollectionsListComponent implements OnInit {
     this.Collectionsservices.addCollection(this.element).subscribe(collections =>{
       this.collections = collections.map( e => {return e;});
       this.sendNotification("Se ha añadido la colección");
+      this.addcollection = true;
+      this.router.navigateByUrl('/details/' + this.isbn);
     });
-    this.addcollection = true;
+   
   }
 
 
   async sendNotification(message: string) {
     let toast = await this.toastCtrl.create({
       message: message,
-      duration: 3000
+      duration: 1000
     });
     toast.present();
   }
@@ -109,8 +114,10 @@ export class CollectionsListComponent implements OnInit {
   manageevent(collection){
     if(!collection.checked){
       this.addelement(collection);
+      this.sendNotification("Se ha añadido el libro con " + this.isbn + " la colección");
     }else{
       this.removelement(collection);
+      this.sendNotification("Se ha eliminado el libro con " + this.isbn + " la colección");
     }
   }
 }

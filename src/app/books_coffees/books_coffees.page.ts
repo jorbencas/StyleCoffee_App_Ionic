@@ -45,6 +45,9 @@ export class Tab1Page implements OnInit {
 
   ngOnInit(): void {
     this.cangetauth();
+  }
+
+  ionViewWillEnter(){
     this.presentLoading();
     this.route.params.subscribe(param => {
         this.BookService.getAll().subscribe(books => {
@@ -77,6 +80,11 @@ export class Tab1Page implements OnInit {
           this.sendNotification("Todos los libros y cafees se han cargado con exito");
         }
     });
+   
+  }
+  
+  ionViewCanEnter(){
+    this.stopLoading();
   }
 
   cansearch() {
@@ -140,7 +148,7 @@ export class Tab1Page implements OnInit {
   async sendNotification(message: string) {
     let toast = await this.toastCtrl.create({
       message: message,
-      duration: 3000
+      duration: 1000
     });
     toast.present();
   }
@@ -165,10 +173,6 @@ export class Tab1Page implements OnInit {
       console.log('Async operation has ended');
       event.target.complete();
     }, 2000);
-  }
-
-  ngAfterViewInit() {
-    this.stopLoading();
   }
 
   async presentLoading() {
@@ -207,7 +211,7 @@ export class Tab1Page implements OnInit {
       let user = this.currentUser.usuario;
       this.FavoriteService.removeFavorite(id, user).subscribe(data => {
         if (data) {
-          this.sendNotification("El ilbro " + data + " se ha eliminado con exito");
+          this.sendNotification("El ilbro se ha eliminado de favoritos con exito");
         }
       });
     }
@@ -221,7 +225,7 @@ export class Tab1Page implements OnInit {
       
       this.FavoriteService.addFavorite(id, user).subscribe(data => {
         if (data) {
-          this.sendNotification("El ilbro " + data + " se ha añadido con exito");
+          this.sendNotification("El ilbro se ha añadido como favoritos con exito");
         }
       });
     }

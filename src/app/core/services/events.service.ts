@@ -15,7 +15,7 @@ export class EventsService {
   async sendNotification(message: string) {
     let toast = await this.toastCtrl.create({
       message: message,
-      duration: 3000
+      duration: 1000
     });
     toast.present();
   }
@@ -24,7 +24,7 @@ export class EventsService {
     return this.apiService.get('events&function=getAllevents')
     .pipe(map(data => { 
       if(data.success){
-          this.sendNotification("Todo realizado con exito");
+        this.sendNotification(data);
           return data.events;
         }else{
           this.sendNotification(data.error);
@@ -37,7 +37,6 @@ export class EventsService {
     return this.apiService.get('events&function=getMyauthors&param=' + user)
     .pipe(map(data => { 
       if(data.success){
-          this.sendNotification("Todo realizado con exito");
           return data.authors;
         }else{
           this.sendNotification(data.error);
@@ -50,7 +49,7 @@ export class EventsService {
     return this.apiService.get('events&function=getMyevents&param=' + user)
     .pipe(map(data => { 
       if(data.success){
-          this.sendNotification("Todo realizado con exito");
+          this.sendNotification("Todo mis eventos cargados con exito");
           return data.events;
         }else{
           this.sendNotification(data.error);
@@ -76,9 +75,9 @@ export class EventsService {
     this.apiService.get('events&function=removeOneevent&param=' + id)
     .pipe(map(data => { 
       if(data.success){
-          this.sendNotification("Todo realizado con exito");
+          this.sendNotification("Se ha eliminado con exito");
         }else{
-          this.sendNotification(data.error);
+          this.sendNotification("Error: " + data.error);
         }
       }
     ));
@@ -91,7 +90,7 @@ export class EventsService {
       if(data.success){
           this.sendNotification("Todo realizado con exito");
         }else{
-          this.sendNotification(data.error);
+          this.sendNotification("Error: " + data.error);
         }
       }
     ));
@@ -105,7 +104,7 @@ export class EventsService {
           this.sendNotification("Todo realizado con exito");
           return data.events;
         }else{
-          this.sendNotification(data.error);
+          this.sendNotification("Error: " + data.error);
         }
       }
     ));
@@ -115,10 +114,10 @@ export class EventsService {
     return this.apiService.post('events&function=removeelement', {'event': Event})
     .pipe(map(data => { 
       if(data.success){
-          this.sendNotification("Todo realizado con exito");
+          this.sendNotification("La dessubscribció se ha realizado con exito");
           return data.events;
         }else{
-          this.sendNotification(data.error);
+          this.sendNotification("Error: " + data.error);
         }
       }
     ));

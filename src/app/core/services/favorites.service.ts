@@ -14,14 +14,21 @@ export class FavoriteService {
   async sendNotification(message: string) {
     let toast = await this.toastCtrl.create({
       message: message,
-      duration: 3000
+      duration: 1000
     });
     toast.present();
   }
 
   getAllFavorites(): Observable<[string]>{
     return this.apiService.get('book&function=getAllfavorites')
-    .pipe(map(data => data.favorites));
+    .pipe(map(data => {
+      if(data.success){
+        this.sendNotification("Se ha añadido el libro con exito");
+        return data.favorites;
+      }else{
+        this.sendNotification("Error " + data.error);
+      }
+    }));
   }
 
   addFavorite(id: number, user: string): Observable<[string]>{
@@ -29,10 +36,10 @@ export class FavoriteService {
     return this.apiService.post('book&function=addFavorite',{"data": data})
     .pipe(map(data => {
       if(data.success){
-        this.sendNotification("Se ha añadido con exito");
+        this.sendNotification("Se ha añadido el libro con exito");
         return data.favorites;
       }else{
-        this.sendNotification(data.error);
+        this.sendNotification("Error " + data.error);
       }
     }));
   }
@@ -41,10 +48,10 @@ export class FavoriteService {
     return this.apiService.get('book&function=removeFavorite&param=' + id + '&param2=' + user)
     .pipe(map(data => {
       if(data.success){
-        this.sendNotification("Se ha eliminado de favoritos  con exito");
-        return data.success;
+        this.sendNotification("Se ha eliminado de favorito con exito");
+        return data.favorites;
       }else{
-        this.sendNotification(data.error);
+        this.sendNotification("Error " + data.error);
       }
     }));
   }

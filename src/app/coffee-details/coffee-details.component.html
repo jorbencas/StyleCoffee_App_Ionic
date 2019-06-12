@@ -10,15 +10,15 @@
 </ion-header>
 
 <ion-content ion-no-padding>
-  <ion-item [ngStyle]="{'text-align': center}" *ngFor="let info of coffee; let i of index">
-    <img width="320" src="{{info.image}}"  class="app-logo" alt="{{info.name}}">
-    <br>
-    <strong>{{info.name}}</strong>
-    <p>{{info.kind}}</p>
-  </ion-item>
-  <ion-buttons>
-    
-    <ion-button routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/card/{{id}}" > Carrito</ion-button>
-    <ion-button>Gardar</ion-button>
-  </ion-buttons>
+  <div class="about-header" *ngFor="let info of coffee; let i of index">
+    <img src="{{info.image}}" alt="{{info.titulo}}">
+  </div>
+  <div class="about-info" *ngFor="let info of coffee; let i of index">
+    <h4 class="ion-padding-start">{{info.name}}</h4>
+    <ion-list lines="none" *ngFor="let info of coffee; let i of index">
+      <ion-item>
+        <ion-text> {{info.kind}}</ion-text>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>

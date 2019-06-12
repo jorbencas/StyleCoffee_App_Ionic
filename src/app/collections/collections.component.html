@@ -16,7 +16,7 @@
 <ion-content>
   <ion-item [hidden]='collections.length > 0'>No hay niguna coleción</ion-item>
     <ion-item-sliding *ngFor="let collection of collections" >
-        <ion-item color="primary" >
+        <ion-item color="primary" (click)="viewdetails(collection)" >
           <ion-label>{{collection.name}}</ion-label>
         </ion-item>
     

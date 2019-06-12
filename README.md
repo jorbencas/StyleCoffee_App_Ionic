@@ -9,12 +9,10 @@ The main purpose of this project is build a MNobil Aplication using Ionic and An
 + ** Filter books and coffes by generes and kind
 + ** Add/Remove Favorites books
 + ** CRUD collections
-+ ** Manage your profile, upload local images
++ ** Manage your profile
 + ** Subscribe Events
 + ** Filter events by authors
-+ ** See StyleCoffe location of some google Maps
 + ** Reserve any book and follow his progres
-+ ** User reserve Notifications
 
 ## Screens of my App
 

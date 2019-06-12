@@ -11,9 +11,9 @@ export class EventsPage implements OnInit {
   constructor(private eventservice:EventsService,  
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
-    public loadingCtrl: LoadingController,
     private userService: UserService,
-    private bookservice: BookService
+    private bookservice: BookService,
+    public loadingController: LoadingController,
       ){}
       authenticated = false;
       currentUser: User;
@@ -41,6 +41,10 @@ export class EventsPage implements OnInit {
      
   ngOnInit(): void {
     this.cangetauth();
+  }
+ 
+  ionViewWillEnter(){
+    this.presentLoading();
     this.bookservice.getAll().subscribe(authors =>{
       authors.forEach(a =>{
         a['select'] = false;
@@ -53,8 +57,8 @@ export class EventsPage implements OnInit {
     this.eventservice.getAllEvents().subscribe(events => {
       console.log(events);
       this.eventSource2 = events.map( e => { if(e['usuario'] == null){  e['checked'] = false; return e; } });
-      this.eventSource = this.eventSource2;
-      console.log(this.eventSource.length);
+      this.eventSource = events.map( e => { if(e['usuario'] == null){ return e; } });;
+      console.log(this.eventSource);
     });
 
 
@@ -62,8 +66,8 @@ export class EventsPage implements OnInit {
       this.eventservice.getAllEvents().subscribe(events => {
         console.log(events);
         this.eventSource2 = events.map( e => { if(e['usuario'] == null){  e['checked'] = false; return e; } });
-        this.eventSource = this.eventSource2;
-        console.log(this.eventSource.length);
+        this.eventSource =  events.map( e => { if(e['usuario'] == null){ return e; } });;;
+        console.log(this.eventSource);
       });
   
       let user = this.currentUser.usuario;
@@ -81,16 +85,32 @@ export class EventsPage implements OnInit {
         });
       });
     }
-
   }
- 
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      spinner: 'bubbles',
+      message: 'Cargando',
+      cssClass: 'custom-class custom-loading',
+      duration: 1000
+    });
+
+    return await loading.present();
+  }
+
+  ionViewCanEnter() {
+    this.stopLoading();
+  }
+  async stopLoading() {
+    return await this.loadingController.dismiss();
+  }
+
   setab(tab: string) {
     this.tab_active = tab;
 
     if(this.tab_active == 'list'){
       let user = this.currentUser.usuario;
       this.eventservice.getMyevents(user).subscribe(events => {
-        console.log(events);
         this.myevents_original = events.map( e => { e['checked'] = true; return e; });
         this.myevents = this.myevents_original;
       });
@@ -104,16 +124,6 @@ export class EventsPage implements OnInit {
 
           this.authors2.push(a);
         });
-      });
-    }else{
-  
-      this.eventservice.getAllEvents().subscribe(events => {
-        console.log(events);
-        if(events == undefined) this.eventSource2 = [];
-        else{
-          this.eventSource2 =  events.map( e => { if(e['usuario'] == null){ e['checked'] = false; return e;} });
-          this.eventSource = this.eventSource2;
-        }
       });
     }
   };
